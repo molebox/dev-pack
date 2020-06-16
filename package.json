@@ -5,9 +5,28 @@
   "repository": "https://github.com/molebox/dev-pack.git",
   "author": "HAINES-DESKTOP\\richa <richardkhaines@hotmail.co.uk>",
   "license": "MIT",
+  "scripts": {
+    "dev": "gatsby develop",
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "pretty-check": "prettier --check \"src/**/*.{js}\"",
+    "pretty": "prettier --write \"src/**/*js\"",
+    "sitemap": "gatsby build && gatsby serve",
+    "z": "gatsby clean && gatsby develop"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "proseWrap": "always"
+  },
   "dependencies": {
     "gatsby": "^2.23.3",
+    "gatsby-plugin-theme-ui": "^0.3.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "theme-ui": "^0.3.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
   }
 }

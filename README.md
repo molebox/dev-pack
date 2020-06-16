@@ -10,13 +10,14 @@ For example:
     - dev.to
     - Github
     - LinkedIn
+    - CodePen
 - domains
 - media storage such as profile pictures
 - resume
 
 Those are the basics as of now which i will be working on. They are subject to change both in additions and subtractions.
 
-All information will be accessible via a graphql endpoint or as simple copy paste or download
+All information will be accessible via a graphql endpoint or as simple copy paste or download. 
 
 Proposed stack
  - Gatsby
