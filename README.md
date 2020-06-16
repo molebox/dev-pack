@@ -16,7 +16,10 @@ For example:
 
 Those are the basics as of now which i will be working on. They are subject to change both in additions and subtractions.
 
-The site will be authenticated with each dev having there own database holding their information. The idea is somewhat vague at this point but I have an idea to possibly create a graphql api which this project will talk to and which will be built upon a database which will hold all the data. We will see, also subject to change. 
+All information will be accessible via a graphql endpoint or as simple copy paste or download
 
-Current stack
+Proposed stack
  - Gatsby
+ - Theme-ui
+ - FaunaDB
+ - .........
