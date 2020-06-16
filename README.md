@@ -4,11 +4,15 @@ The idea behind this project is to have a way to keep your online presence consi
 
 For example: 
 - name/handle
-- short blurb
-- long blurb
+- blurb - max 160 characters
 - social accounts
+    - Twitter
+    - dev.to
+    - Github
+    - LinkedIn
 - domains
 - media storage such as profile pictures
+- resume
 
 Those are the basics as of now which i will be working on. They are subject to change both in additions and subtractions.
 
