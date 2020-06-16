@@ -1,0 +1,13 @@
+{
+  "name": "dev-pack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/molebox/dev-pack.git",
+  "author": "HAINES-DESKTOP\\richa <richardkhaines@hotmail.co.uk>",
+  "license": "MIT",
+  "dependencies": {
+    "gatsby": "^2.23.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
