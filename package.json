@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
+    "dotenv": "^8.2.0",
     "firebase": "^7.15.1",
     "gatsby": "^2.23.3",
     "gatsby-plugin-emotion": "^4.3.4",
@@ -30,6 +31,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
+    "react-loader-spinner": "^3.1.14",
     "theme-ui": "^0.3.1"
   },
   "devDependencies": {

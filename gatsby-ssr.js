@@ -1,4 +1,5 @@
 import "firebase/auth"
+import { wrapRootElement as wrap } from './root-wrapper';
 const React = require("react");
 export const onRenderBody = ({ setHeadComponents }) => {
   setHeadComponents([
@@ -10,3 +11,5 @@ export const onRenderBody = ({ setHeadComponents }) => {
     />
   ]);
 };
+
+export const wrapRootElement = wrap
