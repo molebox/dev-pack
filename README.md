@@ -11,6 +11,7 @@ For example:
     - Github
     - LinkedIn
     - CodePen
+    - StackOverflow
 - domains
 - media storage such as profile pictures
 - resume

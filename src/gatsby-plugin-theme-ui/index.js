@@ -17,7 +17,7 @@ export default {
   },
   letterSpacing: {
     body: '1px',
-    text: '5px',
+    text: '3px',
   },
   colors: {
     text: '#2b2c34',
