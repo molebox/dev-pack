@@ -4,13 +4,13 @@ module.exports = {
             resolve: "gatsby-plugin-firebase",
             options: {
               credentials: {
-                apiKey: "<YOUR_FIREBASE_API_KEY>",
-                authDomain: "<YOUR_FIREBASE_AUTH_DOMAIN>",
-                databaseURL: "<YOUR_FIREBASE_DATABASE_URL>",
-                projectId: "<YOUR_FIREBASE_PROJECT_ID>",
-                storageBucket: "<YOUR_FIREBASE_STORAGE_BUCKET>",
-                messagingSenderId: "<YOUR_FIREBASE_MESSAGING_SENDER_ID>",
-                appId: "<YOUR_FIREBASE_APP_ID>"
+                apiKey: process.env.GATSBY_FIREBASE_API_KEY,
+                authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
+                databaseURL: process.env.GATSBY_FIREBASE_DATABASE_URL,
+                projectId: process.env.GATSBY_FIREBASE_PROJECT_ID,
+                storageBucket: process.env.GATSBY_FIREBASE_STORAGE_BUCKET,
+                messagingSenderId: process.env.GATSBY_FIREBASE_MESSAGING_SENDER_ID,
+                appId: process.env.GATSBY_FIREBASE_APP_ID
               }
             }
           },

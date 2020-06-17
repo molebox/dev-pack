@@ -1,3 +1,4 @@
+import "firebase/auth"
 const React = require("react");
 export const onRenderBody = ({ setHeadComponents }) => {
   setHeadComponents([
