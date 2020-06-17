@@ -20,8 +20,12 @@ Those are the basics as of now which i will be working on. They are subject to c
 
 All information will be accessible via a graphql endpoint or as simple copy paste or download. 
 
+Login will be done via Github.
+
 Proposed stack
  - Gatsby
  - Theme-ui
  - FaunaDB
+ - Firebase
+ - GSAP
  - .........
