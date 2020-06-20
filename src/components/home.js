@@ -86,7 +86,7 @@ const Home = () => {
           />
           <PackCard
             heading="Domains"
-            description="Store links to all your domains in one place for easy access."
+            description="Search, buy, sell and store all your domains in one place."
             icon={<Domain width="80px" height="80px" />}
           />
           <PackCard
