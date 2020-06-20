@@ -2,8 +2,8 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Layout from './../components/layout';
-import firebase from 'gatsby-plugin-firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+// import firebase from 'gatsby-plugin-firebase';
+// import { useAuthState } from 'react-firebase-hooks/auth';
 import Loading from '../components/svg/loading';
 import ErrorCard from './../components/error-card';
 // import { UserContext } from './../context/user-context';
@@ -11,7 +11,7 @@ import { navigate } from 'gatsby';
 import Home from '../components/home';
 
 export default () => {
-  const [user, loading, error] = useAuthState(firebase.auth());
+  // const [user, loading, error] = useAuthState(firebase.auth());
   // const { currentUser, updateUser } = React.useContext(UserContext);
   // let provider = new firebase.auth.GithubAuthProvider();
 

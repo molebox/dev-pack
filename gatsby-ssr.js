@@ -1,4 +1,4 @@
-import "firebase/auth"
+// import "firebase/auth"
 import { wrapRootElement as wrap } from './root-wrapper';
 const React = require("react");
 export const onRenderBody = ({ setHeadComponents }) => {
