@@ -10,7 +10,6 @@ import LogoText from './logo-text';
 const Nav = () => {
   const { siteName } = useSiteMetadata();
 
-
   React.useEffect(() => {
     gsap.fromTo(
       '.nav-link',

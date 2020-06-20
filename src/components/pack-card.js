@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
-import { linearGradient } from './../butler/index';
 
 const PackCard = ({ heading, description, icon }) => {
   return (

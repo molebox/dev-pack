@@ -8,7 +8,7 @@ import Loading from '../components/svg/loading';
 import ErrorCard from './../components/error-card';
 import { UserContext } from './../context/user-context';
 import { navigate } from 'gatsby';
-import Home from '../components/home';
+import Home from '../components/home/home';
 import useAuthState from './../components/useAuthState';
 
 export default () => {
@@ -88,5 +88,4 @@ export default () => {
       <Home />
     </Layout>
   );
-
 };
