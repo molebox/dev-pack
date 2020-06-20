@@ -6,14 +6,10 @@ import gsap from 'gsap';
 import Logo from './svg/logo';
 import { useSiteMetadata } from './useSiteMetadata';
 import LogoText from './logo-text';
-import firebase from 'gatsby-plugin-firebase';
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
 
-  const logout = () => {
-    firebase.auth().signOut();
-  };
 
   React.useEffect(() => {
     gsap.fromTo(
