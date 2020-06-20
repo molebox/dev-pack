@@ -80,10 +80,12 @@ export default () => {
 
   if (user) {
     navigate('/my-dev-pack');
+  }
 
   return (
     <Layout>
       <Home />
     </Layout>
   );
+
 };

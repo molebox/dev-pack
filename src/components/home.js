@@ -91,7 +91,7 @@ const Home = () => {
           />
           <PackCard
             heading="Manage Media"
-            description="Manage your media. For example, your profile picture."
+            description="Manage your media. For example, your profile pictures."
             icon={<Media width="80px" height="80px" />}
           />
           <PackCard
