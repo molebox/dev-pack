@@ -7,6 +7,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Loading from '../components/svg/loading';
 import ErrorCard from './../components/error-card';
 import { UserContext } from './../context/user-context';
+import { navigate } from 'gatsby';
+import Home from '../components/home';
 
 export default () => {
   const [user, loading, error] = useAuthState(firebase.auth());
@@ -77,92 +79,72 @@ export default () => {
   }
 
   if (user) {
-    return (
-      <Layout>
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'background',
-            height: '100vh',
-          }}
-        >
-          <h1
-            sx={{
-              fontFamily: 'heading',
-              color: 'text',
-              ':after': {
-                content: "''",
-                display: 'block',
-                paddingTop: 10,
-                borderColor: 'accent',
-                width: '100%',
-                borderBottom: '2px solid #e45858',
-              },
-            }}
-          >
-            dev-pack
-          </h1>
-          <div
-            sx={{
-              backgroundColor: 'secondary',
-              padding: 3,
-              borderRadius: 5,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <h2
-              sx={{
-                fontFamily: 'heading',
-                color: 'text',
-              }}
-            >
-              Keep your online presence consistent across all social media.
-            </h2>
-          </div>
-          <h3
-            sx={{
-              fontFamily: 'heading',
-              color: 'text',
-            }}
-          >
-            Welcome {currentUser.displayName}
-          </h3>
-          <button onClick={logout}>Log out</button>
-          {/* <h2
-            sx={{
-              fontFamily: 'heading',
-              color: 'text',
-            }}
-          >
-            Coming Soon.
-          </h2>
-          <Link to="/create-pack">Create Pack</Link> */}
-        </div>
-      </Layout>
-    );
+    navigate('/my-dev-pack');
+    // return (
+    //   <Layout>
+    //     <div
+    //       sx={{
+    //         display: 'flex',
+    //         flexDirection: 'column',
+    //         justifyContent: 'center',
+    //         alignItems: 'center',
+    //         backgroundColor: 'background',
+    //         height: '100vh',
+    //       }}
+    //     >
+    //       <h1
+    //         sx={{
+    //           fontFamily: 'heading',
+    //           color: 'text',
+    //           ':after': {
+    //             content: "''",
+    //             display: 'block',
+    //             paddingTop: 10,
+    //             borderColor: 'accent',
+    //             width: '100%',
+    //             borderBottom: '2px solid #e45858',
+    //           },
+    //         }}
+    //       >
+    //         dev-pack
+    //       </h1>
+    //       <div
+    //         sx={{
+    //           backgroundColor: 'secondary',
+    //           padding: 3,
+    //           borderRadius: 5,
+    //           display: 'flex',
+    //           flexDirection: 'column',
+    //           justifyContent: 'center',
+    //           alignItems: 'center',
+    //         }}
+    //       >
+    //         <h2
+    //           sx={{
+    //             fontFamily: 'heading',
+    //             color: 'text',
+    //           }}
+    //         >
+    //           Keep your online presence consistent across all social media.
+    //         </h2>
+    //       </div>
+    //       <h3
+    //         sx={{
+    //           fontFamily: 'heading',
+    //           color: 'text',
+    //         }}
+    //       >
+    //         Welcome {currentUser.displayName}
+    //       </h3>
+    //       <button onClick={logout}>Log out</button>
+    //     </div>
+    //   </Layout>
+    // );
   }
 
   return (
     <Layout>
-      <div
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'background',
-          height: '100vh',
-        }}
-      >
-        <h1>No user yet....</h1>
-        <button onClick={login}>Log in</button>
-      </div>
+      <Home />
     </Layout>
   );
 };

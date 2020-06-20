@@ -3,6 +3,9 @@ require('dotenv').config({
   });
 
 module.exports = {
+  siteMetadata: {
+    siteName: 'dev-pack'
+  },
     plugins: [
         {
             resolve: "gatsby-plugin-firebase",

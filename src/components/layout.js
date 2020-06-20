@@ -2,6 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { Global, css } from '@emotion/core';
+import Header from './header';
 
 const Layout = ({ children }) => (
   <React.Fragment>
@@ -13,7 +14,7 @@ const Layout = ({ children }) => (
           box-sizing: border-box;
         }
         body {
-          // visibility: hidden;
+          visibility: hidden;
           scroll-behavior: smooth;
           overflow-y: scroll;
           -webkit-overflow-scrolling: touch;
@@ -27,9 +28,9 @@ const Layout = ({ children }) => (
         height: '100vh',
         width: '100%',
         backgroundColor: 'background',
-        padding: 3,
       }}
     >
+      <Header />
       {children}
     </div>
   </React.Fragment>
