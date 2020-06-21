@@ -42,6 +42,7 @@ const SignupForm = () => {
         padding: 4,
         borderRadius: 3,
         marginTop: 50,
+        marginBottom: [50, null],
       }}
     >
       <h3
@@ -61,10 +62,11 @@ const SignupForm = () => {
       <form
         sx={{
           display: 'flex',
+          flexDirection: ['column', 'row'],
           justifyContent: 'space-evenly',
           alignItems: 'center',
           // maxWidth: 1000,
-          width: 500,
+          maxWidth: 500,
           backgroundColor: 'secondary',
           margin: '0 auto',
         }}
@@ -92,7 +94,8 @@ const SignupForm = () => {
             cursor: 'pointer',
             textTransform: 'uppercase',
             height: '2.5em',
-            alignSelf: 'flex-end',
+            alignSelf: ['center', 'flex-end'],
+            marginTop: [30, null],
             '&:hover': {
               color: 'accent',
               backgroundColor: 'background',
