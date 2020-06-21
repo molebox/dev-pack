@@ -2,17 +2,10 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import WaveSection from '../svg/wave-section';
-import PackCard from '../pack-card';
-import Card from '../svg/card';
-import Social from '../svg/social';
-import Domain from '../svg/domain';
-import Media from '../svg/media';
-import Resume from '../svg/resume';
-import Video from '../svg/video';
 import gsap from 'gsap';
 import CardGrid from './card-grid';
-import DevCardDescription from './dev-card-description';
 import SignupForm from './signup/form';
+import Footer from '../footer';
 
 const Home = () => {
   React.useEffect(() => {
@@ -35,7 +28,7 @@ const Home = () => {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          marginTop: [50, 60, 100],
+          marginTop: 10,
           maxWidth: 1000,
         }}
       >
@@ -51,7 +44,7 @@ const Home = () => {
             textAlign: 'center',
           }}
         >
-          Keep your personal branding consistent across multiple platforms
+          Keep your personal branding consistent across multiple platforms.
         </h1>
         <h2
           sx={{
@@ -71,7 +64,7 @@ const Home = () => {
       <WaveSection>
         <CardGrid />
       </WaveSection>
-      {/* <DevCardDescription/> */}
+      <Footer />
     </div>
   );
 };

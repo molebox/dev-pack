@@ -20,19 +20,39 @@ const SignupForm = () => {
     setEmail(e.target.value);
   };
 
+  const clearForm = () => {
+    setName('');
+    setEmail('');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name });
-    console.log({ email });
     addToMailchimp(email, { FNAME: name })
       .then(({ msg, result }) => {
         if (result !== 'success') {
-          setResponse(msg);
+          if (msg.includes('not valid')) {
+            setResponse('Huh, looks like your emails not valid!');
+            clearForm();
+          }
+          setResponse('Oh no! Something went wrong');
+          clearForm();
         }
-        setResponse(msg);
-        console.log('success! ', msg);
+
+        if (msg.includes('is already subscribed to list devpack')) {
+          setResponse('You are already subscribed!');
+          clearForm();
+        } else if (msg.includes('not valid')) {
+          setResponse('Huh, looks like your emails not valid!');
+          clearForm();
+        } else if (msg.includes('too many recent signup requests')) {
+          setResponse('You only need to signup once!');
+          clearForm();
+        } else {
+          setResponse('Thank you for subscribing!');
+          clearForm();
+        }
       })
-      .catch((error) => setResponse(error));
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -43,6 +63,7 @@ const SignupForm = () => {
         borderRadius: 3,
         marginTop: 50,
         marginBottom: [50, null],
+        width: [320, 500],
       }}
     >
       <h3
@@ -65,7 +86,6 @@ const SignupForm = () => {
           flexDirection: ['column', 'row'],
           justifyContent: 'space-evenly',
           alignItems: 'center',
-          // maxWidth: 1000,
           maxWidth: 500,
           backgroundColor: 'secondary',
           margin: '0 auto',
@@ -73,28 +93,29 @@ const SignupForm = () => {
         onSubmit={handleSubmit}
       >
         <Label>
-          Chosen Name: <Input type="text" name="name" handleChange={handleOnNameChange} />
+          What do we call you? <Input type="text" name="name" handleChange={handleOnNameChange} value={name} />
         </Label>
 
         <Label>
-          Email: <Input type="email" name="email" handleChange={handleOnEmailChange} />
+          Your fav Email: <Input type="email" name="email" handleChange={handleOnEmailChange} value={email} />
         </Label>
 
         <button
           sx={{
             fontFamily: 'heading',
+            letterSpacing: 2,
             fontWeight: 500,
-            letterSpacing: 'text',
             border: '1px solid',
             borderRadius: 3,
-            padding: '0.35em 1.2em',
-            borderColor: 'primary',
+            padding: 1,
+            borderColor: 'text',
             backgroundColor: 'primary',
             color: 'background',
             cursor: 'pointer',
             textTransform: 'uppercase',
-            height: '2.5em',
+            height: '2em',
             alignSelf: ['center', 'flex-end'],
+            minWidth: 100,
             marginTop: [30, null],
             '&:hover': {
               color: 'accent',
@@ -110,16 +131,31 @@ const SignupForm = () => {
           Signup
         </button>
       </form>
-      {response && response ? (
-        <p
-          sx={{
-            fontFamily: 'heading',
-            margin: 10,
-          }}
-        >
-          {response}
-        </p>
-      ) : null}
+      <div
+        sx={{
+          marginTop: 20,
+          width: '100%',
+          textAlign: 'center',
+        }}
+      >
+        {response ? (
+          <p
+            sx={{
+              fontFamily: 'heading',
+              margin: 10,
+              ':after': {
+                content: "''",
+                display: 'block',
+                paddingTop: 1,
+                width: 'auto',
+                borderBottom: `2px solid #e45858`,
+              },
+            }}
+          >
+            {response}
+          </p>
+        ) : null}
+      </div>
     </section>
   );
 };

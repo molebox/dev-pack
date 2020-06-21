@@ -11,7 +11,6 @@ const PackCard = ({ heading, description, icon }) => {
         maxHeight: '260px',
         height: '100%',
         width: '100%',
-        cursor: 'pointer',
         borderLeft: `solid 3px #6246ea`,
       }}
       className="packCard"
