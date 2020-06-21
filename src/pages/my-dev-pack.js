@@ -8,12 +8,11 @@ import Domain from '../components/svg/domain';
 import Media from '../components/svg/media';
 import Card from '../components/svg/card';
 import Resume from '../components/svg/resume';
-import Header from '../components/header';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const CreatePack = () => {
-  const packCardRef = React.useRef(null);
+  // const packCardRef = React.useRef(null);
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {

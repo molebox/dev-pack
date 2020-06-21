@@ -15,7 +15,7 @@ const CardGrid = () => (
       maxWidth: 1440,
       margin: '0 auto',
       display: 'grid',
-      gridAutoRows: 'minmax(auto, 250px)',
+      gridAutoRows: 'minmax(auto, 260px)',
       gridTemplateColumns: 'repeat(auto-fill, minmax(auto, 450px))',
       gap: '2.5em',
       padding: [20, 10, 1],
@@ -23,7 +23,7 @@ const CardGrid = () => (
   >
     <PackCard
       heading="Dev Card"
-      description="Your dev card is the worlds main entry point to who you are. Tell the world about yourself! Includes your chosen name, profile picture and blurb"
+      description="Your dev card is the worlds main entry point to who you are. Tell the world about yourself! Includes your chosen name, profile picture and blurb."
       icon={<Card width="90px" height="90px" />}
     />
     <PackCard
@@ -33,22 +33,22 @@ const CardGrid = () => (
     />
     <PackCard
       heading="Domains"
-      description="Search, buy, sell and store all your domains in one place."
+      description="Search, buy, sell and store all your domains in one place. Powered by Namecheap."
       icon={<Domain width="80px" height="80px" />}
     />
     <PackCard
       heading="Manage Media"
-      description="Manage your media. For example, your profile pictures."
+      description="Manage your media. For example, your profile pictures and cover photos. Powered by Cloudinary."
       icon={<Media width="80px" height="80px" />}
     />
     <PackCard
-      heading="Resume"
-      description="Your resume tells employers why they should hire you. "
+      heading="Resume Builder"
+      description="Your resume tells employers why they should hire you. Drop in and arrange with composable components, then save or print to PDF."
       icon={<Resume width="80px" height="80px" />}
     />
     <PackCard
       heading="Meeting Room"
-      description="A personal meeting room for video conference calls or friendly catch ups. Coming Soon..."
+      description="A personal meeting room for video conference calls or friendly catch ups."
       icon={<Video width="80px" height="80px" />}
     />
   </div>

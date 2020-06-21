@@ -16,31 +16,33 @@ export default () => {
   const { currentUser, updateUser } = React.useContext(UserContext);
   let provider = new firebase.auth.GithubAuthProvider();
 
-  const login = () => {
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        let token = result.credential.accessToken;
-        // The signed-in user info.
-        let user = result.user;
-        // Add the logged in users info to context to use throughout the site while logged in.
-        updateUser({
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-        });
-        console.log({ user });
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
-  };
+  // const login = () => {
+  //   firebase
+  //     .auth()
+  //     .signInWithPopup(provider)
+  //     .then((result) => {
+  //       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+  //       // let token = result.credential.accessToken;
 
-  const logout = () => {
-    firebase.auth().signOut();
-  };
+  //       // The signed-in user info.
+  //       let user = result.user;
+  //       // Add the logged in users info to context to use throughout the site while logged in.
+  //       updateUser({
+  //         displayName: user.displayName,
+  //         email: user.email,
+  //         photoURL: user.photoURL,
+  //       });
+  //       console.log({ user });
+  //       console.log({ currentUser });
+  //     })
+  //     .catch((error) => {
+  //       console.log({ error });
+  //     });
+  // };
+
+  // const logout = () => {
+  //   firebase.auth().signOut();
+  // };
 
   if (loading) {
     return (

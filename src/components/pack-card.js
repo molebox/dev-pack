@@ -8,11 +8,11 @@ const PackCard = ({ heading, description, icon }) => {
         backgroundColor: 'background',
         padding: 4,
         borderRadius: 3,
-        maxHeight: '250px',
+        maxHeight: '260px',
         height: '100%',
         width: '100%',
         cursor: 'pointer',
-        borderLeft: `solid 4px #2b2c34`,
+        borderLeft: `solid 3px #6246ea`,
       }}
       className="packCard"
     >

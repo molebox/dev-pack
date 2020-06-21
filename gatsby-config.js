@@ -21,6 +21,13 @@ module.exports = {
               }
             }
           },
+          {
+            resolve: 'gatsby-plugin-mailchimp',
+            options: {
+                endpoint: process.env.GATSBY_MAILCHIMP_ENDPOINT,
+                timeout: 5000,
+            },
+          },
         'gatsby-plugin-emotion',
         'gatsby-plugin-theme-ui'
     ]
