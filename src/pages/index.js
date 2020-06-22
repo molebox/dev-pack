@@ -10,8 +10,11 @@ import { UserContext } from './../context/user-context';
 import { navigate } from 'gatsby';
 import Home from '../components/home/home';
 import useAuthState from './../components/useAuthState';
+import SEO from 'gatsby-theme-seo/src/components/seo';
 
-export default () => {
+const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
+
+export default ({ location }) => {
   const [user, loading, error] = useAuthState(firebase);
   const { currentUser, updateUser } = React.useContext(UserContext);
   let provider = new firebase.auth.GithubAuthProvider();
@@ -87,6 +90,13 @@ export default () => {
 
   return (
     <Layout>
+      <SEO
+        title="Dev Pack"
+        description="Keep your personal branding consistent across multiple platforms. Manage your social presence, media and domains from one hub. The dev pack is an authenticated hub where you will be able to manage and control various aspect of your online presence through a tabbed dashboard."
+        keywords={keywords}
+        pathname={location.pathname}
+        twitter="studio_hungry"
+      />
       <Home />
     </Layout>
   );
