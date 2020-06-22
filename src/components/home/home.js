@@ -7,6 +7,12 @@ import CardGrid from './card-grid';
 import SignupForm from './signup/form';
 import Footer from '../footer';
 import { Link } from 'gatsby';
+import Card from './../svg/card';
+import Social from './../svg/social';
+import Domain from './../svg/domain';
+import Media from './../svg/media';
+import Resume from './../svg/resume';
+import Video from './../svg/video';
 
 const Home = () => {
   React.useEffect(() => {
@@ -116,21 +122,7 @@ const Home = () => {
           The dev pack is an authenticated hub where you will be able to manage and control various aspect of your
           online presence through a tabbed dashboard.
         </p>
-        <CardGrid />
-        <h4
-          sx={{
-            fontFamily: 'heading',
-            color: 'text',
-            fontWeight: 400,
-            fontSize: ['1.3em', '1.5em', '2em'],
-            width: '100%',
-            paddingTop: 50,
-            marginBottom: 10,
-            textAlign: 'center',
-          }}
-        >
-          Lets break it down....
-        </h4>
+        {/* <CardGrid /> */}
         <section
           sx={{
             paddingTop: 50,
@@ -147,25 +139,38 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Dev Pack
-            </h4>
+              <Card width="90px" height="90px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Dev Card
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',
@@ -179,8 +184,8 @@ const Home = () => {
               online card you will be able to push it to our selected social networks, which at the moment include
               Twitter and Github.{' '}
               <strong>Planned integrations include dev.to, LinkedIn, CopePen, Twitch and Stackoverflow</strong> Having
-              have all this information in one place and being able to edit it and be consistent across all platforms
-              will increase your social reach and findability.
+              all this information in one place and being able to edit it and be consistent across all platforms will
+              increase your social reach and findability.
             </p>
           </div>
 
@@ -192,23 +197,35 @@ const Home = () => {
               marginBottom: 40,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Social
-            </h4>
+              <Social width="80px" height="80px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Social
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',
@@ -218,8 +235,7 @@ const Home = () => {
                 // textAlign: 'center'
               }}
             >
-              The Social tab will aim to enable you to sync your social handles across platforms. There are some walls
-              to cross with this feature as some platform APIs dont allow changing of handles. As with the Dev Card,
+              The Social tab will aim to enable you to sync your social handles across platforms. As with the Dev Card,
               from launch you will be able to sync your Twitter and Github handles, with the same planned integrations
               to come.
             </p>
@@ -233,23 +249,35 @@ const Home = () => {
               marginBottom: 40,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Domains
-            </h4>
+              <Domain width="80px" height="80px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Domain
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',
@@ -270,23 +298,35 @@ const Home = () => {
               marginBottom: 40,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Mange Media
-            </h4>
+              <Media width="80px" height="80px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Manage Media
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',
@@ -310,23 +350,35 @@ const Home = () => {
               marginBottom: 40,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Resume
-            </h4>
+              <Resume width="80px" height="80px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Resume Builder
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',
@@ -349,23 +401,35 @@ const Home = () => {
               marginBottom: 40,
             }}
           >
-            <h4
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: ['1.5rem', '1.7rem'],
-                textAlign: 'center',
-                ':after': {
-                  content: "''",
-                  display: 'block',
-                  paddingTop: 1,
-                  width: '100%',
-                  borderBottom: `2px solid #e45858`,
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxHeight: '150px',
+                width: '100%',
               }}
             >
-              Meeting Room
-            </h4>
+              <Video width="80px" height="80px" />
+              <h4
+                sx={{
+                  fontFamily: 'heading',
+                  fontWeight: 400,
+                  fontSize: ['1.2rem', '1.5rem'],
+                  letterSpacing: 'text',
+                  marginLeft: 2,
+                  ':after': {
+                    content: "''",
+                    display: 'block',
+                    paddingTop: 1,
+                    width: '100%',
+                    borderBottom: `2px solid #e45858`,
+                  },
+                }}
+              >
+                Meeting Room
+              </h4>
+            </div>
             <p
               sx={{
                 margin: '2em 1em',

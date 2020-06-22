@@ -78,7 +78,7 @@ const SignupForm = () => {
     <section
       sx={{
         backgroundColor: 'secondary',
-        padding: 2,
+        padding: 3,
         borderRadius: 3,
         marginTop: 50,
         width: [320, 520],
@@ -116,7 +116,7 @@ const SignupForm = () => {
           handleChange={handleOnNameChange}
           value={name}
           ariaLabel="Name input"
-          placeholder="What name do you go by?"
+          placeholder="What do we call you?"
         />
 
         <Input
@@ -157,6 +157,27 @@ const SignupForm = () => {
           Signup
         </button>
       </form>
+      <p
+        sx={{
+          fontFamily: 'heading',
+          fontWeight: 400,
+          textAlign: 'center',
+        }}
+      >
+        You can also follow on Twitter{' '}
+        <a
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            ':hover': {
+              color: 'primary',
+            },
+          }}
+          href="https://twitter.com/dev_pack"
+        >
+          @dev_pack
+        </a>{' '}
+      </p>
 
       {response ? (
         <div
