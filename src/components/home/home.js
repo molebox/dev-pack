@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import CardGrid from './card-grid';
 import SignupForm from './signup/form';
 import Footer from '../footer';
+import { Link } from 'gatsby';
 
 const Home = () => {
   React.useEffect(() => {
@@ -86,6 +87,7 @@ const Home = () => {
           Manage your social presence, media and domains from one hub.
         </h2>
         <SignupForm />
+        {/* <Link to="/hub">To Hub</Link> */}
       </div>
       <WaveSection>
         <h3

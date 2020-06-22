@@ -82,7 +82,7 @@ export default () => {
   }
 
   if (user) {
-    navigate('/my-dev-pack');
+    navigate('/hub');
   }
 
   return (

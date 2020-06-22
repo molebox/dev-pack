@@ -33,6 +33,7 @@
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
     "react-loader-spinner": "^3.1.14",
+    "react-tabs": "^3.1.1",
     "theme-ui": "^0.3.1"
   },
   "devDependencies": {

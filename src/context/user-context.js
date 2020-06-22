@@ -3,7 +3,7 @@ import React from 'react';
 export const UserContext = React.createContext(null);
 
 const initialState = {
-  displayName: '',
+  displayName: 'Mystery Person',
   email: '',
   photoURL: '',
 };
