@@ -1,8 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
-import React from 'react';
 
-const Input = ({ type, name, handleChange, value }) => {
+const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
   return (
     <input
       sx={{
@@ -10,10 +9,12 @@ const Input = ({ type, name, handleChange, value }) => {
         borderColor: 'text',
         borderRadius: 3,
         height: '2em',
-        marginTop: 2,
+        // marginTop: 2,
         fontFamily: 'heading',
         padding: 1,
       }}
+      placeholder={placeholder}
+      aria-label={ariaLabel}
       value={value}
       type={type}
       name={name}

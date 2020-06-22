@@ -47,7 +47,11 @@ const SignupForm = () => {
         } else if (msg.includes('too many recent signup requests')) {
           setResponse('You only need to signup once!');
           clearForm();
+        } else if (msg.includes('This email cannot be added to this list')) {
+          setResponse('Huh, looks like your emails not valid!');
+          clearForm();
         } else {
+          console.log(msg);
           setResponse('Thank you for subscribing!');
           clearForm();
         }
@@ -59,10 +63,9 @@ const SignupForm = () => {
     <section
       sx={{
         backgroundColor: 'secondary',
-        padding: 4,
+        padding: 2,
         borderRadius: 3,
         marginTop: 50,
-        marginBottom: [50, null],
         width: [320, 500],
       }}
     >
@@ -74,7 +77,6 @@ const SignupForm = () => {
           fontSize: ['1em', '1.2em', '1.6em'],
           width: '100%',
           padding: 2,
-          marginBottom: 30,
           textAlign: 'center',
         }}
       >
@@ -89,16 +91,27 @@ const SignupForm = () => {
           maxWidth: 500,
           backgroundColor: 'secondary',
           margin: '0 auto',
+          minHeight: 120,
         }}
         onSubmit={handleSubmit}
       >
-        <Label>
-          What do we call you? <Input type="text" name="name" handleChange={handleOnNameChange} value={name} />
-        </Label>
+        <Input
+          type="text"
+          name="name"
+          handleChange={handleOnNameChange}
+          value={name}
+          ariaLabel="Name input"
+          placeholder="What do we call you?"
+        />
 
-        <Label>
-          Your fav Email: <Input type="email" name="email" handleChange={handleOnEmailChange} value={email} />
-        </Label>
+        <Input
+          type="email"
+          name="email"
+          handleChange={handleOnEmailChange}
+          value={email}
+          ariaLabel="Email input"
+          placeholder="Your fav email"
+        />
 
         <button
           sx={{
@@ -114,9 +127,9 @@ const SignupForm = () => {
             cursor: 'pointer',
             textTransform: 'uppercase',
             height: '2em',
-            alignSelf: ['center', 'flex-end'],
+            // alignSelf: ['center', 'flex-end'],
             minWidth: 100,
-            marginTop: [30, null],
+            // marginTop: [30, null],
             '&:hover': {
               color: 'accent',
               backgroundColor: 'background',
@@ -131,14 +144,14 @@ const SignupForm = () => {
           Signup
         </button>
       </form>
-      <div
-        sx={{
-          marginTop: 20,
-          width: '100%',
-          textAlign: 'center',
-        }}
-      >
-        {response ? (
+
+      {response ? (
+        <div
+          sx={{
+            width: '100%',
+            textAlign: 'center',
+          }}
+        >
           <p
             sx={{
               fontFamily: 'heading',
@@ -154,8 +167,8 @@ const SignupForm = () => {
           >
             {response}
           </p>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </section>
   );
 };
