@@ -21,11 +21,11 @@ const DevCardHub = ({ user, ...rest }) => {
       >
         Welcome to your Dev Card {user}
       </h1>
-      <section sx={{
-        maxWidth: 1440
-      }}>
-        
-      </section>
+      <section
+        sx={{
+          maxWidth: 1440,
+        }}
+      ></section>
     </TabPanel>
   );
 };

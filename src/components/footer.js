@@ -12,12 +12,12 @@ const Footer = () => (
       width: '100%',
     }}
   >
-    {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-  <path fill="#6246ea" fillOpacity="1" d="M0,192L1440,128L1440,320L0,320Z"></path>
-</svg> */}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#2b2c34" fill-opacity="1" d="M0,160L1440,128L1440,320L0,320Z"></path>
+    </svg>
     <section
       sx={{
-        backgroundColor: 'background',
+        backgroundColor: 'text',
         minHeight: '50px',
         marginTop: '-5px',
         display: 'flex',
@@ -30,13 +30,15 @@ const Footer = () => (
       <div
         sx={{
           textAlign: 'center',
+          marginTop: '-5px',
+          marginBottom: 20,
         }}
       >
         <p
           sx={{
             fontFamily: 'heading',
             fontSize: '1.1em',
-            color: 'text',
+            color: 'background',
             margin: 10,
           }}
         >
@@ -46,7 +48,7 @@ const Footer = () => (
           sx={{
             fontFamily: 'heading',
             fontSize: '1.1em',
-            color: 'text',
+            color: 'background',
             margin: 10,
           }}
         >
