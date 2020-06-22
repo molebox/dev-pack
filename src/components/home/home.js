@@ -131,6 +131,7 @@ const Home = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             maxWidth: 1440,
+            padding: [20, 10, 1],
           }}
         >
           <div
@@ -195,6 +196,7 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
             <div
@@ -232,7 +234,6 @@ const Home = () => {
                 fontFamily: 'heading',
                 fontWeight: 400,
                 fontSize: ['1rem', '1.2rem'],
-                // textAlign: 'center'
               }}
             >
               The Social tab will aim to enable you to sync your social handles across platforms. As with the Dev Card,
@@ -247,6 +248,7 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
             <div
@@ -296,6 +298,7 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
             <div
@@ -348,6 +351,7 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
             <div
@@ -399,6 +403,7 @@ const Home = () => {
               padding: 4,
               borderRadius: 3,
               marginBottom: 40,
+              borderLeft: `solid 3px #6246ea`,
             }}
           >
             <div
