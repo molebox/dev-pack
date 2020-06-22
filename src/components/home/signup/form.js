@@ -116,7 +116,7 @@ const SignupForm = () => {
           handleChange={handleOnNameChange}
           value={name}
           ariaLabel="Name input"
-          placeholder="What do we call you?"
+          placeholder="What name do you go by?"
         />
 
         <Input
