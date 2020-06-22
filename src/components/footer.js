@@ -42,7 +42,20 @@ const Footer = () => (
             margin: 10,
           }}
         >
-          Created by Rich Haines with {heart}
+          Created by{' '}
+          <a
+            sx={{
+              fontFamily: 'heading',
+              color: 'background',
+              ':hover': {
+                color: 'primary',
+              },
+            }}
+            href="https://twitter.com/studio_hungry"
+          >
+            Rich Haines
+          </a>{' '}
+          with {heart}, coffee and keyboard
         </p>
         <p
           sx={{
