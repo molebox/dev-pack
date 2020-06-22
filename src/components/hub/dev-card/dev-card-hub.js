@@ -2,7 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { TabPanel } from 'react-tabs';
-import { UserContext } from './../../context/user-context';
+import { UserContext } from '../../../context/user-context';
 
 const DevCardHub = ({ user, ...rest }) => {
   return (
@@ -21,6 +21,11 @@ const DevCardHub = ({ user, ...rest }) => {
       >
         Welcome to your Dev Card {user}
       </h1>
+      <section sx={{
+        maxWidth: 1440
+      }}>
+        
+      </section>
     </TabPanel>
   );
 };

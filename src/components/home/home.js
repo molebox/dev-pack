@@ -102,7 +102,7 @@ const Home = () => {
             textAlign: 'center',
           }}
         >
-          What's included?
+          What's included in your pack?
         </h3>
         <CardGrid />
       </WaveSection>

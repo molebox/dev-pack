@@ -4,12 +4,12 @@ import React from 'react';
 import Layout from './../components/layout';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import DevCardHub from '../components/hub/dev-card-hub';
-import SocialHub from './../components/hub/social-hub';
-import DomainsHub from '../components/hub/domains-hub';
-import ManageMediaHub from '../components/hub/manage-media-hub';
-import ResumeHub from '../components/hub/resume-hub';
-import MeetingRoomHub from '../components/hub/meeting-room-hub';
+import DevCardHub from '../components/hub/dev-card/dev-card-hub';
+import SocialHub from '../components/hub/social/social-hub';
+import DomainsHub from '../components/hub/domain/domains-hub';
+import ManageMediaHub from '../components/hub/media/manage-media-hub';
+import ResumeHub from '../components/hub/resume/resume-hub';
+import MeetingRoomHub from '../components/hub/meeting-room/meeting-room-hub';
 import { UserContext } from './../context/user-context';
 
 const Hub = () => {
