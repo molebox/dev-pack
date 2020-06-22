@@ -88,6 +88,20 @@ const Home = () => {
         <SignupForm />
       </div>
       <WaveSection>
+        <h3
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            fontWeight: 400,
+            fontSize: ['1.3em', '1.5em', '2em'],
+            width: '100%',
+            padding: 2,
+            marginBottom: 10,
+            textAlign: 'center',
+          }}
+        >
+          What's included?
+        </h3>
         <CardGrid />
       </WaveSection>
       <Footer />

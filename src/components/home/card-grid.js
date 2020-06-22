@@ -13,7 +13,7 @@ const CardGrid = () => (
   <div
     sx={{
       maxWidth: 1440,
-      margin: '0 auto',
+      margin: '1em auto',
       display: 'grid',
       gridAutoRows: 'minmax(auto, 260px)',
       gridTemplateColumns: 'repeat(auto-fill, minmax(auto, 450px))',

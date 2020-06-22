@@ -81,7 +81,7 @@ const SignupForm = () => {
         padding: 2,
         borderRadius: 3,
         marginTop: 50,
-        width: [320, 500],
+        width: [320, 520],
       }}
       className="signup-form"
     >
@@ -106,8 +106,7 @@ const SignupForm = () => {
           alignItems: 'center',
           maxWidth: 500,
           backgroundColor: 'secondary',
-          margin: '0 auto',
-          minHeight: 120,
+          minHeight: [120, 70],
         }}
         onSubmit={handleSubmit}
       >
@@ -132,7 +131,7 @@ const SignupForm = () => {
         <button
           sx={{
             fontFamily: 'heading',
-            letterSpacing: 2,
+            letterSpacing: 1,
             fontWeight: 500,
             border: '1px solid',
             borderRadius: 3,
@@ -143,9 +142,7 @@ const SignupForm = () => {
             cursor: 'pointer',
             textTransform: 'uppercase',
             height: '2em',
-            // alignSelf: ['center', 'flex-end'],
             minWidth: 100,
-            // marginTop: [30, null],
             '&:hover': {
               color: 'accent',
               backgroundColor: 'background',
