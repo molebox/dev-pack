@@ -13,6 +13,7 @@ import Domain from './../svg/domain';
 import Media from './../svg/media';
 import Resume from './../svg/resume';
 import Video from './../svg/video';
+import CardContainer from './card-container';
 
 const Home = () => {
   React.useEffect(() => {
@@ -127,22 +128,17 @@ const Home = () => {
           sx={{
             paddingTop: 50,
             margin: '0 auto',
-            display: 'flex',
-            flexDirection: 'column',
+            // display: 'flex',
+            // flexDirection: 'column',
+            display: 'grid',
+            gridTemplateColumns: ['1fr', '1fr 1fr'],
+            gap: '2em',
             justifyContent: 'center',
             maxWidth: 1440,
             padding: [20, 10, 1],
           }}
         >
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -150,6 +146,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Card width="90px" height="90px" />
@@ -188,17 +185,9 @@ const Home = () => {
               all this information in one place and being able to edit it and be consistent across all platforms will
               increase your social reach and findability.
             </p>
-          </div>
+          </CardContainer>
 
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -206,6 +195,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Social width="80px" height="80px" />
@@ -236,21 +226,13 @@ const Home = () => {
                 fontSize: ['1rem', '1.2rem'],
               }}
             >
-              The Social tab will aim to enable you to sync your social handles across platforms. As with the Dev Card,
-              from launch you will be able to sync your Twitter and Github handles, with the same planned integrations
-              to come.
+              The Social tab will aim to enable you to sync your social handles across platforms. As with the{' '}
+              <strong>Dev Card</strong>, from launch you will be able to sync your Twitter and Github handles, with the
+              same planned integrations to come.
             </p>
-          </div>
+          </CardContainer>
 
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -258,6 +240,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Domain width="80px" height="80px" />
@@ -291,16 +274,8 @@ const Home = () => {
               The Domains tab will be powered by namecheap and enable you to search for, buy and sell your domains. The
               dashboard will integrate with the namecheap API so that you can manage your domains from the hub.
             </p>
-          </div>
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          </CardContainer>
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -308,6 +283,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Media width="80px" height="80px" />
@@ -343,17 +319,9 @@ const Home = () => {
               website. Of course you can store whatever you want here really, its up to you! This will be powered by
               Cloudinary, ensuring safe, secure and optimal images.
             </p>
-          </div>
+          </CardContainer>
 
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -361,6 +329,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Resume width="80px" height="80px" />
@@ -395,17 +364,9 @@ const Home = () => {
               interface using composable resume sections. Arrange them as you want and save or print to PDF when you are
               done.
             </p>
-          </div>
+          </CardContainer>
 
-          <div
-            sx={{
-              backgroundColor: 'background',
-              padding: 4,
-              borderRadius: 3,
-              marginBottom: 40,
-              borderLeft: `solid 3px #6246ea`,
-            }}
-          >
+          <CardContainer>
             <div
               sx={{
                 display: 'flex',
@@ -413,6 +374,7 @@ const Home = () => {
                 alignItems: 'center',
                 maxHeight: '150px',
                 width: '100%',
+                marginTop: 30,
               }}
             >
               <Video width="80px" height="80px" />
@@ -449,7 +411,7 @@ const Home = () => {
               then it disappears from existents. This of course means no saving of your meetings. This is will be
               powered by the daily.to API.
             </p>
-          </div>
+          </CardContainer>
         </section>
       </WaveSection>
       <Footer />
