@@ -2,13 +2,28 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
-import Label from './label';
+import gsap from 'gsap';
 import Input from './input';
 
 const SignupForm = () => {
   const [response, setResponse] = React.useState(null);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
+
+  React.useEffect(() => {
+    gsap.fromTo(
+      '.signup-form',
+      {
+        y: 1000,
+      },
+      {
+        y: 0,
+        ease: 'back(1)',
+        duration: 1,
+        delay: 0.8,
+      }
+    );
+  }, []);
 
   const handleOnNameChange = (e) => {
     console.log(e.target.value);
@@ -68,6 +83,7 @@ const SignupForm = () => {
         marginTop: 50,
         width: [320, 500],
       }}
+      className="signup-form"
     >
       <h3
         sx={{

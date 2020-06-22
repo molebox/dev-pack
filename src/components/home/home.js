@@ -10,6 +10,30 @@ import Footer from '../footer';
 const Home = () => {
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
+
+    gsap.fromTo(
+      '.h1-title',
+      {
+        x: 1000,
+      },
+      {
+        x: 0,
+        ease: 'back(1.2)',
+        duration: 1,
+      }
+    );
+
+    gsap.fromTo(
+      '.h2-title',
+      {
+        x: -1000,
+      },
+      {
+        x: 0,
+        ease: 'back(1.2)',
+        duration: 1,
+      }
+    );
   }, []);
 
   return (
@@ -43,6 +67,7 @@ const Home = () => {
             padding: 10,
             textAlign: 'center',
           }}
+          className="h1-title"
         >
           Keep your personal branding consistent across multiple platforms.
         </h1>
@@ -56,6 +81,7 @@ const Home = () => {
             padding: 10,
             textAlign: 'center',
           }}
+          className="h2-title"
         >
           Manage your social presence, media and domains from one hub.
         </h2>
