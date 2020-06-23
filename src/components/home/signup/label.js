@@ -8,7 +8,7 @@ const Label = ({ children }) => (
       display: 'flex',
       flexDirection: 'column',
       color: 'text',
-      marginTop: [2, null],
+      marginTop: 20,
     }}
   >
     {children}

@@ -79,7 +79,7 @@ const SignupForm = () => {
       sx={{
         backgroundColor: 'secondary',
         padding: 3,
-        borderRadius: 3,
+        borderRadius: 5,
         marginTop: 50,
         width: [320, 520],
       }}
@@ -134,7 +134,7 @@ const SignupForm = () => {
             letterSpacing: 1,
             fontWeight: 500,
             border: '1px solid',
-            borderRadius: 3,
+            borderRadius: 5,
             padding: 1,
             borderColor: 'text',
             backgroundColor: 'primary',

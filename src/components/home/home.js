@@ -3,7 +3,6 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import WaveSection from '../svg/wave-section';
 import gsap from 'gsap';
-import CardGrid from './card-grid';
 import SignupForm from './signup/form';
 import Footer from '../footer';
 import { Link } from 'gatsby';
@@ -128,8 +127,6 @@ const Home = () => {
           sx={{
             paddingTop: 50,
             margin: '0 auto',
-            // display: 'flex',
-            // flexDirection: 'column',
             display: 'grid',
             gridTemplateColumns: ['1fr', '1fr 1fr'],
             gap: '2em',

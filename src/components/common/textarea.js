@@ -1,25 +1,27 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
+const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
   return (
-    <input
+    <textarea
       sx={{
         border: '1px solid',
         borderColor: 'text',
         borderRadius: 5,
-        height: '2em',
         fontFamily: 'heading',
         padding: 2,
+        resize: 'none',
       }}
       placeholder={placeholder}
       aria-label={ariaLabel}
       value={value}
       type={type}
-      name={name}
       onChange={handleChange}
-    />
+      rows="5"
+      required
+      name={name}
+    ></textarea>
   );
 };
 
-export default Input;
+export default TextArea;

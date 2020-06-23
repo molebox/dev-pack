@@ -6,7 +6,7 @@ const CardContainer = ({ children }) => (
     sx={{
       backgroundColor: 'background',
       padding: 2,
-      borderRadius: 3,
+      borderRadius: 5,
       marginBottom: 40,
       borderLeft: `solid 3px #6246ea`,
     }}
