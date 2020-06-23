@@ -164,7 +164,7 @@ const SignupForm = () => {
           textAlign: 'center',
         }}
       >
-        You can also follow on Twitter{' '}
+        Follow on Twitter
         <a
           sx={{
             fontFamily: 'heading',
