@@ -20,7 +20,6 @@
     "proseWrap": "always"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.28",
     "dotenv": "^8.2.0",
     "firebase": "^7.15.1",
     "gatsby": "^2.23.3",
@@ -29,8 +28,13 @@
     "gatsby-plugin-mailchimp": "^5.2.2",
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-theme-seo": "^1.1.1",
+    "graphql": "^15.1.0",
     "gsap": "^3.3.3",
+    "isomorphic-fetch": "^2.2.1",
+    "jwt-decode": "^2.2.0",
+    "onegraph-auth": "^2.2.4",
     "react": "^16.13.1",
+    "react-apollo": "^4.0.0-beta.1",
     "react-dom": "^16.13.1",
     "react-firebase-hooks": "^2.2.0",
     "react-loader-spinner": "^3.1.14",

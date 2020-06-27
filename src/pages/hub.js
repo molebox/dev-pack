@@ -2,7 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Layout from './../components/layout';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, Tabs, TabList } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import DevCardHub from '../components/hub/dev-card/dev-card-hub';
 import SocialHub from '../components/hub/social/social-hub';
@@ -13,13 +13,14 @@ import MeetingRoomHub from '../components/hub/meeting-room/meeting-room-hub';
 import { UserContext } from './../context/user-context';
 
 const Hub = () => {
+  console.log('render');
   const { currentUser } = React.useContext(UserContext);
   return (
     <Layout>
       <section
         sx={{
           maxWidth: 1440,
-          margin: '2em auto',
+          margin: '0 auto',
         }}
       >
         <Tabs>

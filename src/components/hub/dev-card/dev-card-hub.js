@@ -7,12 +7,29 @@ import ProfileCard from './profile-card';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
+import Checkbox from './../../home/social-checkboxes/checkbox';
+// import { gql, useQuery } from "@apollo/client";
+
+// const GET_USER_INFO_GITHUB = gql`
+//   query GithubUserQuery {
+//   gitHub {
+//     user(login: "molebox") {
+//       bio
+//       email
+//       websiteUrl
+//       name
+//     }
+//   }
+// }
+// `;
 
 const DevCardHub = ({ user, ...rest }) => {
   const [name, setName] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [bio, setBio] = React.useState('');
   const [website, setWebsite] = React.useState('');
+  const [checkboxGithub, setCheckboxGithub] = React.useState(false);
+  const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
 
   const handleOnNameChange = (e) => {
     console.log(e.target.value);
@@ -137,7 +154,7 @@ const DevCardHub = ({ user, ...rest }) => {
             />
           </Label>
         </div>
-        <ProfileCard name={name} bio={bio} />
+        <ProfileCard name={name ? name : user} bio={bio} />
       </section>
       <section
         sx={{
@@ -151,13 +168,35 @@ const DevCardHub = ({ user, ...rest }) => {
         <div
           sx={{
             display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
             justifyContent: 'space-evenly',
             maxWidth: 800,
             width: '100%',
           }}
         >
-          <button>Push to Twitter</button>
-          <button>Push to Github</button>
+          <h4
+            sx={{
+              fontFamily: 'heading',
+              color: 'text',
+              fontSize: ['1.2em', '1.4em'],
+              fontWeight: 400,
+              marginBottom: 20,
+            }}
+          >
+            Select your platforms
+          </h4>
+          <section
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              maxWidth: 500,
+              alignSelf: 'center',
+            }}
+          >
+            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
+            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+          </section>
         </div>
       </section>
     </TabPanel>

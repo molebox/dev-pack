@@ -67,15 +67,6 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
             left: 10,
           }}
         >
-          {/* <div sx={{
-                  position: 'absolute',
-                  top: [55, '40%'],
-                  left: [50, '35%'],
-                  cursor: 'pointer'
-              }}>
-                <Camera width="50px" height="50px"/>
-              </div> */}
-
           {profileImage}
         </div>
       </div>
@@ -107,7 +98,7 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
             fontSize: ['1.3em', '1.4em'],
           }}
         >
-          {location ? location : 'The aether'}
+          {location ? location : null}
         </p>
         <p
           sx={{
@@ -117,7 +108,7 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
             fontSize: ['1.3em', '1.4em'],
           }}
         >
-          {website ? website : 'Working on my site..'}
+          {website ? website : null}
         </p>
       </div>
       <div
@@ -134,9 +125,7 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
             fontSize: ['1em', '1.2em'],
           }}
         >
-          {bio
-            ? bio
-            : 'Im baby vice migas salvia food truck enamel pin, plaid hashtag whatever chicharrones kinfolk bitters thundercats.'}
+          {bio ? bio : null}
         </p>
       </div>
     </div>
