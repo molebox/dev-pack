@@ -28,14 +28,11 @@ const keywords = ['manage social profile', 'branding', 'developer branding', 'ma
 
 const APP_ID = '575ea4f4-6d15-4fcc-bafe-411321fd0ce6';
 
-// const auth = new OneGraphAuth({
-//   appId: APP_ID,
-// });
-
 export default ({ location }) => {
-  // const [user, loading, error] = useAuthState(firebase);
   const { currentUser, updateUser } = React.useContext(UserContext);
   // let provider = new firebase.auth.GithubAuthProvider();
+
+  // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
   const auth =
     typeof window !== 'undefined'
       ? new OneGraphAuth({
@@ -49,9 +46,7 @@ export default ({ location }) => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
-            console.log(auth);
             let jwt = jwt_decode(auth._accessToken.accessToken);
-            console.log('PAYLOAD: ', jwt);
             // Add the users github name and email to the sites context, also add the jwt token
             updateUser({
               displayName: jwt.user.name,
@@ -93,76 +88,6 @@ export default ({ location }) => {
       }
     );
   }, []);
-
-  // const login = () => {
-  //   firebase
-  //     .auth()
-  //     .signInWithPopup(provider)
-  //     .then((result) => {
-  //       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-  //       // let token = result.credential.accessToken;
-
-  //       // The signed-in user info.
-  //       let user = result.user;
-  //       // Add the logged in users info to context to use throughout the site while logged in.
-  //       updateUser({
-  //         displayName: user.displayName,
-  //         email: user.email,
-  //         photoURL: user.photoURL,
-  //         token: user.token
-  //       });
-  //       console.log({ user });
-  //       console.log({ currentUser });
-  //     })
-  //     .catch((error) => {
-  //       console.log({ error });
-  //     });
-  // };
-
-  // const logout = () => {
-  //   firebase.auth().signOut();
-  // };
-
-  // if (loading) {
-  //   return (
-  //     <Layout>
-  //       <div
-  //         sx={{
-  //           display: 'flex',
-  //           flexDirection: 'column',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //           backgroundColor: 'background',
-  //           height: '100vh',
-  //         }}
-  //       >
-  //         <Loading />
-  //       </div>
-  //     </Layout>
-  //   );
-  // }
-  // if (error) {
-  //   return (
-  //     <Layout>
-  //       <div
-  //         sx={{
-  //           display: 'flex',
-  //           flexDirection: 'column',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //           backgroundColor: 'background',
-  //           height: '100vh',
-  //         }}
-  //       >
-  //         <ErrorCard error={error} />
-  //       </div>
-  //     </Layout>
-  //   );
-  // }
-
-  // if (user) {
-  //   navigate('/hub');
-  // }
 
   return (
     <Layout>
@@ -222,8 +147,8 @@ export default ({ location }) => {
             Manage your social presence, media and domains from one hub
           </h2>
           <SignupForm />
-          <Link to="/hub">To Hub</Link>
-          <button onClick={login}> login</button>
+          {/* <Link to="/hub">To Hub</Link>
+          <button onClick={login}> login</button> */}
         </div>
         <WaveSection>
           <h3

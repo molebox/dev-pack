@@ -1,4 +1,3 @@
-// import "firebase/auth"
 import { wrapRootElement as wrap } from './root-wrapper';
 const React = require("react");
 
