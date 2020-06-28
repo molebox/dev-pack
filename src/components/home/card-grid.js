@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
-import React from 'react';
 import PackCard from './../pack-card';
 import Card from './../svg/card';
 import Social from './../svg/social';

@@ -2,7 +2,6 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { TabPanel } from 'react-tabs';
-import { UserContext } from '../../../context/user-context';
 import ProfileCard from './profile-card';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
