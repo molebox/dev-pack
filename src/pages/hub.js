@@ -14,7 +14,6 @@ import { UserContext } from './../context/user-context';
 import gsap from 'gsap';
 
 const Hub = () => {
-  console.log('render');
   const { currentUser } = React.useContext(UserContext);
 
   React.useEffect(() => {
@@ -51,12 +50,12 @@ const Hub = () => {
             </Tab>
           </TabList>
 
-          <DevCardHub user={currentUser.displayName} />
-          <SocialHub user={currentUser.displayName} />
-          <DomainsHub user={currentUser.displayName} />
-          <ManageMediaHub user={currentUser.displayName} />
-          <ResumeHub user={currentUser.displayName} />
-          <MeetingRoomHub user={currentUser.displayName} />
+          <DevCardHub user={currentUser} />
+          <SocialHub user={currentUser} />
+          <DomainsHub user={currentUser} />
+          <ManageMediaHub user={currentUser} />
+          <ResumeHub user={currentUser} />
+          <MeetingRoomHub user={currentUser} />
         </Tabs>
       </section>
     </Layout>

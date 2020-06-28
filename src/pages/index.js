@@ -47,8 +47,10 @@ export default ({ location }) => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github name and email to the sites context, also add the jwt token
+            // Add the users github handle, name and email to the sites context, also add the jwt token
+            console.log(jwt, auth);
             updateUser({
+              handle: jwt.user.handle,
               displayName: jwt.user.name,
               email: jwt.user.email,
               token: auth._accessToken.accessToken,

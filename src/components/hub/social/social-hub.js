@@ -3,7 +3,7 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { TabPanel } from 'react-tabs';
 
-const SocialHub = ({ user, ...rest }) => {
+const SocialHub = ({ displayName, ...rest }) => {
   return (
     <TabPanel {...rest}>
       <h1
@@ -18,7 +18,7 @@ const SocialHub = ({ user, ...rest }) => {
           textAlign: 'center',
         }}
       >
-        Welcome to your Social Hub {user}
+        Welcome to your Social Hub {displayName}
       </h1>
     </TabPanel>
   );

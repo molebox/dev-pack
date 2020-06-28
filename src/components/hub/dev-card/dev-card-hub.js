@@ -8,6 +8,7 @@ import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import Checkbox from './../../home/social-checkboxes/checkbox';
 // import { gql, useQuery } from "@apollo/client";
+import useGithub from './../../useGithub';
 
 // const GET_USER_INFO_GITHUB = gql`
 //   query GithubUserQuery {
@@ -23,16 +24,45 @@ import Checkbox from './../../home/social-checkboxes/checkbox';
 // `;
 
 const DevCardHub = ({ user, ...rest }) => {
+  console.log({ user });
+
   const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [bio, setBio] = React.useState('');
   const [website, setWebsite] = React.useState('');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
 
+  const updateInfo = () => {
+    if (checkboxGithub) {
+      fetch(`https://api.github.com/${user.handle}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `token` + user.token,
+        },
+        body: JSON.stringify({
+          name: name !== '' ? name : null,
+          email: email !== '' ? email : null,
+          bio: bio !== '' ? bio : null,
+          location: email !== '' ? email : null,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log({ data }))
+        .catch((error) => console.log({ error }));
+    }
+  };
+
   const handleOnNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
+  };
+
+  const handleOnEmailChange = (e) => {
+    console.log(e.target.value);
+    setEmail(e.target.value);
   };
 
   const handleOnBioChange = (e) => {
@@ -64,7 +94,7 @@ const DevCardHub = ({ user, ...rest }) => {
           textAlign: 'center',
         }}
       >
-        {user}'s Dev Card
+        {user.displayName}'s Dev Card
       </h1>
       <section
         sx={{
@@ -121,7 +151,7 @@ const DevCardHub = ({ user, ...rest }) => {
               Where do you live? 🌎
               <Input
                 type="text"
-                name="name"
+                name="location"
                 handleChange={handleOnLocationChange}
                 value={location}
                 ariaLabel="Your location"
@@ -132,11 +162,22 @@ const DevCardHub = ({ user, ...rest }) => {
               Got a personal site? Drop it here 💾
               <Input
                 type="text"
-                name="name"
+                name="website"
                 handleChange={handleOnWebsiteChange}
                 value={website}
                 ariaLabel="Your website"
                 placeholder="Your Website..."
+              />
+            </Label>
+            <Label>
+              Your preferred email 📧
+              <Input
+                type="text"
+                name="email"
+                handleChange={handleOnEmailChange}
+                value={email}
+                ariaLabel="Your email"
+                placeholder="Your email..."
               />
             </Label>
           </div>
@@ -153,7 +194,7 @@ const DevCardHub = ({ user, ...rest }) => {
             />
           </Label>
         </div>
-        <ProfileCard name={name ? name : user} bio={bio} />
+        <ProfileCard name={user.displayName ? user.displayName : name} bio={bio} />
       </section>
       <section
         sx={{
@@ -196,6 +237,7 @@ const DevCardHub = ({ user, ...rest }) => {
             <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
             <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
           </section>
+          <button onClick={updateInfo}>update</button>
         </div>
       </section>
     </TabPanel>

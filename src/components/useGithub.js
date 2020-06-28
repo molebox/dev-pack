@@ -1,6 +1,6 @@
-// import React from 'react';
+import React from 'react';
 
-// const URL = 'https://api.github.com/';
+const URL = 'https://api.github.com/';
 
 /**
  * 
@@ -18,12 +18,27 @@
 
 //https://developer.github.com/v3/users/#update-the-authenticated-user
 
-// const useGithub = ({user, token}) => {
-//     const [ success, setSuccess ] = React.useState(false);
-//     const [ error, setError ] = React.useState(null);
+const useGithub = (user, { name, email, bio, location }) => {
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
-//     fetch(`${URL}${user}`, {
-//         method: 'PATCH'
-//     })
+  fetch(`${URL}${user}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      name,
+      email,
+      bio,
+      location,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log({ data });
+      setSuccess(true);
+    })
+    .catch((error) => setError(true));
 
-// }
+  return { success, error };
+};
+
+export default useGithub;
