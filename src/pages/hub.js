@@ -11,10 +11,16 @@ import ManageMediaHub from '../components/hub/media/manage-media-hub';
 import ResumeHub from '../components/hub/resume/resume-hub';
 import MeetingRoomHub from '../components/hub/meeting-room/meeting-room-hub';
 import { UserContext } from './../context/user-context';
+import gsap from 'gsap';
 
 const Hub = () => {
   console.log('render');
   const { currentUser } = React.useContext(UserContext);
+
+  React.useEffect(() => {
+    gsap.to('body', { visibility: 'visible' });
+  }, []);
+
   return (
     <Layout>
       <section

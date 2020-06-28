@@ -28,14 +28,20 @@ const keywords = ['manage social profile', 'branding', 'developer branding', 'ma
 
 const APP_ID = '575ea4f4-6d15-4fcc-bafe-411321fd0ce6';
 
-const auth = new OneGraphAuth({
-  appId: APP_ID,
-});
+// const auth = new OneGraphAuth({
+//   appId: APP_ID,
+// });
 
 export default ({ location }) => {
   // const [user, loading, error] = useAuthState(firebase);
   const { currentUser, updateUser } = React.useContext(UserContext);
   // let provider = new firebase.auth.GithubAuthProvider();
+  const auth =
+    typeof window !== 'undefined'
+      ? new OneGraphAuth({
+          appId: APP_ID,
+        })
+      : null;
 
   const login = () =>
     auth
