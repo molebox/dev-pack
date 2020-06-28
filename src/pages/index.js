@@ -216,8 +216,8 @@ export default ({ location }) => {
             Manage your social presence, media and domains from one hub
           </h2>
           <SignupForm />
-          {/* <Link to="/hub">To Hub</Link>
-          <button onClick={login}> login</button> */}
+          <Link to="/hub">To Hub</Link>
+          <button onClick={login}> login</button>
         </div>
         <WaveSection>
           <h3

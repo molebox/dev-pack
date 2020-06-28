@@ -1,6 +1,6 @@
-import React from 'react';
+// import React from 'react';
 
-const URL = 'https://api.github.com/';
+// const URL = 'https://api.github.com/';
 
 /**
  * 
