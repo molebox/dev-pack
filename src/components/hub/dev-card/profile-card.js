@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
-import Camera from '../../svg/camera';
 
 const ProfileCard = ({ name, location, website, bio, profileImage, coverImage }) => {
   return (

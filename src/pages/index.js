@@ -54,6 +54,8 @@ export default ({ location }) => {
               displayName: jwt.user.name,
               email: jwt.user.email,
               token: auth._accessToken.accessToken,
+              // token: jwt.aud,
+              // token: auth._accessToken.accessToken,
             });
             navigate('/hub');
           } else {
@@ -149,8 +151,8 @@ export default ({ location }) => {
             Manage your social presence, media and domains from one hub
           </h2>
           <SignupForm />
-          {/* <Link to="/hub">To Hub</Link>
-          <button onClick={login}> login</button> */}
+          {/* <Link to="/app/hub">To Hub</Link> */}
+          {/* <button onClick={login}> login</button> */}
         </div>
         <WaveSection>
           <h3

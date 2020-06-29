@@ -36,17 +36,19 @@ const DevCardHub = ({ user, ...rest }) => {
 
   const updateInfo = () => {
     if (checkboxGithub) {
-      fetch(`https://api.github.com/${user.handle}`, {
+      fetch('https://serve.onegraph.com/dynamic?app_id=575ea4f4-6d15-4fcc-bafe-411321fd0ce6', {
         method: 'PATCH',
         headers: {
+          'User-Agent': user.handle,
+          Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `token` + user.token,
+          Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           name: name !== '' ? name : null,
           email: email !== '' ? email : null,
           bio: bio !== '' ? bio : null,
-          location: email !== '' ? email : null,
+          // location: email !== '' ? email : null,
         }),
       })
         .then((response) => response.json())
@@ -56,27 +58,22 @@ const DevCardHub = ({ user, ...rest }) => {
   };
 
   const handleOnNameChange = (e) => {
-    console.log(e.target.value);
     setName(e.target.value);
   };
 
   const handleOnEmailChange = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
 
   const handleOnBioChange = (e) => {
-    console.log(e.target.value);
     setBio(e.target.value);
   };
 
   const handleOnLocationChange = (e) => {
-    console.log(e.target.value);
     setLocation(e.target.value);
   };
 
   const handleOnWebsiteChange = (e) => {
-    console.log(e.target.value);
     setWebsite(e.target.value);
   };
 

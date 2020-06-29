@@ -1,17 +1,17 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-import Layout from './../components/layout';
+import Layout from '../layout';
 import { Tab, Tabs, TabList } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import DevCardHub from '../components/hub/dev-card/dev-card-hub';
-import SocialHub from '../components/hub/social/social-hub';
-import DomainsHub from '../components/hub/domain/domains-hub';
-import ManageMediaHub from '../components/hub/media/manage-media-hub';
-import ResumeHub from '../components/hub/resume/resume-hub';
-import MeetingRoomHub from '../components/hub/meeting-room/meeting-room-hub';
-import { UserContext } from './../context/user-context';
+import DevCardHub from './dev-card/dev-card-hub';
+import SocialHub from './social/social-hub';
+import DomainsHub from './domain/domains-hub';
+import ManageMediaHub from './media/manage-media-hub';
+import ResumeHub from './resume/resume-hub';
+import MeetingRoomHub from './meeting-room/meeting-room-hub';
 import gsap from 'gsap';
+import { UserContext } from './../../context/user-context';
 
 const Hub = () => {
   const { currentUser } = React.useContext(UserContext);
