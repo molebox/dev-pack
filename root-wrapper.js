@@ -4,6 +4,7 @@ import UserProvider from './src/context/user-context';
 import { APP_ID } from './src/butler';
 import OneGraphAuth from 'onegraph-auth';
 import { setContext } from '@apollo/link-context';
+const fetch =require('isomorphic-fetch');
 
 const auth = typeof window !== 'undefined'
 ? new OneGraphAuth({
@@ -26,7 +27,8 @@ const authLink = setContext((_, { headers }) => {
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    fetch
   });
 
 export const wrapRootElement = ({element}) => (
