@@ -3,6 +3,7 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { Global, css } from '@emotion/core';
 import Header from './header';
+import Footer from './footer';
 
 const Layout = ({ children }) => (
   <React.Fragment>
@@ -32,6 +33,7 @@ const Layout = ({ children }) => (
     >
       <Header />
       {children}
+      <Footer />
     </div>
   </React.Fragment>
 );

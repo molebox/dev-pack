@@ -1,22 +1,39 @@
 import React from 'react'
-// const fetch =require('isomorphic-fetch');
-// const {
-//     ApolloProvider,
-//     ApolloClient,
-//     // HttpLink,
-//     // InMemoryCache
-// } = require('@apollo/client');
+import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, createHttpLink } from '@apollo/client';
 import UserProvider from './src/context/user-context';
+import { APP_ID } from './src/butler';
+import OneGraphAuth from 'onegraph-auth';
+import { setContext } from '@apollo/link-context';
 
-// const client = new ApolloClient({
-//   uri: 'https://serve.onegraph.com/dynamic?app_id=' + process.env.GATSBY_ONEGRAPH_APP_ID,
-// });
+const auth = typeof window !== 'undefined'
+? new OneGraphAuth({
+    appId: APP_ID,
+  }) : null;
+
+const httpLink = createHttpLink({
+  uri: 'https://serve.onegraph.com/graphql?app_id=' + APP_ID,
+});
+
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      ...auth.authHeaders()
+    }
+  }
+});
+
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
 
 export const wrapRootElement = ({element}) => (
-    // <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
         <UserProvider>
             {element}
         </UserProvider>
-    // {/* </ApolloProvider> */}
+    </ApolloProvider>
 
 )

@@ -37,7 +37,7 @@ const Footer = () => (
         <p
           sx={{
             fontFamily: 'heading',
-            fontSize: '1.1em',
+            fontSize: '1em',
             color: 'background',
             margin: 10,
           }}
@@ -60,7 +60,7 @@ const Footer = () => (
         <p
           sx={{
             fontFamily: 'heading',
-            fontSize: '1.1em',
+            fontSize: '0.8em',
             color: 'background',
             margin: 10,
           }}

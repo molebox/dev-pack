@@ -7,11 +7,11 @@ import gsap from 'gsap';
 import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
-
-const APP_ID = '575ea4f4-6d15-4fcc-bafe-411321fd0ce6';
+import { APP_ID } from '../../butler';
+import Button from '../common/button';
 
 const Login = () => {
-  const { currentUser, updateUser } = React.useContext(UserContext);
+  const { updateUser } = React.useContext(UserContext);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -33,14 +33,12 @@ const Login = () => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context, also add the jwt token
-            console.log(jwt, auth);
+            // console.log(jwt, auth);
             updateUser({
               isLoggedIn: true,
               handle: jwt.user.handle,
               displayName: jwt.user.name,
               email: jwt.user.email,
-              token: auth._accessToken.accessToken,
-              // token: jwt.aud,
               // token: auth._accessToken.accessToken,
             });
             navigate('/app/hub');
@@ -51,20 +49,43 @@ const Login = () => {
       })
       .catch((e) => console.error('Problem logging in', e));
 
-  if (currentUser.isLoggedIn) {
-    navigate('/app/hub');
-  }
-
   return (
     <Layout>
       <section
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          height: '50vh',
         }}
       >
-        <button onClick={login}> login</button>
+        <h1
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            fontWeight: 500,
+            width: '100%',
+            fontSize: ['1.4em', '1.7em', '2em'],
+            marginBottom: 20,
+            textAlign: 'center',
+          }}
+        >
+          Looks like you're not logged in
+        </h1>
+        <p
+          sx={{
+            fontFamily: 'heading',
+            fontWeight: 400,
+            fontSize: ['1rem', '1.2rem'],
+            textAlign: 'center',
+            marginBottom: 20,
+          }}
+        >
+          All your information is secure in your pack. Please login to gain access
+        </p>
+
+        <Button onClick={login}>Login</Button>
       </section>
     </Layout>
   );

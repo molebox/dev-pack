@@ -4,6 +4,7 @@ import React from 'react';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
 import gsap from 'gsap';
 import Input from './input';
+import Button from '../../common/button';
 
 const SignupForm = () => {
   const [response, setResponse] = React.useState(null);
@@ -127,35 +128,7 @@ const SignupForm = () => {
           ariaLabel="Email input"
           placeholder="Your fav email"
         />
-
-        <button
-          sx={{
-            fontFamily: 'heading',
-            letterSpacing: 1,
-            fontWeight: 500,
-            border: '1px solid',
-            borderRadius: 5,
-            padding: 1,
-            borderColor: 'text',
-            backgroundColor: 'primary',
-            color: 'background',
-            cursor: 'pointer',
-            textTransform: 'uppercase',
-            height: '2em',
-            minWidth: 100,
-            '&:hover': {
-              color: 'accent',
-              backgroundColor: 'background',
-              fontWeight: 'bold',
-            },
-            '&:active': {
-              boxShadow: '-1px 1px #00001F',
-            },
-          }}
-          type="submit"
-        >
-          Signup
-        </button>
+        <Button type="submit">Signup</Button>
       </form>
       <p
         sx={{

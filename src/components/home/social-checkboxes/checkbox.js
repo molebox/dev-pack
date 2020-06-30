@@ -28,7 +28,6 @@ const Checkbox = ({ type, checked, onCheckboxChange }) => {
             borderColor: 'background',
             backgroundColor: 'background',
             border: 'solid 2px',
-            borderColor: 'primary',
             borderRadius: 5,
             ':before': {
               content: '"👊🏽"',

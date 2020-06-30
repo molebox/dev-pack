@@ -7,24 +7,28 @@ import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import Checkbox from './../../home/social-checkboxes/checkbox';
-// import { gql, useQuery } from "@apollo/client";
-import useGithub from './../../useGithub';
+import { gql, useMutation } from '@apollo/client';
+import Logout from '../logout';
+import Button from '../../common/button';
 
-// const GET_USER_INFO_GITHUB = gql`
-//   query GithubUserQuery {
-//   gitHub {
-//     user(login: "molebox") {
-//       bio
-//       email
-//       websiteUrl
-//       name
-//     }
-//   }
-// }
-// `;
+const UPDATE_GITHUB_USER = gql`
+  mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
+    gitHub {
+      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, bio: $bio }) {
+        updatedUser {
+          bio
+          name
+          email
+          location
+        }
+      }
+    }
+  }
+`;
 
 const DevCardHub = ({ user, ...rest }) => {
-  console.log({ user });
+  const [github, { data }] = useMutation(UPDATE_GITHUB_USER);
+  console.log({ data });
 
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -36,24 +40,14 @@ const DevCardHub = ({ user, ...rest }) => {
 
   const updateInfo = () => {
     if (checkboxGithub) {
-      fetch('https://serve.onegraph.com/dynamic?app_id=575ea4f4-6d15-4fcc-bafe-411321fd0ce6', {
-        method: 'PATCH',
-        headers: {
-          'User-Agent': user.handle,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
+      github({
+        variables: {
           name: name !== '' ? name : null,
+          location: location !== '' ? location : null,
           email: email !== '' ? email : null,
           bio: bio !== '' ? bio : null,
-          // location: email !== '' ? email : null,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log({ data }))
-        .catch((error) => console.log({ error }));
+        },
+      });
     }
   };
 
@@ -79,20 +73,79 @@ const DevCardHub = ({ user, ...rest }) => {
 
   return (
     <TabPanel {...rest}>
-      <h1
+      <section
         sx={{
-          fontFamily: 'heading',
-          color: 'text',
-          fontWeight: 400,
-          width: '100%',
-          fontSize: ['1.4em', '1.7em', '2em'],
-          marginBottom: 20,
-          padding: 10,
-          textAlign: 'center',
+          display: 'flex',
+          width: 500,
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto',
         }}
       >
-        {user.displayName}'s Dev Card
-      </h1>
+        <h1
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            fontWeight: 400,
+            width: '100%',
+            fontSize: ['1.4em', '1.7em', '2em'],
+            // marginBottom: 20,
+            padding: 10,
+            textAlign: 'center',
+          }}
+        >
+          {user.displayName}'s Dev Card
+        </h1>
+        <Logout />
+      </section>
+
+      <section
+        sx={{
+          maxWidth: 1440,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: 10,
+        }}
+      >
+        <div
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
+            justifyContent: 'space-evenly',
+            maxWidth: 800,
+            width: '100%',
+          }}
+        >
+          <h4
+            sx={{
+              fontFamily: 'heading',
+              color: 'text',
+              fontSize: ['1.2em', '1.4em'],
+              fontWeight: 400,
+              marginBottom: 20,
+            }}
+          >
+            Select your platforms
+          </h4>
+          <section
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              maxWidth: 500,
+              alignSelf: 'center',
+              marginBottom: 20,
+            }}
+          >
+            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
+            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+            <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+            <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+            <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+          </section>
+        </div>
+      </section>
       <section
         sx={{
           maxWidth: 1440,
@@ -190,52 +243,21 @@ const DevCardHub = ({ user, ...rest }) => {
               placeholder="Your Bio..."
             />
           </Label>
-        </div>
-        <ProfileCard name={user.displayName ? user.displayName : name} bio={bio} />
-      </section>
-      <section
-        sx={{
-          maxWidth: 1440,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: 50,
-        }}
-      >
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            textAlign: 'center',
-            justifyContent: 'space-evenly',
-            maxWidth: 800,
-            width: '100%',
-          }}
-        >
-          <h4
+          <div
             sx={{
-              fontFamily: 'heading',
-              color: 'text',
-              fontSize: ['1.2em', '1.4em'],
-              fontWeight: 400,
-              marginBottom: 20,
+              marginTop: 20,
+              textAlign: 'center',
             }}
           >
-            Select your platforms
-          </h4>
-          <section
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-              maxWidth: 500,
-              alignSelf: 'center',
-            }}
-          >
-            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
-            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-          </section>
-          <button onClick={updateInfo}>update</button>
+            <Button onClick={updateInfo}>Push</Button>
+          </div>
         </div>
+        <ProfileCard
+          name={user.displayName ? user.displayName : name}
+          bio={bio}
+          location={location}
+          website={website}
+        />
       </section>
     </TabPanel>
   );
