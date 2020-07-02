@@ -85,7 +85,7 @@ const Login = () => {
           All your information is secure in your pack. Please login to gain access
         </p>
 
-        <Button onClick={login}>Login</Button>
+        <Button onClick={login} text="Login" />
       </section>
     </Layout>
   );

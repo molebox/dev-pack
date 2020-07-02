@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const ProfileCard = ({ name, location, website, bio, profileImage, coverImage }) => {
+const ProfileCard = ({ name, location, website, bio, email, profileImage, coverImage }) => {
   return (
     <div
       sx={{
@@ -72,11 +72,9 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
       <div
         sx={{
           display: 'flex',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          marginBottom: 20,
-          marginTop: 40,
-          width: '100%',
+          marginTop: 10,
+          width: '70%',
+          justifyContent: 'center',
         }}
       >
         <p
@@ -89,12 +87,22 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
         >
           {name ? name : 'Mystery Person'}
         </p>
+      </div>
+      <div
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          marginBottom: 20,
+          width: '100%',
+        }}
+      >
         <p
           sx={{
             fontFamily: 'heading',
             fontWeight: 400,
             color: 'text',
-            fontSize: ['1.3em', '1.4em'],
+            fontSize: ['1em', '1.1em'],
           }}
         >
           {location ? location : null}
@@ -104,10 +112,20 @@ const ProfileCard = ({ name, location, website, bio, profileImage, coverImage })
             fontFamily: 'heading',
             fontWeight: 400,
             color: 'text',
-            fontSize: ['1.3em', '1.4em'],
+            fontSize: ['1em', '1.1em'],
           }}
         >
           {website ? website : null}
+        </p>
+        <p
+          sx={{
+            fontFamily: 'heading',
+            fontWeight: 400,
+            color: 'text',
+            fontSize: ['1em', '1.1em'],
+          }}
+        >
+          {email ? email : null}
         </p>
       </div>
       <div

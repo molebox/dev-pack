@@ -83,6 +83,7 @@ const SignupForm = () => {
         borderRadius: 5,
         marginTop: 50,
         width: [320, 520],
+        border: '2px solid #6246ea',
       }}
       className="signup-form"
     >
@@ -128,7 +129,7 @@ const SignupForm = () => {
           ariaLabel="Email input"
           placeholder="Your fav email"
         />
-        <Button type="submit">Signup</Button>
+        <Button type="submit" text="Signup" />
       </form>
       <p
         sx={{

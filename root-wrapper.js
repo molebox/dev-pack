@@ -1,5 +1,5 @@
 import React from 'react'
-import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, createHttpLink } from '@apollo/client';
+import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import UserProvider from './src/context/user-context';
 import { APP_ID } from './src/butler';
 import OneGraphAuth from 'onegraph-auth';

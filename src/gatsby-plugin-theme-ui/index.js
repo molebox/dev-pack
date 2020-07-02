@@ -24,7 +24,7 @@ export default {
     background: '#fffffe',
     primary: '#6246ea',
     secondary: '#d1d1e9',
-    accent: '#e45858',
+    accent: '#E87373',
   },
   breakpoints: ['40em', '56em', '64em'],
 };

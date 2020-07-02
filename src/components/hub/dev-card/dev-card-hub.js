@@ -10,6 +10,8 @@ import Checkbox from './../../home/social-checkboxes/checkbox';
 import { gql, useMutation } from '@apollo/client';
 import Logout from '../logout';
 import Button from '../../common/button';
+import Emoji from '../../common/emoji';
+import LabelText from './../../common/label-text';
 
 const UPDATE_GITHUB_USER = gql`
   mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
@@ -160,8 +162,8 @@ const DevCardHub = ({ user, ...rest }) => {
             width: '100%',
             height: '100%',
             maxHeight: 700,
-            border: 'solid 3px',
-            borderColor: 'text',
+            border: 'solid 2px',
+            borderColor: 'primary',
             borderRadius: 5,
             display: 'flex',
             flexDirection: 'column',
@@ -187,7 +189,9 @@ const DevCardHub = ({ user, ...rest }) => {
             }}
           >
             <Label>
-              What should people call you? 🤝🏽
+              <LabelText>
+                What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
+              </LabelText>
               <Input
                 type="text"
                 name="name"
@@ -198,7 +202,9 @@ const DevCardHub = ({ user, ...rest }) => {
               />
             </Label>
             <Label>
-              Where do you live? 🌎
+              <LabelText>
+                Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
+              </LabelText>
               <Input
                 type="text"
                 name="location"
@@ -209,7 +215,9 @@ const DevCardHub = ({ user, ...rest }) => {
               />
             </Label>
             <Label>
-              Got a personal site? Drop it here 💾
+              <LabelText>
+                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
+              </LabelText>
               <Input
                 type="text"
                 name="website"
@@ -220,7 +228,9 @@ const DevCardHub = ({ user, ...rest }) => {
               />
             </Label>
             <Label>
-              Your preferred email 📧
+              <LabelText>
+                Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
+              </LabelText>
               <Input
                 type="text"
                 name="email"
@@ -233,7 +243,9 @@ const DevCardHub = ({ user, ...rest }) => {
           </div>
 
           <Label>
-            Who are you? Be creative, this short blurb could be first contact! 🛸
+            <LabelText>
+              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+            </LabelText>
             <TextArea
               type="text"
               name="name"
@@ -249,7 +261,7 @@ const DevCardHub = ({ user, ...rest }) => {
               textAlign: 'center',
             }}
           >
-            <Button onClick={updateInfo}>Push</Button>
+            <Button onClick={updateInfo} text="Push" />
           </div>
         </div>
         <ProfileCard
@@ -257,6 +269,7 @@ const DevCardHub = ({ user, ...rest }) => {
           bio={bio}
           location={location}
           website={website}
+          email={email}
         />
       </section>
     </TabPanel>

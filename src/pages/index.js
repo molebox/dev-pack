@@ -14,6 +14,7 @@ import Media from './../components/svg/media';
 import Resume from './../components/svg/resume';
 import Video from './../components/svg/video';
 import gsap from 'gsap';
+import { FunkyText } from './../butler/index';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
 
@@ -87,7 +88,7 @@ export default ({ location }) => {
             }}
             className="h1-title"
           >
-            Keep your personal branding consistent across multiple platforms
+            Keep your <FunkyText>personal branding</FunkyText> consistent across multiple platforms
           </h1>
           <h2
             sx={{

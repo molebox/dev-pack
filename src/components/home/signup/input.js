@@ -5,8 +5,8 @@ const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
   return (
     <input
       sx={{
-        border: '1px solid',
-        borderColor: 'text',
+        border: '2px solid',
+        borderColor: 'primary',
         borderRadius: 5,
         height: '2em',
         fontFamily: 'heading',

@@ -5,12 +5,15 @@ const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) =
   return (
     <textarea
       sx={{
-        border: '1px solid',
-        borderColor: 'text',
+        border: '2px solid',
+        borderColor: 'primary',
         borderRadius: 5,
         fontFamily: 'heading',
         padding: 2,
         resize: 'none',
+        '&:focus': {
+          borderColor: 'accent',
+        },
       }}
       placeholder={placeholder}
       aria-label={ariaLabel}
@@ -18,7 +21,6 @@ const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) =
       type={type}
       onChange={handleChange}
       rows="5"
-      required
       name={name}
     ></textarea>
   );

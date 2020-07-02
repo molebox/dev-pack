@@ -29,7 +29,7 @@ const Logout = () => {
       }
     });
 
-  return <Button onClick={logout}>Logout</Button>;
+  return <Button onClick={logout} text="Logout" />;
 };
 
 export default Logout;
