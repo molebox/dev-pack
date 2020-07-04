@@ -65,9 +65,9 @@ export const Button = ({ text, onClick, type, disabled }) => (
 		
 			& .bottom {
 				position: absolute;
-				left: 4px;
-				top: 7px;
-				width: 99%;
+				left: 6px;
+				top: 4px;
+				width: 100%;
 				height: 100%;
 				background-color: #E87373;
 				display: block;
@@ -85,13 +85,14 @@ export const Button = ({ text, onClick, type, disabled }) => (
 				padding: 0.8em;
 				border: 2px solid #6246ea;
 				border-radius: 5px;
+				height: 2em;
 			}
 		
 			& .top .label {
 				font-family: Jost;
 				font-weight: 500;
 				color: #2b2c34;
-				font-size: 1rem;
+				font-size: 0.9rem;
 				line-height: 110%;
 				letter-spacing: 2px;
 				text-align: center;
@@ -99,6 +100,8 @@ export const Button = ({ text, onClick, type, disabled }) => (
 				-moz-transition: all 0.15s ease-out;
 				-o-transition: all 0.15s ease-out;
 				transition: all 0.15s ease-out;
+				bottom: 7px;
+				position: relative;
 			}
 			&:active:enabled {
         // ${buttonDark}

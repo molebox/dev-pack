@@ -144,7 +144,7 @@ const SignupForm = () => {
             fontFamily: 'heading',
             color: 'text',
             ':hover': {
-              color: 'primary',
+              color: 'accent',
             },
           }}
           href="https://twitter.com/dev_pack"

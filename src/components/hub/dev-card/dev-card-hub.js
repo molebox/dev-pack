@@ -7,7 +7,7 @@ import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import Checkbox from './../../home/social-checkboxes/checkbox';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import Logout from '../logout';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
@@ -28,17 +28,32 @@ const UPDATE_GITHUB_USER = gql`
   }
 `;
 
+const GET_TWITTER_NAME = gql`
+  query GetTwitterNameQuery {
+    me {
+      twitter {
+        name
+      }
+    }
+  }
+`;
+
 const DevCardHub = ({ user, ...rest }) => {
   const [github, { data }] = useMutation(UPDATE_GITHUB_USER);
-  console.log({ data });
+  const { loading: twitterLoading, error: twitterError, data: twitterData } = useQuery(GET_TWITTER_NAME);
 
   const [name, setName] = React.useState('');
+  const [twitterName, setTwitterName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [bio, setBio] = React.useState('');
   const [website, setWebsite] = React.useState('');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
+
+  React.useEffect(() => {
+    !twitterLoading && !twitterError && setTwitterName(twitterData.me.twitter.name);
+  }, [twitterLoading, twitterError, twitterData]);
 
   const updateInfo = () => {
     if (checkboxGithub) {
@@ -49,6 +64,20 @@ const DevCardHub = ({ user, ...rest }) => {
           email: email !== '' ? email : null,
           bio: bio !== '' ? bio : null,
         },
+      });
+    }
+    if (checkboxTwitter) {
+      fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${twitterName}`, {
+        method: 'POST',
+        defaultHeader,
+        body: JSON.stringify({
+          name: name ? name : null,
+          location: location ? location : null,
+          description: bio ? bio : null,
+        })
+          .then((res) => res.json())
+          .then((data) => console.log('Twitter Update: ', data))
+          .catch((error) => console.log({ error })),
       });
     }
   };
