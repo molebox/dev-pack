@@ -9,6 +9,7 @@ import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { APP_ID } from '../../butler';
 import Button from '../common/button';
+import TwitterLogin from './../common/twitter-login';
 
 const Login = () => {
   const { updateUser } = React.useContext(UserContext);
@@ -58,34 +59,48 @@ const Login = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '50vh',
+          margin: '0 auto',
         }}
       >
-        <h1
+        <div
           sx={{
-            fontFamily: 'heading',
-            color: 'text',
-            fontWeight: 500,
-            width: '100%',
-            fontSize: ['1.4em', '1.7em', '2em'],
-            marginBottom: 20,
-            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderLeft: 'solid 3px',
+            borderBottom: 'solid 3px',
+            borderColor: 'primary',
+            padding: 30,
           }}
         >
-          Looks like you're not logged in
-        </h1>
-        <p
-          sx={{
-            fontFamily: 'heading',
-            fontWeight: 400,
-            fontSize: ['1rem', '1.2rem'],
-            textAlign: 'center',
-            marginBottom: 20,
-          }}
-        >
-          All your information is secure in your pack. Please login to gain access
-        </p>
+          <h1
+            sx={{
+              fontFamily: 'heading',
+              color: 'text',
+              fontWeight: 500,
+              width: '100%',
+              fontSize: ['1.4em', '1.7em', '2em'],
+              marginBottom: 20,
+              textAlign: 'center',
+            }}
+          >
+            Looks like you're not logged in
+          </h1>
+          <p
+            sx={{
+              fontFamily: 'heading',
+              fontWeight: 400,
+              fontSize: ['1rem', '1.2rem'],
+              textAlign: 'center',
+              marginBottom: 20,
+            }}
+          >
+            All your information is secure in your pack. Please login to gain access
+          </p>
 
-        <Button onClick={login} text="Login" />
+          <Button onClick={login} text="Login" />
+        </div>
       </section>
     </Layout>
   );

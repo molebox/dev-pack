@@ -83,7 +83,9 @@ const SignupForm = () => {
         borderRadius: 5,
         marginTop: 50,
         width: [320, 520],
-        border: '2px solid #6246ea',
+        borderLeft: 'solid 3px',
+        borderBottom: 'solid 3px',
+        borderColor: 'primary',
       }}
       className="signup-form"
     >

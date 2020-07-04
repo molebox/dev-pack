@@ -52,7 +52,8 @@ const DevCardHub = ({ user, ...rest }) => {
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
 
   React.useEffect(() => {
-    !twitterLoading && !twitterError && setTwitterName(twitterData.me.twitter.name);
+    !twitterLoading && !twitterError && twitterData && setTwitterName(twitterData.me.twitter.name);
+    console.log({ twitterData });
   }, [twitterLoading, twitterError, twitterData]);
 
   const updateInfo = () => {
@@ -69,16 +70,18 @@ const DevCardHub = ({ user, ...rest }) => {
     if (checkboxTwitter) {
       fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${twitterName}`, {
         method: 'POST',
-        defaultHeader,
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name: name ? name : null,
           location: location ? location : null,
           description: bio ? bio : null,
-        })
-          .then((res) => res.json())
-          .then((data) => console.log('Twitter Update: ', data))
-          .catch((error) => console.log({ error })),
-      });
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log('Twitter Update: ', data))
+        .catch((error) => console.log({ error }));
     }
   };
 

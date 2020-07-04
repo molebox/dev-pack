@@ -2,29 +2,29 @@
 import { jsx, css } from 'theme-ui';
 
 export const buttonBorderLeft = css`
-  left: -2px;
-  bottom: -2px;
+  //   left: 2px;
+  //   bottom: 2px;
   width: 2px;
   height: 0;
 `;
 
 export const buttonBorderRight = css`
-  right: -2px;
-  top: -2px;
+  //   right: 2px;
+  //   top: 2px;
   width: 2px;
   height: 0;
 `;
 
 export const buttonBorderTop = css`
-  left: -2px;
-  top: -2px;
+  //   left: 2px;
+  //   top: 2px;
   width: 0;
   height: 0;
 `;
 
 export const buttonBorderBottom = css`
-  right: -2px;
-  bottom: -2px;
+  //   right: 2px;
+  //   bottom: 2px;
   width: 0;
   height: 0;
 `;
@@ -65,7 +65,7 @@ export const Button = ({ text, onClick, type, disabled }) => (
 		
 			& .bottom {
 				position: absolute;
-				left: 6px;
+				left: -6px;
 				top: 4px;
 				width: 100%;
 				height: 100%;
@@ -80,7 +80,7 @@ export const Button = ({ text, onClick, type, disabled }) => (
 		
 			& .top {
 				position: relative;
-				left: 10px;
+				left: 0;
 				top: 0;
 				padding: 0.8em;
 				border: 2px solid #6246ea;
@@ -118,7 +118,7 @@ export const Button = ({ text, onClick, type, disabled }) => (
 			}
 		
 			&:hover:enabled .bottom {
-				left: 10px;
+				left: 0;
 				top: 0;
 				background-color: #d1d1e9;
 			}
