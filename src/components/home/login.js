@@ -9,7 +9,6 @@ import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { APP_ID } from '../../butler';
 import Button from '../common/button';
-import TwitterLogin from './../common/twitter-login';
 
 const Login = () => {
   const { updateUser } = React.useContext(UserContext);
@@ -36,11 +35,10 @@ const Login = () => {
             // Add the users github handle, name and email to the sites context, also add the jwt token
             // console.log(jwt, auth);
             updateUser({
-              isLoggedIn: true,
-              handle: jwt.user.handle,
-              displayName: jwt.user.name,
+              isGithubLoggedIn: true,
+              displayName: jwt.user.githubName,
               email: jwt.user.email,
-              // token: auth._accessToken.accessToken,
+              token: auth._accessToken.accessToken,
             });
             navigate('/app/hub');
           } else {
@@ -60,6 +58,7 @@ const Login = () => {
           alignItems: 'center',
           height: '50vh',
           margin: '0 auto',
+          maxWidth: 800,
         }}
       >
         <div
@@ -94,9 +93,11 @@ const Login = () => {
               fontSize: ['1rem', '1.2rem'],
               textAlign: 'center',
               marginBottom: 20,
+              wordWrap: 'wrap',
             }}
           >
-            All your information is secure in your pack. Please login to gain access
+            All your information is secure in your pack. Please login to gain access. By default we use your Github
+            account.
           </p>
 
           <Button onClick={login} text="Login" />

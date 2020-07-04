@@ -25,6 +25,7 @@ export default {
     primary: '#6246ea',
     secondary: '#d1d1e9',
     accent: '#E87373',
+    disabled: '#5D5F6F',
   },
   breakpoints: ['40em', '56em', '64em'],
 };

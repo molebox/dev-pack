@@ -4,18 +4,44 @@ export const UserContext = React.createContext(null);
 
 const initialState = {
   handle: '',
-  displayName: 'Mystery Person',
+  displayName: '',
+  twitterName: '',
   email: '',
   photoURL: '',
   token: '',
-  isLoggedIn: false,
+  twitterToken: '',
+  websiteUrl: '',
+  isGithubLoggedIn: false,
+  isTwitterLoggedIn: false,
 };
 
 const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = React.useState(initialState);
 
-  const updateUser = ({ handle, displayName, email, photoURL, token, isLoggedIn }) =>
-    setCurrentUser({ handle, displayName, email, photoURL, token, isLoggedIn });
+  const updateUser = ({
+    handle,
+    displayName,
+    twitterName,
+    email,
+    photoURL,
+    token,
+    twitterToken,
+    websiteUrl,
+    isGithubLoggedIn,
+    isTwitterLoggedIn,
+  }) =>
+    setCurrentUser({
+      handle,
+      displayName,
+      twitterName,
+      email,
+      photoURL,
+      token,
+      twitterToken,
+      websiteUrl,
+      isGithubLoggedIn,
+      isTwitterLoggedIn,
+    });
 
   return <UserContext.Provider value={{ currentUser, updateUser }}>{children}</UserContext.Provider>;
 };

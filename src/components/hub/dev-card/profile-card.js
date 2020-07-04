@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
+import Emoji from './../../common/emoji';
 
 const ProfileCard = ({ name, location, website, bio, email, profileImage, coverImage }) => {
   return (
@@ -85,7 +86,7 @@ const ProfileCard = ({ name, location, website, bio, email, profileImage, coverI
             fontSize: ['1.3em', '1.8em'],
           }}
         >
-          {name ? name : 'Mystery Person'}
+          {name ? name : null} <Emoji ariaLabel="Waving Hand">👋🏾</Emoji>
         </p>
       </div>
       <div
@@ -105,7 +106,7 @@ const ProfileCard = ({ name, location, website, bio, email, profileImage, coverI
             fontSize: ['1em', '1.1em'],
           }}
         >
-          {location ? location : null}
+          <Emoji ariaLabel="Planet earth">🌎</Emoji> {location ? location : null}
         </p>
         <p
           sx={{
@@ -115,7 +116,7 @@ const ProfileCard = ({ name, location, website, bio, email, profileImage, coverI
             fontSize: ['1em', '1.1em'],
           }}
         >
-          {website ? website : null}
+          <Emoji ariaLabel="A floppy disk">💾</Emoji> {website ? website : null}
         </p>
         <p
           sx={{
@@ -125,7 +126,7 @@ const ProfileCard = ({ name, location, website, bio, email, profileImage, coverI
             fontSize: ['1em', '1.1em'],
           }}
         >
-          {email ? email : null}
+          <Emoji ariaLabel="Email">📧</Emoji> {email ? email : null}
         </p>
       </div>
       <div

@@ -12,6 +12,11 @@ import Logout from '../logout';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
+import { UserContext } from './../../../context/user-context';
+import TwitterLogin from '../../auth/twitter-login';
+import DevToLogin from './../../auth/dev-to-login';
+import CodePenLogin from './../../auth/codepen-login';
+import LinkedInLogin from './../../auth/linkedIn-login';
 
 const UPDATE_GITHUB_USER = gql`
   mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
@@ -28,11 +33,18 @@ const UPDATE_GITHUB_USER = gql`
   }
 `;
 
-const GET_TWITTER_NAME = gql`
-  query GetTwitterNameQuery {
+const GET_PROFILE_INFO = gql`
+  query GetTwitterGithubProfileQuery {
     me {
       twitter {
         name
+        description
+        location
+        screenName
+      }
+      github {
+        email
+        websiteUrl
       }
     }
   }
@@ -40,21 +52,32 @@ const GET_TWITTER_NAME = gql`
 
 const DevCardHub = ({ user, ...rest }) => {
   const [github, { data }] = useMutation(UPDATE_GITHUB_USER);
-  const { loading: twitterLoading, error: twitterError, data: twitterData } = useQuery(GET_TWITTER_NAME);
+  const { loading, error, data: userData } = useQuery(GET_PROFILE_INFO);
+  const { currentUser } = React.useContext(UserContext);
 
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState(currentUser.displayName !== '' ? currentUser.displayName : '');
   const [twitterName, setTwitterName] = React.useState('');
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState(currentUser.email !== '' ? currentUser.email : '');
   const [location, setLocation] = React.useState('');
   const [bio, setBio] = React.useState('');
-  const [website, setWebsite] = React.useState('');
+  const [website, setWebsite] = React.useState(currentUser.websiteUrl !== '' ? currentUser.websiteUrl : '');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
 
   React.useEffect(() => {
-    !twitterLoading && !twitterError && twitterData && setTwitterName(twitterData.me.twitter.name);
-    console.log({ twitterData });
-  }, [twitterLoading, twitterError, twitterData]);
+    console.log({ error });
+    console.log({ userData });
+    !loading &&
+      !error &&
+      setWebsite(userData.me.github.websiteUrl.slice(12)) &&
+      setLocation(userData.me.twitter.location) &&
+      setBio(userData.me.twitter.description) &&
+      setName(userData.me.twitter.name);
+  }, [loading, error, userData]);
+
+  React.useEffect(() => {
+    console.log({ currentUser });
+  }, [currentUser]);
 
   const updateInfo = () => {
     if (checkboxGithub) {
@@ -68,10 +91,11 @@ const DevCardHub = ({ user, ...rest }) => {
       });
     }
     if (checkboxTwitter) {
-      fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${twitterName}`, {
+      fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${currentUser.twitterName}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          Authorization: `Basic ${currentUser.token}`,
         },
         body: JSON.stringify({
           name: name ? name : null,
@@ -174,18 +198,33 @@ const DevCardHub = ({ user, ...rest }) => {
           >
             <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
             <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-            <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-            <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-            <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+
+            <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+            <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+            <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
           </section>
         </div>
+      </section>
+      <section
+        sx={{
+          display: 'flex',
+          // flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          width: '100%',
+          marginBottom: 20,
+        }}
+      >
+        <TwitterLogin />
+        <DevToLogin />
+        <CodePenLogin />
+        <LinkedInLogin />
       </section>
       <section
         sx={{
           maxWidth: 1440,
           display: 'grid',
           gridTemplateColumns: ['1fr', '1fr 1fr'],
-          gap: '3em',
+          gap: '2.5em',
           gridAutoRows: 'auto',
         }}
       >
@@ -296,13 +335,7 @@ const DevCardHub = ({ user, ...rest }) => {
             <Button onClick={updateInfo} text="Push" />
           </div>
         </div>
-        <ProfileCard
-          name={user.displayName ? user.displayName : name}
-          bio={bio}
-          location={location}
-          website={website}
-          email={email}
-        />
+        <ProfileCard name={name} bio={bio} location={location} website={website} email={email} />
       </section>
     </TabPanel>
   );

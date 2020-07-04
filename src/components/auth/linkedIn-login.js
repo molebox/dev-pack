@@ -1,15 +1,18 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-import Twitter from '../svg/twitter';
-import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
-import { UserContext } from './../../context/user-context';
+import { UserContext } from '../../context/user-context';
 import { APP_ID } from '../../butler';
+import LogoButton from '../common/logo-button';
+import DevTo from './../svg/dev-to';
+import LinkedIn from './../svg/linkedIn';
 
-const TwitterLogin = () => {
+const LinkedInLogin = () => {
   const { updateUser } = React.useContext(UserContext);
+  // Change this to false when implemented
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
 
   // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
   const auth =
@@ -21,20 +24,20 @@ const TwitterLogin = () => {
 
   const login = () =>
     auth
-      .login('twitter')
+      .login('linkedIn')
       .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
+        auth.isLoggedIn('linkedIn').then((isLoggedIn) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context, also add the jwt token
             // console.log(jwt, auth);
             updateUser({
-              isLoggedIn: true,
+              isTwitterLoggedIn: true,
               handle: jwt.user.handle,
               displayName: jwt.user.name,
               // token: auth._accessToken.accessToken,
             });
-            navigate('/app/hub');
+            setIsLoggedIn(true);
           } else {
             console.log('Did not grant auth for Twitter');
           }
@@ -43,10 +46,13 @@ const TwitterLogin = () => {
       .catch((e) => console.error('Problem logging in', e));
 
   return (
-    <button sx={{}} onClick={login}>
-      <Twitter width="30px" height="30px" />
-    </button>
+    <LogoButton
+      text="Authorize LinkedIn"
+      icon={<LinkedIn width="20px" height="20px" />}
+      onClick={login}
+      disabled={isLoggedIn ? true : false}
+    />
   );
 };
 
-export default TwitterLogin;
+export default LinkedInLogin;

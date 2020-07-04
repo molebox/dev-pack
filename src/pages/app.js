@@ -9,7 +9,11 @@ const App = () => {
   const { currentUser } = React.useContext(UserContext);
   return (
     <Router>
-      <PrivateRoute path="/app/hub" component={Hub} isLoggedIn={currentUser.isLoggedIn} />
+      <PrivateRoute
+        path="/app/hub"
+        component={Hub}
+        isLoggedIn={currentUser.isGithubLoggedIn || currentUser.isTwitterLoggedIn}
+      />
       <Login path="/app/login" />
     </Router>
   );

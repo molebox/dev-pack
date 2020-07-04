@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const Checkbox = ({ type, checked, onCheckboxChange }) => {
+const Checkbox = ({ type, checked, onCheckboxChange, disabled }) => {
   return (
     <label
       sx={{
@@ -12,6 +12,7 @@ const Checkbox = ({ type, checked, onCheckboxChange }) => {
       htmlFor=""
     >
       <input
+        disabled={disabled}
         checked={checked}
         onChange={onCheckboxChange}
         sx={{
@@ -22,8 +23,8 @@ const Checkbox = ({ type, checked, onCheckboxChange }) => {
           borderColor: 'text',
           borderRadius: 5,
           outline: 'none',
-          backgroundColor: 'background',
-          cursor: 'pointer',
+          backgroundColor: disabled ? 'disabled' : 'background',
+          cursor: disabled ? null : 'pointer',
           ':checked': {
             borderColor: 'background',
             backgroundColor: 'background',

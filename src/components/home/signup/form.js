@@ -82,7 +82,7 @@ const SignupForm = () => {
         padding: 3,
         borderRadius: 5,
         marginTop: 50,
-        width: [320, 520],
+        width: [320, 550],
         borderLeft: 'solid 3px',
         borderBottom: 'solid 3px',
         borderColor: 'primary',
