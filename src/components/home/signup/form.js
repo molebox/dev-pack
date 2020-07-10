@@ -5,6 +5,7 @@ import addToMailchimp from 'gatsby-plugin-mailchimp';
 import gsap from 'gsap';
 import Input from './input';
 import Button from '../../common/button';
+import Box from './../../common/box';
 
 const SignupForm = () => {
   const [response, setResponse] = React.useState(null);
@@ -76,19 +77,7 @@ const SignupForm = () => {
   };
 
   return (
-    <section
-      sx={{
-        backgroundColor: 'secondary',
-        padding: 3,
-        borderRadius: 5,
-        marginTop: 50,
-        width: [320, 550],
-        borderLeft: 'solid 3px',
-        borderBottom: 'solid 3px',
-        borderColor: 'primary',
-      }}
-      className="signup-form"
-    >
+    <Box>
       <h3
         sx={{
           fontFamily: 'heading',
@@ -109,7 +98,6 @@ const SignupForm = () => {
           justifyContent: 'space-evenly',
           alignItems: 'center',
           maxWidth: 500,
-          backgroundColor: 'secondary',
           minHeight: [120, 70],
         }}
         onSubmit={handleSubmit}
@@ -138,6 +126,7 @@ const SignupForm = () => {
           fontFamily: 'heading',
           fontWeight: 400,
           textAlign: 'center',
+          padding: 2,
         }}
       >
         Follow on Twitter{' '}
@@ -179,7 +168,7 @@ const SignupForm = () => {
           </p>
         </div>
       ) : null}
-    </section>
+    </Box>
   );
 };
 

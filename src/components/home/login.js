@@ -9,6 +9,7 @@ import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { APP_ID } from '../../butler';
 import Button from '../common/button';
+import Box from './../common/box';
 
 const Login = () => {
   const { updateUser } = React.useContext(UserContext);
@@ -61,18 +62,7 @@ const Login = () => {
           maxWidth: 800,
         }}
       >
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderLeft: 'solid 3px',
-            borderBottom: 'solid 3px',
-            borderColor: 'primary',
-            padding: 30,
-          }}
-        >
+        <Box>
           <h1
             sx={{
               fontFamily: 'heading',
@@ -101,7 +91,7 @@ const Login = () => {
           </p>
 
           <Button onClick={login} text="Login" />
-        </div>
+        </Box>
       </section>
     </Layout>
   );

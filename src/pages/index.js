@@ -62,6 +62,8 @@ export default ({ location }) => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          maxWidth: 1440,
+          margin: '0 auto',
         }}
       >
         <div
@@ -70,8 +72,7 @@ export default ({ location }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            position: 'relative',
-            marginTop: 10,
+            margin: '0 auto',
             maxWidth: 1000,
           }}
         >
@@ -81,21 +82,21 @@ export default ({ location }) => {
               color: 'text',
               fontWeight: 500,
               width: '100%',
-              fontSize: ['1.4em', '1.7em', '3em'],
+              fontSize: [3, 4, 6],
               marginBottom: 20,
               padding: 10,
               textAlign: 'center',
             }}
             className="h1-title"
           >
-            Keep your <FunkyText>personal branding</FunkyText> consistent across multiple platforms
+            Keep your personal branding consistent across multiple platforms
           </h1>
           <h2
             sx={{
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 400,
-              fontSize: ['1.2em', '1.4em', '2em'],
+              fontSize: [1, 2, 4],
               width: '100%',
               padding: 10,
               textAlign: 'center',
@@ -104,10 +105,10 @@ export default ({ location }) => {
           >
             Manage your social presence, media and domains from one hub
           </h2>
-          <SignupForm />
-          {/* <Link to="/app/hub">To Hub</Link> */}
         </div>
-        <WaveSection>
+        <SignupForm />
+        {/* <Link to="/app/hub">To Hub</Link> */}
+        {/* <WaveSection>
           <h3
             sx={{
               fontFamily: 'heading',
@@ -134,7 +135,6 @@ export default ({ location }) => {
             The dev pack is an authenticated hub where you will be able to manage and control various aspect of your
             online presence through a tabbed dashboard.
           </p>
-          {/* <CardGrid /> */}
           <section
             sx={{
               paddingTop: 50,
@@ -193,51 +193,6 @@ export default ({ location }) => {
                 <strong>Planned integrations include dev.to, LinkedIn, CopePen, Twitch and Stackoverflow</strong> Having
                 all this information in one place and being able to edit it and be consistent across all platforms will
                 increase your social reach and findability.
-              </p>
-            </CardContainer>
-
-            <CardContainer>
-              <div
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  maxHeight: '150px',
-                  width: '100%',
-                  marginTop: 30,
-                }}
-              >
-                <Social width="80px" height="80px" />
-                <h4
-                  sx={{
-                    fontFamily: 'heading',
-                    fontWeight: 400,
-                    fontSize: ['1.2rem', '1.5rem'],
-                    letterSpacing: 'text',
-                    marginLeft: 2,
-                    ':after': {
-                      content: "''",
-                      display: 'block',
-                      paddingTop: 1,
-                      width: '100%',
-                      borderBottom: `2px solid #e45858`,
-                    },
-                  }}
-                >
-                  Social
-                </h4>
-              </div>
-              <p
-                sx={{
-                  margin: '2em 1em',
-                  fontFamily: 'heading',
-                  fontWeight: 400,
-                  fontSize: ['1rem', '1.2rem'],
-                }}
-              >
-                The Social tab will aim to enable you to sync your social handles across platforms. As with the{' '}
-                <strong>Dev Card</strong>, from launch you will be able to sync your Twitter and Github handles, with
-                the same planned integrations to come.
               </p>
             </CardContainer>
 
@@ -341,51 +296,6 @@ export default ({ location }) => {
                   marginTop: 30,
                 }}
               >
-                <Resume width="80px" height="80px" />
-                <h4
-                  sx={{
-                    fontFamily: 'heading',
-                    fontWeight: 400,
-                    fontSize: ['1.2rem', '1.5rem'],
-                    letterSpacing: 'text',
-                    marginLeft: 2,
-                    ':after': {
-                      content: "''",
-                      display: 'block',
-                      paddingTop: 1,
-                      width: '100%',
-                      borderBottom: `2px solid #e45858`,
-                    },
-                  }}
-                >
-                  Resume Builder
-                </h4>
-              </div>
-              <p
-                sx={{
-                  margin: '2em 1em',
-                  fontFamily: 'heading',
-                  fontWeight: 400,
-                  fontSize: ['1rem', '1.2rem'],
-                }}
-              >
-                The Resume tab will enable you to build out your resume for finding the perfect job via a drag and drop
-                interface using composable resume sections. Arrange them as you want and save or print to PDF when you
-                are done.
-              </p>
-            </CardContainer>
-
-            <CardContainer>
-              <div
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  maxHeight: '150px',
-                  width: '100%',
-                  marginTop: 30,
-                }}
-              >
                 <Video width="80px" height="80px" />
                 <h4
                   sx={{
@@ -422,7 +332,7 @@ export default ({ location }) => {
               </p>
             </CardContainer>
           </section>
-        </WaveSection>
+        </WaveSection> */}
       </div>
     </Layout>
   );

@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import Logo from './svg/logo';
 import { useSiteMetadata } from './useSiteMetadata';
 import LogoText from './logo-text';
+import DevPackLogo from './svg/dev-pack-logo';
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
@@ -24,14 +25,12 @@ const Nav = () => {
   return (
     <nav
       sx={{
-        // display: "grid",
-        // gridTemplateColumns: '200px 150px 150px 150px 150px',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'start',
         alignItems: 'center',
         maxWidth: 1440,
         margin: '0 auto',
-        width: '100%',
+        width: '90vw',
         height: '100%',
         placeSelf: 'center',
       }}
@@ -40,7 +39,6 @@ const Nav = () => {
         sx={{
           textDecoration: 'none',
           fontFamily: 'heading',
-          fontSize: ['1.3em', '1.5em', '2em'],
           color: 'text',
           letterSpacing: 'text',
           display: 'flex',
@@ -49,118 +47,8 @@ const Nav = () => {
         to="/"
         className="nav-link"
       >
-        <Logo width="70px" height="70px" />
-        <LogoText>{siteName}</LogoText>
+        <DevPackLogo width="100px" height="100px" />
       </Link>
-      {/* <button onClick={logout}>Log out</button> */}
-      {/* <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        My Pack
-      </Link>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        Dev Card
-      </Link>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        Social
-      </Link>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        Domains
-      </Link>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        Media
-      </Link>
-      <Link
-        sx={{
-          textDecoration: "none",
-          fontFamily: "heading",
-          fontSize: ["0.8em", "0.9em", "0.9em"],
-          color: "text",
-          letterSpacing: "text",
-          textTransform: "uppercase",
-          display: ["none", "block", "block"],
-          ":hover": {
-            color: "accent"
-          }
-        }}
-        to="/create-pack"
-        className="nav-link"
-      >
-        Resume
-      </Link> */}
     </nav>
   );
 };

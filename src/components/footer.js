@@ -48,7 +48,7 @@ const Footer = () => (
               fontFamily: 'heading',
               color: 'background',
               ':hover': {
-                color: 'primary',
+                color: 'accent',
               },
             }}
             href="https://twitter.com/studio_hungry"

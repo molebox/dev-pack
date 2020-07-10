@@ -10,7 +10,7 @@
     "build": "gatsby build",
     "clean": "gatsby clean",
     "pretty-check": "prettier --check \"src/**/*.{js}\"",
-    "pretty": "prettier --write \"src/**/*js\"",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
     "sitemap": "gatsby build && gatsby serve",
     "z": "gatsby clean && gatsby develop"
   },
@@ -28,19 +28,31 @@
     "gatsby-plugin-mailchimp": "^5.2.2",
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-theme-seo": "^1.1.1",
+    "global": "^4.4.0",
     "graphql": "^15.1.0",
     "gsap": "^3.3.3",
     "isomorphic-fetch": "^2.2.1",
     "jwt-decode": "^2.2.0",
+    "netlify-cli": "^2.58.0",
+    "netlify-lambda": "^1.6.3",
     "onegraph-apollo-client": "^2.2.2",
     "onegraph-auth": "^2.2.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
     "react-tabs": "^3.1.1",
-    "theme-ui": "^0.3.1"
+    "theme-ui": "^0.3.1",
+    "twitter-lite": "^0.14.0"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
+  },
+  "proxy": {
+    "/.netlify/functions": {
+      "target": "http://localhost:9000",
+      "pathRewrite": {
+        "^/\\.netlify/functions": ""
+      }
+    }
   }
 }

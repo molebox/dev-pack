@@ -29,7 +29,7 @@ const TwitterLogin = () => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context, also add the jwt token
-            console.log(jwt, auth);
+            console.log('JWT: ', jwt, 'AUTH: ', auth);
             console.log(Object.values(jwt)[4].access_token);
             updateUser({
               isTwitterLoggedIn: true,

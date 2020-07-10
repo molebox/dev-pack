@@ -18,6 +18,21 @@ import DevToLogin from './../../auth/dev-to-login';
 import CodePenLogin from './../../auth/codepen-login';
 import LinkedInLogin from './../../auth/linkedIn-login';
 
+const UPDATE_TWITTER_USER = gql`
+  mutation UpdateTwitterProfileLocation($query: [[String!]!]) {
+    twitter {
+      makeRestCall {
+        post(path: "/1.1/account/update_profile.json", query: $query) {
+          jsonBody
+          response {
+            statusCode
+          }
+        }
+      }
+    }
+  }
+`;
+
 const UPDATE_GITHUB_USER = gql`
   mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
     gitHub {
@@ -52,11 +67,11 @@ const GET_PROFILE_INFO = gql`
 
 const DevCardHub = ({ user, ...rest }) => {
   const [github, { data }] = useMutation(UPDATE_GITHUB_USER);
+  const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
   const { loading, error, data: userData } = useQuery(GET_PROFILE_INFO);
   const { currentUser } = React.useContext(UserContext);
 
   const [name, setName] = React.useState(currentUser.displayName !== '' ? currentUser.displayName : '');
-  const [twitterName, setTwitterName] = React.useState('');
   const [email, setEmail] = React.useState(currentUser.email !== '' ? currentUser.email : '');
   const [location, setLocation] = React.useState('');
   const [bio, setBio] = React.useState('');
@@ -67,12 +82,10 @@ const DevCardHub = ({ user, ...rest }) => {
   React.useEffect(() => {
     console.log({ error });
     console.log({ userData });
-    !loading &&
-      !error &&
-      setWebsite(userData.me.github.websiteUrl.slice(12)) &&
-      setLocation(userData.me.twitter.location) &&
-      setBio(userData.me.twitter.description) &&
-      setName(userData.me.twitter.name);
+    !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+    !loading && !error && setLocation(userData.me.twitter.location);
+    !loading && !error && setBio(userData.me.twitter.description);
+    !loading && !error && setName(userData.me.twitter.name);
   }, [loading, error, userData]);
 
   React.useEffect(() => {
@@ -91,21 +104,46 @@ const DevCardHub = ({ user, ...rest }) => {
       });
     }
     if (checkboxTwitter) {
-      fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${currentUser.twitterName}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-          Authorization: `Basic ${currentUser.token}`,
+      const query = [
+        ['url', website],
+        ['location', location],
+
+        ['name', name],
+        // ["description", bio]
+      ].filter((row) => Boolean(row[1]));
+
+      twitter({
+        variables: {
+          query: query,
         },
-        body: JSON.stringify({
-          name: name ? name : null,
-          location: location ? location : null,
-          description: bio ? bio : null,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log('Twitter Update: ', data))
-        .catch((error) => console.log({ error }));
+      });
+      // fetch('/.netlify/functions/twitter', {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     twitterName: currentUser.displayName,
+      //     name: name ? name : null,
+      //     location: location ? location : null,
+      //     description: bio ? bio : null,
+      //   }),
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => console.log('Twitter post data: ', data));
+
+      // fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${currentUser.displayName}`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      //     Authorization: `Bearer ${currentUser.twitterToken}`,
+      //   },
+      //   body: JSON.stringify({
+      //     name: name ? name : null,
+      //     location: location ? location : null,
+      //     description: bio ? bio : null,
+      //   }),
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => console.log('Twitter Update: ', data))
+      //   .catch((error) => console.log({ error }));
     }
   };
 

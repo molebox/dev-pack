@@ -31,16 +31,16 @@ export const buttonBorderBottom = css`
 
 export const buttonDark = css`
   & .top {
-    border: 2px solid #e87373;
+    border: 3px solid #2b2c34;
   }
   & .top .label {
-    color: #e87373;
+    color: #2b2c34;
   }
 `;
 
 export const buttonBorder = css`
   position: absolute;
-  background-color: #6246ea;
+  background-color: #2b2c34;
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   -o-transition: all 0.25s ease-out;
@@ -58,20 +58,19 @@ export const Button = ({ text, onClick, type, disabled }) => (
 			display: inline-block;
 			text-decoration: none;
 			position: relative;
-			background-color: Transparent;
+			background-color: #2b2c34;
 			border: none;
 			cursor: pointer;
 			outline: none;
 		
 			& .bottom {
 				position: absolute;
-				left: -6px;
-				top: 4px;
+				left: -3px;
+				top: 3px;
 				width: 100%;
 				height: 100%;
-				background-color: #E87373;
+				background-color: #E03E3E;
 				display: block;
-				border-radius: 5px;
 				-webkit-transition: all 0.2s ease-out;
 				-moz-transition: all 0.2s ease-out;
 				-o-transition: all 0.2s ease-out;
@@ -83,15 +82,15 @@ export const Button = ({ text, onClick, type, disabled }) => (
 				left: 0;
 				top: 0;
 				padding: 0.8em;
-				border: 2px solid #6246ea;
-				border-radius: 5px;
+				border: 3px solid #2b2c34;
 				height: 2em;
+				background-color: #2b2c34;
 			}
 		
 			& .top .label {
 				font-family: Jost;
 				font-weight: 500;
-				color: #2b2c34;
+				color: #fffffe;
 				font-size: 0.9rem;
 				line-height: 110%;
 				letter-spacing: 2px;
@@ -106,10 +105,10 @@ export const Button = ({ text, onClick, type, disabled }) => (
 			&:active:enabled {
         // ${buttonDark}
         & .top {
-          border: 2px solid #E87373;
+          border: 2px solid #2b2c34;
         }
         & .top .label {
-          color: #E87373;
+          color: #2b2c34;
         }
 			}
 		
@@ -120,10 +119,10 @@ export const Button = ({ text, onClick, type, disabled }) => (
 			&:hover:enabled .bottom {
 				left: 0;
 				top: 0;
-				background-color: #d1d1e9;
+				background-color: #2b2c34;
 			}
 			&:hover:enabled .top .label {
-				color: #6246ea;
+				color: #fffffe;
 				cursor: pointer;
 			}
 			&:hover:enabled .top .${buttonBorderLeft}, &:hover .top .${buttonBorderRight} {
