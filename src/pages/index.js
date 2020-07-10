@@ -15,6 +15,7 @@ import Resume from './../components/svg/resume';
 import Video from './../components/svg/video';
 import gsap from 'gsap';
 import { FunkyText } from './../butler/index';
+import IntroSection from '../components/home/intro-section';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
 
@@ -107,6 +108,7 @@ export default ({ location }) => {
           </h2>
         </div>
         <SignupForm />
+        <IntroSection />
         {/* <Link to="/app/hub">To Hub</Link> */}
         {/* <WaveSection>
           <h3

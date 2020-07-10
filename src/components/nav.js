@@ -3,10 +3,8 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { Link } from 'gatsby';
 import gsap from 'gsap';
-import Logo from './svg/logo';
 import { useSiteMetadata } from './useSiteMetadata';
-import LogoText from './logo-text';
-import DevPackLogo from './svg/dev-pack-logo';
+import Logo from './svg/logo';
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
@@ -26,9 +24,8 @@ const Nav = () => {
     <nav
       sx={{
         display: 'flex',
-        justifyContent: 'start',
+        justifyContent: 'center',
         alignItems: 'center',
-        maxWidth: 1440,
         margin: '0 auto',
         width: '90vw',
         height: '100%',
@@ -43,11 +40,32 @@ const Nav = () => {
           letterSpacing: 'text',
           display: 'flex',
           alignItems: 'center',
+          //   zIndex: 999,
+          //   position: 'relative',
+          //   ":after": {
+          //     content: '""',
+          //     position: 'absolute',
+          //     top: ['20%', '30%', '30%'],
+          //     left: ['15%', '250px', '-60px'],
+          //     backgroundColor: 'accent',
+          //     minWidth: '250px',
+          //     minHeight: '50px',
+          //     width: 'auto',
+          //     height: 'auto',
+          //     display: 'block',
+          //     zIndex: -99999,
+          //     transform: 'rotate(-5deg)'
+          // }
         }}
         to="/"
         className="nav-link"
       >
-        <DevPackLogo width="100px" height="100px" />
+        <Logo width="90px" height="90px" />
+        {/* <p sx={{
+          fontFamily: 'heading',
+          ml: 5,
+          fontSize: [2, 3, 3]
+        }}>{siteName}</p> */}
       </Link>
     </nav>
   );

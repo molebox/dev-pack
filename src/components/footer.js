@@ -7,7 +7,7 @@ const heart = '\u{1F498}';
 const Footer = () => (
   <footer
     sx={{
-      background: 'primary',
+      backgroundColor: 'accent',
       marginBottom: '-5px',
       width: '100%',
     }}
