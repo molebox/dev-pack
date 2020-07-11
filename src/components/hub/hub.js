@@ -33,13 +33,13 @@ const Hub = () => {
             <Tab>
               <p sx={{ fontFamily: 'heading' }}>Dev Card</p>
             </Tab>
-            <Tab>
+            {/* <Tab>
               <p sx={{ fontFamily: 'heading' }}>Social</p>
-            </Tab>
+            </Tab> */}
             <Tab>
               <p sx={{ fontFamily: 'heading' }}>Domains</p>
             </Tab>
-            <Tab>
+            {/* <Tab>
               <p sx={{ fontFamily: 'heading' }}>Manage Media</p>
             </Tab>
             <Tab>
@@ -47,7 +47,7 @@ const Hub = () => {
             </Tab>
             <Tab>
               <p sx={{ fontFamily: 'heading' }}>Meeting Room</p>
-            </Tab>
+            </Tab> */}
           </TabList>
 
           <DevCardHub user={currentUser} />

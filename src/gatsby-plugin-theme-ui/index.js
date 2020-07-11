@@ -11,13 +11,6 @@ export default {
     bold: 700,
   },
   fontSizes: ['0.75rem', '1rem', '1.25rem', '1.5rem', '2.125rem', '3rem', '3.5rem', '6rem'],
-  // styles: {
-  //   root: {
-  //     fontSize: 1,
-  //     fontFamily: "body",
-  //     lineHeight: "body"
-  //   },
-  // },
   lineHeights: {
     body: '110%',
     heading: 1.125,

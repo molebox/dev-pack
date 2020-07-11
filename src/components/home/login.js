@@ -58,20 +58,25 @@ const Login = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '50vh',
-          margin: '0 auto',
-          maxWidth: 800,
+          backgroundColor: 'accent',
         }}
       >
-        <Box>
+        <div
+          sx={{
+            textAlign: 'center',
+            padding: 4,
+            boxShadow: 0,
+            border: 'solid 3px',
+            maxWidth: 1000,
+            backgroundColor: 'background',
+          }}
+        >
           <h1
             sx={{
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 500,
-              width: '100%',
-              fontSize: ['1.4em', '1.7em', '2em'],
-              marginBottom: 20,
-              textAlign: 'center',
+              fontSize: [3, 3, 5],
             }}
           >
             Looks like you're not logged in
@@ -79,11 +84,10 @@ const Login = () => {
           <p
             sx={{
               fontFamily: 'heading',
-              fontWeight: 400,
-              fontSize: ['1rem', '1.2rem'],
-              textAlign: 'center',
-              marginBottom: 20,
-              wordWrap: 'wrap',
+              color: 'text',
+              fontWeight: 500,
+              fontSize: [3, 3, 4],
+              my: 6,
             }}
           >
             All your information is secure in your pack. Please login to gain access. By default we use your Github
@@ -91,7 +95,7 @@ const Login = () => {
           </p>
 
           <Button onClick={login} text="Login" />
-        </Box>
+        </div>
       </section>
     </Layout>
   );
