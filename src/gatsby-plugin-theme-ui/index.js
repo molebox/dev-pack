@@ -27,15 +27,8 @@ export default {
     body: '1px',
     text: '3px',
   },
-  space: [0, 4, 8, 16, 24, 32],
-  shadows: [
-    '-5px 5px 0px 0px 	hsl(233, 9%, 19%)',
-    '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-    '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-    '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-    '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-    '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)',
-  ],
+  space: [0, 4, 8, 16, 24, 32, 48],
+  shadows: ['-5px 5px 0px 0px 	hsl(233, 9%, 19%)', '-5px 5px 0px 0px 		hsl(60, 100%, 100%)'],
   colors: {
     text: '#2b2c34',
     background: '#fffffe',

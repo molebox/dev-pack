@@ -5,7 +5,6 @@ import addToMailchimp from 'gatsby-plugin-mailchimp';
 import gsap from 'gsap';
 import Input from './input';
 import Button from '../../common/button';
-import Box from './../../common/box';
 
 const SignupForm = () => {
   const [response, setResponse] = React.useState(null);
@@ -20,7 +19,7 @@ const SignupForm = () => {
       },
       {
         opacity: 1,
-        duration: 1,
+        duration: 1.2,
         delay: 1.8,
       }
     );
@@ -102,7 +101,7 @@ const SignupForm = () => {
       <form
         sx={{
           display: 'flex',
-          flexDirection: ['column', 'row'],
+          flexDirection: ['column', 'column', 'row'],
           justifyContent: 'space-evenly',
           alignItems: 'center',
           maxWidth: 500,

@@ -5,6 +5,7 @@ const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
   return (
     <input
       sx={{
+        my: 2,
         border: '3px solid',
         borderColor: 'text',
         height: '2em',
