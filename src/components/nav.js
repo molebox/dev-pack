@@ -5,9 +5,13 @@ import { Link } from 'gatsby';
 import gsap from 'gsap';
 import { useSiteMetadata } from './useSiteMetadata';
 import Logo from './svg/logo';
+import { useWindupString } from 'windups';
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();
+  const [title] = useWindupString(siteName, {
+    pace: (char) => (char === ' ' ? 400 : 40),
+  });
 
   React.useEffect(() => {
     gsap.fromTo(
@@ -26,7 +30,7 @@ const Nav = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: '0 auto',
+        margin: '2em auto',
         width: '90vw',
         height: '100%',
         placeSelf: 'center',
@@ -40,32 +44,21 @@ const Nav = () => {
           letterSpacing: 'text',
           display: 'flex',
           alignItems: 'center',
-          //   zIndex: 999,
-          //   position: 'relative',
-          //   ":after": {
-          //     content: '""',
-          //     position: 'absolute',
-          //     top: ['20%', '30%', '30%'],
-          //     left: ['15%', '250px', '-60px'],
-          //     backgroundColor: 'accent',
-          //     minWidth: '250px',
-          //     minHeight: '50px',
-          //     width: 'auto',
-          //     height: 'auto',
-          //     display: 'block',
-          //     zIndex: -99999,
-          //     transform: 'rotate(-5deg)'
-          // }
         }}
         to="/"
         className="nav-link"
       >
-        <Logo width="90px" height="90px" />
-        {/* <p sx={{
-          fontFamily: 'heading',
-          ml: 5,
-          fontSize: [2, 3, 3]
-        }}>{siteName}</p> */}
+        <Logo width="60px" height="60px" />
+        <p
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            ml: 3,
+            fontSize: [2, 3, 3],
+          }}
+        >
+          {title}
+        </p>
       </Link>
     </nav>
   );

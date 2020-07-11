@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import Subtitle from '../common/subtitle';
+import Funky from '../svg/funky';
 
 const IntroSection = () => {
   return (
@@ -23,7 +24,13 @@ const IntroSection = () => {
           width: '100%',
         }}
       >
-        <div>
+        <div
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <Subtitle>Dev Card</Subtitle>
           <div
             sx={{
@@ -86,8 +93,14 @@ const IntroSection = () => {
             </p>
           </div>
         </div>
-        <div>
-          <Subtitle>Domain Boss</Subtitle>
+        <div
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Subtitle>Domain</Subtitle>
           <div
             sx={{
               my: 4,
@@ -112,6 +125,13 @@ const IntroSection = () => {
               and make that project! You're the boss of your domains, manage them the way you see fit, all from your dev
               pack.
             </p>
+          </div>
+          <div
+            sx={{
+              mt: 5,
+            }}
+          >
+            <Funky width="300px" height="300px" />
           </div>
         </div>
       </div>

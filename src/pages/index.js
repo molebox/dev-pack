@@ -5,16 +5,7 @@ import Layout from './../components/layout';
 import SEO from 'gatsby-theme-seo/src/components/seo';
 import SignupForm from './../components/home/signup/form';
 import { Link } from 'gatsby';
-import WaveSection from './../components/svg/wave-section';
-import CardContainer from './../components/home/card-container';
-import Card from './../components/svg/card';
-import Social from './../components/svg/social';
-import Domain from './../components/svg/domain';
-import Media from './../components/svg/media';
-import Resume from './../components/svg/resume';
-import Video from './../components/svg/video';
 import gsap from 'gsap';
-import { FunkyText } from './../butler/index';
 import IntroSection from '../components/home/intro-section';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
@@ -26,11 +17,11 @@ export default ({ location }) => {
     gsap.fromTo(
       '.h1-title',
       {
-        x: 1000,
+        opacity: 0,
       },
       {
-        x: 0,
-        ease: 'back(1.2)',
+        opacity: 1,
+        delay: 0.8,
         duration: 1,
       }
     );
@@ -38,11 +29,11 @@ export default ({ location }) => {
     gsap.fromTo(
       '.h2-title',
       {
-        x: -1000,
+        opacity: 0,
       },
       {
-        x: 0,
-        ease: 'back(1.2)',
+        opacity: 1,
+        delay: 1.5,
         duration: 1,
       }
     );
@@ -108,8 +99,9 @@ export default ({ location }) => {
           </h2>
         </div>
         <SignupForm />
-        <IntroSection />
         {/* <Link to="/app/hub">To Hub</Link> */}
+        <IntroSection />
+
         {/* <WaveSection>
           <h3
             sx={{

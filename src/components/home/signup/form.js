@@ -16,13 +16,12 @@ const SignupForm = () => {
     gsap.fromTo(
       '.signup-form',
       {
-        y: 1000,
+        opacity: 0,
       },
       {
-        y: 0,
-        ease: 'back(1)',
+        opacity: 1,
         duration: 1,
-        delay: 0.8,
+        delay: 1.8,
       }
     );
   }, []);
@@ -77,7 +76,16 @@ const SignupForm = () => {
   };
 
   return (
-    <Box>
+    <div
+      sx={{
+        my: 4,
+        padding: 2,
+        boxShadow: 0,
+        border: 'solid 3px',
+        maxWidth: 600,
+      }}
+      className="signup-form"
+    >
       <h3
         sx={{
           fontFamily: 'heading',
@@ -168,7 +176,7 @@ const SignupForm = () => {
           </p>
         </div>
       ) : null}
-    </Box>
+    </div>
   );
 };
 

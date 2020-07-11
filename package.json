@@ -42,7 +42,8 @@
     "react-loader-spinner": "^3.1.14",
     "react-tabs": "^3.1.1",
     "theme-ui": "^0.3.1",
-    "twitter-lite": "^0.14.0"
+    "twitter-lite": "^0.14.0",
+    "windups": "^1.0.2"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
