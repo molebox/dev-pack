@@ -17,9 +17,13 @@ import TwitterLogin from '../../auth/twitter-login';
 import DevToLogin from './../../auth/dev-to-login';
 import CodePenLogin from './../../auth/codepen-login';
 import LinkedInLogin from './../../auth/linkedIn-login';
+import gsap from 'gsap';
+import { fixedEncodeURIComponent } from '../../../butler';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UPDATE_TWITTER_USER = gql`
-  mutation UpdateTwitterProfileLocation($query: [[String!]!]) {
+  mutation UpdateTwitterProfile($query: [[String!]!]) {
     twitter {
       makeRestCall {
         post(path: "/1.1/account/update_profile.json", query: $query) {
@@ -36,7 +40,7 @@ const UPDATE_TWITTER_USER = gql`
 const UPDATE_GITHUB_USER = gql`
   mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
     gitHub {
-      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, bio: $bio }) {
+      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, description: $bio }) {
         updatedUser {
           bio
           name
@@ -65,8 +69,10 @@ const GET_PROFILE_INFO = gql`
   }
 `;
 
+toast.configure();
+
 const DevCardHub = ({ user, ...rest }) => {
-  const [github, { data }] = useMutation(UPDATE_GITHUB_USER);
+  const [github, { data: githubData }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
   const { loading, error, data: userData } = useQuery(GET_PROFILE_INFO);
   const { currentUser } = React.useContext(UserContext);
@@ -74,23 +80,33 @@ const DevCardHub = ({ user, ...rest }) => {
   const [name, setName] = React.useState(currentUser.displayName !== '' ? currentUser.displayName : '');
   const [email, setEmail] = React.useState(currentUser.email !== '' ? currentUser.email : '');
   const [location, setLocation] = React.useState('');
-  const [bio, setBio] = React.useState('');
+  const [description, setDescription] = React.useState('');
   const [website, setWebsite] = React.useState(currentUser.websiteUrl !== '' ? currentUser.websiteUrl : '');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
+
+  React.useEffect(() => {
+    gsap.to('body', { visibility: 'visible' });
+  }, []);
+
+  React.useEffect(() => {
+    console.log({ currentUser });
+  }, [currentUser]);
 
   React.useEffect(() => {
     console.log({ error });
     console.log({ userData });
     !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
     !loading && !error && setLocation(userData.me.twitter.location);
-    !loading && !error && setBio(userData.me.twitter.description);
+    !loading && !error && setDescription(userData.me.twitter.description);
     !loading && !error && setName(userData.me.twitter.name);
   }, [loading, error, userData]);
 
   React.useEffect(() => {
-    console.log({ currentUser });
-  }, [currentUser]);
+    console.log({ githubData });
+    console.log({ twitterData });
+    console.log({ twitterDescData });
+  }, [githubData, twitterData]);
 
   const updateInfo = () => {
     if (checkboxGithub) {
@@ -99,51 +115,32 @@ const DevCardHub = ({ user, ...rest }) => {
           name: name !== '' ? name : null,
           location: location !== '' ? location : null,
           email: email !== '' ? email : null,
-          bio: bio !== '' ? bio : null,
+          bio: description !== '' ? description : null,
         },
       });
     }
     if (checkboxTwitter) {
+      console.log({ description });
+      let decs = fixedEncodeURIComponent(description);
+      console.log({ decs });
       const query = [
         ['url', website],
         ['location', location],
-
+        ['description', description],
         ['name', name],
-        // ["description", bio]
       ].filter((row) => Boolean(row[1]));
+      console.log({ query });
 
       twitter({
         variables: {
           query: query,
         },
+      }).then((res) => {
+        if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
+          toast.error("Boo! It didn't work", { position: toast.POSITION.BOTTOM_CENTER });
+        } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200)
+          toast.success('Updated!', { position: toast.POSITION.BOTTOM_CENTER });
       });
-      // fetch('/.netlify/functions/twitter', {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     twitterName: currentUser.displayName,
-      //     name: name ? name : null,
-      //     location: location ? location : null,
-      //     description: bio ? bio : null,
-      //   }),
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => console.log('Twitter post data: ', data));
-
-      // fetch(`https://api.twitter.com/1.1/account/update_profile.json?name=${currentUser.displayName}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      //     Authorization: `Bearer ${currentUser.twitterToken}`,
-      //   },
-      //   body: JSON.stringify({
-      //     name: name ? name : null,
-      //     location: location ? location : null,
-      //     description: bio ? bio : null,
-      //   }),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => console.log('Twitter Update: ', data))
-      //   .catch((error) => console.log({ error }));
     }
   };
 
@@ -156,7 +153,7 @@ const DevCardHub = ({ user, ...rest }) => {
   };
 
   const handleOnBioChange = (e) => {
-    setBio(e.target.value);
+    setDescription(e.target.value);
   };
 
   const handleOnLocationChange = (e) => {
@@ -168,214 +165,226 @@ const DevCardHub = ({ user, ...rest }) => {
   };
 
   return (
-    <TabPanel {...rest}>
-      <section
+    // <TabPanel {...rest}>
+    <section
+      sx={{
+        maxWidth: 1440,
+        margin: '0 auto',
+        width: '100%',
+        display: 'grid',
+        gap: 3,
+        gridTemplateAreas: [
+          `
+            'form'
+            'checkboxes'
+            'auth'
+            'push'
+            `,
+          `
+            'checkboxes form  auth'
+            'checkboxes form  auth'
+            'checkboxes form  auth'
+            'checkboxes form  auth'
+            '.  push  .'
+          `,
+        ],
+        gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
+        gridAutoRows: 'auto',
+        my: 2,
+      }}
+    >
+      <aside
         sx={{
+          gridArea: 'checkboxes',
+          height: '100%',
+          minHeight: 500,
+          boxShadow: 0,
+          border: 'solid 3px',
           display: 'flex',
-          width: 500,
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
           alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto',
+          p: 3,
+          m: 3,
         }}
       >
-        <h1
+        <div
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+            height: '100%',
+          }}
+        >
+          <p
+            sx={{
+              fontFamily: 'heading',
+              fontWeight: 700,
+              fontSize: [2, 3],
+            }}
+          >
+            Select Platform
+          </p>
+          <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
+          <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+
+          <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+        </div>
+      </aside>
+
+      <div
+        sx={{
+          gridArea: 'form',
+          // width: '100%',
+          height: '100%',
+          maxHeight: 700,
+          boxShadow: 0,
+          border: 'solid 3px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          padding: 4,
+          backgroundColor: 'background',
+          m: 3,
+        }}
+      >
+        <h2
           sx={{
             fontFamily: 'heading',
             color: 'text',
             fontWeight: 400,
-            width: '100%',
-            fontSize: ['1.4em', '1.7em', '2em'],
-            // marginBottom: 20,
-            padding: 10,
-            textAlign: 'center',
           }}
         >
-          {user.displayName}'s Dev Card
-        </h1>
-        <Logout />
-      </section>
-
-      <section
-        sx={{
-          maxWidth: 1440,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: 10,
-        }}
-      >
+          Tell the world about yourself...
+        </h2>
         <div
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            textAlign: 'center',
             justifyContent: 'space-evenly',
-            maxWidth: 800,
-            width: '100%',
           }}
         >
-          <h4
-            sx={{
-              fontFamily: 'heading',
-              color: 'text',
-              fontSize: ['1.2em', '1.4em'],
-              fontWeight: 400,
-              marginBottom: 20,
-            }}
-          >
-            Select your platforms
-          </h4>
-          <section
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-              maxWidth: 500,
-              alignSelf: 'center',
-              marginBottom: 20,
-            }}
-          >
-            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
-            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-
-            <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-            <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-            <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-          </section>
+          <Label>
+            <LabelText>
+              What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="name"
+              handleChange={handleOnNameChange}
+              value={name}
+              ariaLabel="Your name"
+              placeholder="Your Name..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="location"
+              handleChange={handleOnLocationChange}
+              value={location}
+              ariaLabel="Your location"
+              placeholder="Your Location..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="website"
+              handleChange={handleOnWebsiteChange}
+              value={website}
+              ariaLabel="Your website"
+              placeholder="Your Website..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="email"
+              handleChange={handleOnEmailChange}
+              value={email}
+              ariaLabel="Your email"
+              placeholder="Your email..."
+            />
+          </Label>
         </div>
-      </section>
-      <section
+
+        <Label>
+          <LabelText>
+            Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+          </LabelText>
+          <TextArea
+            type="text"
+            name="name"
+            handleChange={handleOnBioChange}
+            value={description}
+            ariaLabel="Your bio"
+            placeholder="Your Bio..."
+          />
+        </Label>
+        <div
+          sx={{
+            marginTop: 20,
+            textAlign: 'center',
+          }}
+        ></div>
+      </div>
+
+      <aside
         sx={{
+          gridArea: 'auth',
+          height: '100%',
+          minHeight: 500,
+          boxShadow: 0,
+          border: 'solid 3px',
           display: 'flex',
-          // flexDirection: 'column',
+          flexDirection: 'column',
           justifyContent: 'space-evenly',
-          width: '100%',
-          marginBottom: 20,
+          alignItems: 'center',
+          p: 3,
+          m: 3,
         }}
       >
+        <p
+          sx={{
+            fontFamily: 'heading',
+            fontWeight: 700,
+            fontSize: [2, 3],
+          }}
+        >
+          Authorize Platform
+        </p>
         <TwitterLogin />
         <DevToLogin />
         <CodePenLogin />
         <LinkedInLogin />
-      </section>
+      </aside>
+
       <section
         sx={{
-          maxWidth: 1440,
-          display: 'grid',
-          gridTemplateColumns: ['1fr', '1fr 1fr'],
-          gap: '2.5em',
-          gridAutoRows: 'auto',
+          gridArea: 'push',
+          minWidth: [300, 500],
+          maxHeight: 30,
+          margin: '0 auto',
+          m: 3,
         }}
       >
-        <div
-          sx={{
-            width: '100%',
-            height: '100%',
-            maxHeight: 700,
-            border: 'solid 2px',
-            borderColor: 'primary',
-            borderRadius: 5,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            padding: 4,
-            backgroundColor: 'secondary',
-          }}
-        >
-          <h2
-            sx={{
-              fontFamily: 'heading',
-              color: 'text',
-              fontWeight: 400,
-            }}
-          >
-            Tell the world about yourself...
-          </h2>
-          <div
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <Label>
-              <LabelText>
-                What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="name"
-                handleChange={handleOnNameChange}
-                value={name}
-                ariaLabel="Your name"
-                placeholder="Your Name..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="location"
-                handleChange={handleOnLocationChange}
-                value={location}
-                ariaLabel="Your location"
-                placeholder="Your Location..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="website"
-                handleChange={handleOnWebsiteChange}
-                value={website}
-                ariaLabel="Your website"
-                placeholder="Your Website..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="email"
-                handleChange={handleOnEmailChange}
-                value={email}
-                ariaLabel="Your email"
-                placeholder="Your email..."
-              />
-            </Label>
-          </div>
-
-          <Label>
-            <LabelText>
-              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
-            </LabelText>
-            <TextArea
-              type="text"
-              name="name"
-              handleChange={handleOnBioChange}
-              value={bio}
-              ariaLabel="Your bio"
-              placeholder="Your Bio..."
-            />
-          </Label>
-          <div
-            sx={{
-              marginTop: 20,
-              textAlign: 'center',
-            }}
-          >
-            <Button onClick={updateInfo} text="Push" />
-          </div>
-        </div>
-        <ProfileCard name={name} bio={bio} location={location} website={website} email={email} />
+        <Button disabled={checkboxGithub || checkboxTwitter ? false : true} onClick={updateInfo} text="Push" />
       </section>
-    </TabPanel>
+    </section>
+
+    // </TabPanel>      {/* <ProfileCard name={name} bio={bio} location={location} website={website} email={email} />
   );
 };
 

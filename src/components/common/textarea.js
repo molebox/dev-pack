@@ -5,9 +5,8 @@ const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) =
   return (
     <textarea
       sx={{
-        border: '2px solid',
-        borderColor: 'primary',
-        borderRadius: 5,
+        border: '3px solid',
+        borderColor: 'text',
         fontFamily: 'heading',
         padding: 2,
         resize: 'none',
@@ -22,6 +21,7 @@ const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) =
       onChange={handleChange}
       rows="5"
       name={name}
+      maxLength="160"
     ></textarea>
   );
 };

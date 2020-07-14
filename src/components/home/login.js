@@ -9,22 +9,32 @@ import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { APP_ID } from '../../butler';
 import Button from '../common/button';
-import Box from './../common/box';
 
 const Login = () => {
   const { updateUser } = React.useContext(UserContext);
+  let auth;
+
+  React.useEffect(() => {
+    // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
+    auth =
+      typeof window !== 'undefined'
+        ? new OneGraphAuth({
+            appId: APP_ID,
+          })
+        : null;
+
+    // auth.isLoggedIn('github').then(isLoggedIn => {
+    //   if (isLoggedIn) {
+    //     navigate('/app/hub');
+    //   } else {
+    //     return;
+    //   }
+    // });
+  }, []);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
-
-  // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
 
   const login = () =>
     auth
@@ -33,13 +43,11 @@ const Login = () => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github handle, name and email to the sites context, also add the jwt token
-            // console.log(jwt, auth);
+            // Add the users github handle, name and email to the sites context
             updateUser({
               isGithubLoggedIn: true,
               displayName: jwt.user.githubName,
               email: jwt.user.email,
-              token: auth._accessToken.accessToken,
             });
             navigate('/app/hub');
           } else {
@@ -69,6 +77,7 @@ const Login = () => {
             border: 'solid 3px',
             maxWidth: 1000,
             backgroundColor: 'background',
+            m: 3,
           }}
         >
           <h1
@@ -86,7 +95,7 @@ const Login = () => {
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 500,
-              fontSize: [3, 3, 4],
+              fontSize: [2, 2, 3],
               my: 6,
             }}
           >
@@ -94,7 +103,15 @@ const Login = () => {
             account.
           </p>
 
-          <Button onClick={login} text="Login" />
+          <div
+            sx={{
+              margin: '0 auto',
+              height: 'min-content',
+              width: 'min-content',
+            }}
+          >
+            <Button onClick={login} text="Login" />
+          </div>
         </div>
       </section>
     </Layout>

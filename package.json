@@ -41,6 +41,7 @@
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
     "react-tabs": "^3.1.1",
+    "react-toastify": "^6.0.8",
     "theme-ui": "^0.3.1",
     "twitter-lite": "^0.14.0",
     "windups": "^1.0.2"

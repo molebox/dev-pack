@@ -11,6 +11,8 @@ const Header = () => {
         maxHeight: '150px',
         padding: [null, '2em', '2em'],
         paddingTop: ['1em', null, null],
+        borderBottom: 'solid 3px',
+        borderBottomColor: 'text',
       }}
     >
       <Nav />

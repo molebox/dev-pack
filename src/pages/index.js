@@ -7,6 +7,7 @@ import SignupForm from './../components/home/signup/form';
 import { Link } from 'gatsby';
 import gsap from 'gsap';
 import IntroSection from '../components/home/intro-section';
+import Footer from '../components/footer';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
 

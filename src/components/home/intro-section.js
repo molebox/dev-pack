@@ -1,6 +1,9 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import Subtitle from '../common/subtitle';
+import IntroCard from './intro-card';
+import IntroCardText from './intro-card-text';
+import IntroCardInner from './intro-card-inner';
 
 const IntroSection = () => {
   return (
@@ -56,89 +59,34 @@ const IntroSection = () => {
           my: 6,
         }}
       >
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            mx: 15,
-          }}
-        >
+        <IntroCard>
           <Subtitle>Dev Card</Subtitle>
-          <div
-            sx={{
-              my: 4,
-              padding: 2,
-              boxShadow: 0,
-              border: 'solid 3px',
-              maxWidth: 700,
-              backgroundColor: 'background',
-              minHeight: 250,
-            }}
-          >
-            <p
-              sx={{
-                m: 3,
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: [1, 2],
-              }}
-            >
+          <IntroCardInner>
+            <IntroCardText>
               Your Dev Card is your <strong>Hello World</strong> tag that you send out to the world. Think about how
               your profile reads on different social media platforms, <strong>name</strong>, <strong>location</strong>,{' '}
               <strong>website</strong>, <strong>email</strong> and <strong>bio</strong>. Set these in one place and push
               them to your chosen platforms.
-            </p>
+            </IntroCardText>
 
-            <p
-              sx={{
-                m: 3,
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: [1, 2],
-              }}
-            >
+            <IntroCardText>
               Of course your profile is nothing without a cheesy snap of your lovely face. Powered by{' '}
               <strong>Cloudinary</strong>, you can save your profile picture and cover image in the correct formats for
               each platform.
-            </p>
-          </div>
-        </div>
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            mx: 15,
-          }}
-        >
+            </IntroCardText>
+          </IntroCardInner>
+        </IntroCard>
+        <IntroCard>
           <Subtitle>Domain</Subtitle>
-          <div
-            sx={{
-              my: 4,
-              padding: 2,
-              boxShadow: 0,
-              border: 'solid 3px',
-              maxWidth: 600,
-              backgroundColor: 'background',
-              minHeight: 250,
-            }}
-          >
-            <p
-              sx={{
-                m: 3,
-                fontFamily: 'heading',
-                fontWeight: 400,
-                fontSize: [1, 2],
-              }}
-            >
+          <IntroCardInner>
+            <IntroCardText>
               You're a dev right? You <strong>love</strong> buying domains! <strong>Search</strong> for the perfect
               domain for that dream project, then <strong>buy it</strong>, <strong>sell it</strong> or actually use it
               and make that project! You're the boss of your domains, manage them the way you see fit, all from your dev
               pack.
-            </p>
-          </div>
-        </div>
+            </IntroCardText>
+          </IntroCardInner>
+        </IntroCard>
       </div>
       <div
         sx={{

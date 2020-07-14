@@ -17,7 +17,7 @@ const LogoButton = ({ onClick, disabled, icon, text }) => {
         textTransform: 'uppercase',
         backgroundColor: disabled ? 'disabled' : 'transparent',
         border: 'solid 2px',
-        borderColor: 'primary',
+        borderColor: 'text',
         borderRadius: '5px',
         cursor: disabled ? null : 'pointer',
         ':hover': {

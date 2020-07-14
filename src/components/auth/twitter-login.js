@@ -2,7 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Twitter from '../svg/twitter';
-import { navigate } from 'gatsby';
+
 import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { UserContext } from '../../context/user-context';
@@ -10,8 +10,7 @@ import { APP_ID } from '../../butler';
 import LogoButton from '../common/logo-button';
 
 const TwitterLogin = () => {
-  const { updateUser } = React.useContext(UserContext);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { currentUser, updateUser } = React.useContext(UserContext);
 
   // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
   const auth =
@@ -28,16 +27,12 @@ const TwitterLogin = () => {
         auth.isLoggedIn('twitter').then((isLoggedIn) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github handle, name and email to the sites context, also add the jwt token
-            console.log('JWT: ', jwt, 'AUTH: ', auth);
-            console.log(Object.values(jwt)[4].access_token);
+            // Add the users github handle, name and email to the sites context
             updateUser({
               isTwitterLoggedIn: true,
               handle: jwt.user.handle,
               displayName: jwt.user.twitterName,
-              twitterToken: Object.values(jwt)[4].access_token,
             });
-            setIsLoggedIn(true);
           } else {
             console.log('Did not grant auth for Twitter');
           }
@@ -47,10 +42,10 @@ const TwitterLogin = () => {
 
   return (
     <LogoButton
-      text="Authorize Twitter"
+      text={currentUser.isTwitterLoggedIn ? 'Authorized!' : 'Authorize Twitter'}
       icon={<Twitter width="25px" height="25px" />}
       onClick={login}
-      disabled={isLoggedIn ? true : false}
+      disabled={currentUser.isTwitterLoggedIn ? true : false}
     />
   );
 };

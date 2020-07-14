@@ -126,7 +126,13 @@ const SignupForm = () => {
           ariaLabel="Email input"
           placeholder="Your fav email"
         />
-        <Button type="submit" text="Signup" />
+        <div
+          sx={{
+            width: 'auto',
+          }}
+        >
+          <Button type="submit" text="Signup" />
+        </div>
       </form>
       <p
         sx={{
