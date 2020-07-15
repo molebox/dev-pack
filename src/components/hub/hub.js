@@ -49,7 +49,6 @@ const Hub = () => {
           </Tabs>
         </div>
       </section> */}
-      <Footer sx={{ backgroundColor: 'background' }} />
     </Layout>
   );
 };

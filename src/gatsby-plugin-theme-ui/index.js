@@ -21,7 +21,11 @@ export default {
     text: '3px',
   },
   space: [0, 4, 8, 16, 24, 32, 48],
-  shadows: ['-5px 5px 0px 0px 	hsl(233, 9%, 19%)', '-5px 5px 0px 0px 		hsl(60, 100%, 100%)'],
+  shadows: [
+    '-5px 5px 0px 0px 	hsl(233, 9%, 19%)',
+    '-5px 5px 0px 0px 		hsl(60, 100%, 100%)',
+    '-5px 5px 0px 0px 		hsl(0, 72%, 56%)',
+  ],
   colors: {
     text: '#2b2c34',
     background: '#fffffe',

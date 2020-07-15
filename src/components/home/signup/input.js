@@ -11,6 +11,10 @@ const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
         height: '2em',
         fontFamily: 'heading',
         padding: 2,
+        ':focus': {
+          border: '4px solid',
+          borderColor: 'text',
+        },
       }}
       placeholder={placeholder}
       aria-label={ariaLabel}

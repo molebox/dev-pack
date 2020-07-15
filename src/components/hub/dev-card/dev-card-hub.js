@@ -18,7 +18,6 @@ import DevToLogin from './../../auth/dev-to-login';
 import CodePenLogin from './../../auth/codepen-login';
 import LinkedInLogin from './../../auth/linkedIn-login';
 import gsap from 'gsap';
-import { fixedEncodeURIComponent } from '../../../butler';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -105,7 +104,6 @@ const DevCardHub = ({ user, ...rest }) => {
   React.useEffect(() => {
     console.log({ githubData });
     console.log({ twitterData });
-    console.log({ twitterDescData });
   }, [githubData, twitterData]);
 
   const updateInfo = () => {
@@ -121,8 +119,6 @@ const DevCardHub = ({ user, ...rest }) => {
     }
     if (checkboxTwitter) {
       console.log({ description });
-      let decs = fixedEncodeURIComponent(description);
-      console.log({ decs });
       const query = [
         ['url', website],
         ['location', location],
@@ -237,7 +233,6 @@ const DevCardHub = ({ user, ...rest }) => {
       <div
         sx={{
           gridArea: 'form',
-          // width: '100%',
           height: '100%',
           maxHeight: 700,
           boxShadow: 0,

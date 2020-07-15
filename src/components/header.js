@@ -8,11 +8,11 @@ const Header = () => {
       sx={{
         backgroundColor: 'background',
         color: 'text',
-        maxHeight: '150px',
+        maxHeight: '100px',
         padding: [null, '2em', '2em'],
         paddingTop: ['1em', null, null],
-        borderBottom: 'solid 3px',
-        borderBottomColor: 'text',
+        // borderBottom: 'solid 3px',
+        // borderBottomColor: 'text',
       }}
     >
       <Nav />

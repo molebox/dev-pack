@@ -1,75 +1,79 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
+import { useLocation } from '@reach/router';
 
 const DynamicYear = new Date().getFullYear();
 const heart = '\u{1F498}';
 
-const Footer = () => (
-  <footer
-    sx={{
-      backgroundColor: 'accent',
-      marginBottom: '-5px',
-      width: '100%',
-    }}
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#2b2c34" fillOpacity="1" d="M0,160L1440,128L1440,320L0,320Z"></path>
-    </svg>
-    <section
+const Footer = () => {
+  const location = useLocation();
+  return (
+    <footer
       sx={{
-        backgroundColor: 'text',
-        minHeight: '50px',
-        marginTop: '-5px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: location.pathname === '/' ? 'accent' : 'background',
+        marginBottom: '-5px',
         width: '100%',
       }}
     >
-      <div
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#2b2c34" fillOpacity="1" d="M0,160L1440,128L1440,320L0,320Z"></path>
+      </svg>
+      <section
         sx={{
-          textAlign: 'center',
+          backgroundColor: 'text',
+          minHeight: '50px',
           marginTop: '-5px',
-          marginBottom: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
         }}
       >
-        <p
+        <div
           sx={{
-            fontFamily: 'heading',
-            fontSize: '1em',
-            color: 'background',
-            margin: 10,
+            textAlign: 'center',
+            marginTop: '-5px',
+            marginBottom: 10,
           }}
         >
-          Created by{' '}
-          <a
+          <p
             sx={{
               fontFamily: 'heading',
+              fontSize: '1em',
               color: 'background',
-              ':hover': {
-                color: 'accent',
-              },
+              margin: 10,
             }}
-            href="https://twitter.com/studio_hungry"
           >
-            Rich Haines
-          </a>{' '}
-          with {heart}, coffee and keyboard
-        </p>
-        <p
-          sx={{
-            fontFamily: 'heading',
-            fontSize: '0.8em',
-            color: 'background',
-            margin: 10,
-          }}
-        >
-          Copyright &copy; {DynamicYear} dev-pack. All rights reserved.
-        </p>
-      </div>
-    </section>
-  </footer>
-);
+            Created by{' '}
+            <a
+              sx={{
+                fontFamily: 'heading',
+                color: 'background',
+                ':hover': {
+                  color: 'accent',
+                },
+              }}
+              href="https://twitter.com/studio_hungry"
+            >
+              Rich Haines
+            </a>{' '}
+            with {heart}, coffee and keyboard
+          </p>
+          <p
+            sx={{
+              fontFamily: 'heading',
+              fontSize: '0.8em',
+              color: 'background',
+              margin: 10,
+            }}
+          >
+            Copyright &copy; {DynamicYear} dev-pack. All rights reserved.
+          </p>
+        </div>
+      </section>
+    </footer>
+  );
+};
 
 export default Footer;

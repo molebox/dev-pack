@@ -29,12 +29,11 @@ const Nav = () => {
     <nav
       sx={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: ['center', 'center', 'start'],
         alignItems: 'center',
-        margin: '2em auto',
-        width: '90vw',
+        width: '100vw',
         height: '100%',
-        placeSelf: 'center',
+        mb: 3,
       }}
     >
       <Link
@@ -49,7 +48,7 @@ const Nav = () => {
         to="/"
         className="nav-link"
       >
-        <Logo width="60px" height="60px" />
+        <Logo width="50px" height="50px" />
         <p
           sx={{
             fontFamily: 'heading',

@@ -14,12 +14,14 @@ const IntroSection = () => {
         width: '100vw',
         marginTop: '10em',
         position: 'relative',
+        clipPath: 'polygon(0 6%, 100% 0%, 100% 100%, 0% 100%)',
       }}
     >
       <div
         sx={{
           m: 6,
           textAlign: 'center',
+          pt: 6,
         }}
       >
         <h3
@@ -104,8 +106,8 @@ const IntroSection = () => {
           }}
         >
           Launch platforms include <strong sx={{ color: 'background' }}>Twitter</strong> and{' '}
-          <strong sx={{ color: 'background' }}>GitHub</strong>. Planned integrations include dev.to, LinkedIn, CopePen,
-          Twitch and Stackoverflow.
+          <strong sx={{ color: 'background' }}>GitHub</strong>. Planned integrations include dev.to, LinkedIn, CodePen,
+          Twitch and Stack Overflow.
         </h5>
       </div>
     </section>
