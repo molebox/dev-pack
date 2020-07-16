@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const LogoButton = ({ onClick, disabled, icon, text }) => {
+const LogoButton = ({ onClick, disabled, icon, text, comingSoon }) => {
   return (
     <button
       sx={{
@@ -19,9 +19,19 @@ const LogoButton = ({ onClick, disabled, icon, text }) => {
         border: 'solid 2px',
         borderColor: 'text',
         borderRadius: '5px',
+        position: 'relative',
         cursor: disabled ? null : 'pointer',
         ':hover': {
           borderColor: disabled ? '' : 'accent',
+        },
+        ':after': {
+          content: comingSoon ? "'coming soon'" : "''",
+          top: 50,
+          left: 50,
+          position: 'absolute',
+          color: 'accent',
+          fontFamily: 'heading',
+          fontWeight: 600,
         },
       }}
       onClick={onClick}

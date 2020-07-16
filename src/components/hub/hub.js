@@ -21,8 +21,14 @@ const Hub = () => {
 
   return (
     <Layout>
-      <AuthHeader />
-      <DevCardHub />
+      <div
+        sx={{
+          mt: 6,
+        }}
+      >
+        <AuthHeader />
+        <DevCardHub />
+      </div>
       {/* <section
         sx={{
           margin: '0 auto',

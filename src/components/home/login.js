@@ -12,25 +12,12 @@ import Button from '../common/button';
 
 const Login = () => {
   const { updateUser } = React.useContext(UserContext);
-  let auth;
-
-  React.useEffect(() => {
-    // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
-    auth =
-      typeof window !== 'undefined'
-        ? new OneGraphAuth({
-            appId: APP_ID,
-          })
-        : null;
-
-    // auth.isLoggedIn('github').then(isLoggedIn => {
-    //   if (isLoggedIn) {
-    //     navigate('/app/hub');
-    //   } else {
-    //     return;
-    //   }
-    // });
-  }, []);
+  let auth =
+    typeof window !== 'undefined'
+      ? new OneGraphAuth({
+          appId: APP_ID,
+        })
+      : null;
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -75,7 +62,7 @@ const Login = () => {
             padding: 4,
             boxShadow: 0,
             border: 'solid 3px',
-            maxWidth: 1000,
+            maxWidth: 800,
             backgroundColor: 'background',
             m: 3,
           }}

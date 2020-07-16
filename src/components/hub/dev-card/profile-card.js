@@ -3,9 +3,11 @@ import { jsx } from 'theme-ui';
 import Emoji from './../../common/emoji';
 
 const ProfileCard = ({ name, location, website, bio, email, profileImage, coverImage }) => {
+  console.log({ profileImage });
   return (
     <div
       sx={{
+        gridArea: 'profile',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
@@ -67,7 +69,7 @@ const ProfileCard = ({ name, location, website, bio, email, profileImage, coverI
             left: 10,
           }}
         >
-          {profileImage}
+          <img src={profileImage} />
         </div>
       </div>
       <div

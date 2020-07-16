@@ -47,6 +47,7 @@ const CodePenLogin = () => {
 
   return (
     <LogoButton
+      comingSoon
       text="Authorize CodePen"
       icon={<CodePen width="25px" height="25px" />}
       onClick={login}

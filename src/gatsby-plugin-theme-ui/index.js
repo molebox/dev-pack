@@ -32,7 +32,7 @@ export default {
     primary: '#6246ea',
     secondary: '#d1d1e9',
     accent: '#E03E3E',
-    disabled: '#6F7285',
+    disabled: '#A6A8B5',
   },
   breakpoints: ['40em', '56em', '64em'],
 };

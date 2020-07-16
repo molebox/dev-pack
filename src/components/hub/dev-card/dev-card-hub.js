@@ -20,6 +20,7 @@ import LinkedInLogin from './../../auth/linkedIn-login';
 import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileUpload from '../../common/profile-upload';
 
 const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {
@@ -83,6 +84,7 @@ const DevCardHub = ({ user, ...rest }) => {
   const [website, setWebsite] = React.useState(currentUser.websiteUrl !== '' ? currentUser.websiteUrl : '');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
+  const [uploadedProfileImage, setUploadedProfileImage] = React.useState('');
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -101,11 +103,6 @@ const DevCardHub = ({ user, ...rest }) => {
     !loading && !error && setName(userData.me.twitter.name);
   }, [loading, error, userData]);
 
-  React.useEffect(() => {
-    console.log({ githubData });
-    console.log({ twitterData });
-  }, [githubData, twitterData]);
-
   const updateInfo = () => {
     if (checkboxGithub) {
       github({
@@ -118,14 +115,12 @@ const DevCardHub = ({ user, ...rest }) => {
       });
     }
     if (checkboxTwitter) {
-      console.log({ description });
       const query = [
         ['url', website],
         ['location', location],
         ['description', description],
         ['name', name],
       ].filter((row) => Boolean(row[1]));
-      console.log({ query });
 
       twitter({
         variables: {
@@ -160,12 +155,16 @@ const DevCardHub = ({ user, ...rest }) => {
     setWebsite(e.target.value);
   };
 
+  const getUploadedProfileImage = ({ image }) => {
+    setUploadedProfileImage(image);
+  };
+
   return (
     // <TabPanel {...rest}>
     <section
       sx={{
         maxWidth: 1440,
-        margin: '0 auto',
+        margin: '2em auto',
         width: '100%',
         display: 'grid',
         gap: 3,
@@ -182,6 +181,7 @@ const DevCardHub = ({ user, ...rest }) => {
             'checkboxes form  auth'
             'checkboxes form  auth'
             '.  push  .'
+            'profile profile profile'
           `,
         ],
         gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
@@ -192,8 +192,8 @@ const DevCardHub = ({ user, ...rest }) => {
       <aside
         sx={{
           gridArea: 'checkboxes',
-          height: '100%',
           minHeight: 500,
+          height: '100%',
           boxShadow: 0,
           border: 'solid 3px',
           display: 'flex',
@@ -215,8 +215,10 @@ const DevCardHub = ({ user, ...rest }) => {
           <p
             sx={{
               fontFamily: 'heading',
-              fontWeight: 700,
+              fontWeight: 500,
               fontSize: [2, 3],
+              borderBottom: 'solid 3px',
+              borderColor: 'text',
             }}
           >
             Select Platform
@@ -224,9 +226,9 @@ const DevCardHub = ({ user, ...rest }) => {
           <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
           <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
 
-          <Checkbox type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-          <Checkbox type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-          <Checkbox type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Checkbox comingSoon type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Checkbox comingSoon type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Checkbox comingSoon type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
         </div>
       </aside>
 
@@ -234,7 +236,7 @@ const DevCardHub = ({ user, ...rest }) => {
         sx={{
           gridArea: 'form',
           height: '100%',
-          maxHeight: 700,
+          maxHeight: 900,
           boxShadow: 0,
           border: 'solid 3px',
           display: 'flex',
@@ -330,10 +332,15 @@ const DevCardHub = ({ user, ...rest }) => {
         </Label>
         <div
           sx={{
-            marginTop: 20,
             textAlign: 'center',
+            display: 'flex',
+            flexDirection: ['column', 'row'],
+            justifyContent: 'space-evenly',
+            width: '100%',
           }}
-        ></div>
+        >
+          <ProfileUpload userName={currentUser.displayName} uploadedImage={getUploadedProfileImage} />
+        </div>
       </div>
 
       <aside
@@ -354,8 +361,10 @@ const DevCardHub = ({ user, ...rest }) => {
         <p
           sx={{
             fontFamily: 'heading',
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: [2, 3],
+            borderBottom: 'solid 3px',
+            borderColor: 'text',
           }}
         >
           Authorize Platform
@@ -365,7 +374,7 @@ const DevCardHub = ({ user, ...rest }) => {
         <CodePenLogin />
         <LinkedInLogin />
       </aside>
-
+      <ProfileCard profileImage={uploadedProfileImage} />
       <section
         sx={{
           gridArea: 'push',

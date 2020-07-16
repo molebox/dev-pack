@@ -14,7 +14,7 @@ const IntroSection = () => {
         width: '100vw',
         marginTop: '10em',
         position: 'relative',
-        clipPath: 'polygon(0 6%, 100% 0%, 100% 100%, 0% 100%)',
+        // clipPath: 'polygon(0 6%, 100% 0%, 100% 100%, 0% 100%)',
       }}
     >
       <div

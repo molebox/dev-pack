@@ -47,6 +47,7 @@ const LinkedInLogin = () => {
 
   return (
     <LogoButton
+      comingSoon
       text="Authorize LinkedIn"
       icon={<LinkedIn width="20px" height="20px" />}
       onClick={login}

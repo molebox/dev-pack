@@ -1,8 +1,10 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import Nav from './nav';
+import { useLocation } from '@reach/router';
 
 const Header = () => {
+  const location = useLocation();
   return (
     <header
       sx={{
@@ -11,8 +13,7 @@ const Header = () => {
         maxHeight: '100px',
         padding: [null, '2em', '2em'],
         paddingTop: ['1em', null, null],
-        // borderBottom: 'solid 3px',
-        // borderBottomColor: 'text',
+        display: location.pathname === '/app/hub' ? 'none' : 'block',
       }}
     >
       <Nav />

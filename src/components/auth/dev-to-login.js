@@ -46,6 +46,7 @@ const DevToLogin = () => {
 
   return (
     <LogoButton
+      comingSoon
       text="Authorize dev.to"
       icon={<DevTo width="25px" height="25px" />}
       onClick={login}
