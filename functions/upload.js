@@ -9,7 +9,10 @@ cloudinary.config({
 });
 
 exports.handler = (event) => {
+  console.log({event})
   const { public_id, file, tags, eager, type = 'auto', size } = JSON.parse(event.body);
+  console.log({file});
+  console.log({public_id})
 
   async function chooseUpload() {
     function formatBytes(bytes, decimals = 2) {

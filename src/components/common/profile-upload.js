@@ -6,11 +6,6 @@ import { useUpload } from 'use-cloudinary';
 
 const ProfileUpload = ({ userName, uploadedImage }) => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
-    onDrop,
-    accept: 'image/jpeg, image/png',
-  });
-  const files = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log({ acceptedFiles });
     upload({
@@ -27,6 +22,12 @@ const ProfileUpload = ({ userName, uploadedImage }) => {
       },
     });
   }, []);
+
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
+    onDrop,
+    accept: 'image/jpeg, image/png',
+  });
+  const files = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
 
   React.useEffect(() => {
     console.log({ data });
@@ -50,6 +51,7 @@ const ProfileUpload = ({ userName, uploadedImage }) => {
             <h4>Files</h4>
             <ul>{files}</ul>
           </aside>
+          {data && <img src={data.url} />}
           {isError ? <p>{error.message}</p> : null}
         </>
       )}
