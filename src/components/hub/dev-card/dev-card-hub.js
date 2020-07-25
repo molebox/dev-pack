@@ -112,6 +112,8 @@ const DevCardHub = ({ user, ...rest }) => {
         })
       : null;
 
+  const needsLoginService = auth.findMissingAuthServices(error)[0];
+
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
@@ -119,6 +121,19 @@ const DevCardHub = ({ user, ...rest }) => {
   React.useEffect(() => {
     console.log({ currentUser });
   }, [currentUser]);
+
+  React.useEffect(() => {
+    if (!needsLoginService) {
+      refetch();
+    } else {
+      auth.login(needsLoginService);
+      const loginSuccess = auth.isLoggedIn(needsLoginService);
+      if (loginSuccess) {
+        toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
+        refetch();
+      }
+    }
+  }, [needsLoginService]);
 
   React.useEffect(() => {
     console.log({ error });
@@ -268,7 +283,7 @@ const DevCardHub = ({ user, ...rest }) => {
             'checkboxes form'
             'checkboxes form'
             'checkboxes form'
-            'checkboxes form'
+            'auth form'
             ' . push '
           `,
         ],
@@ -435,37 +450,18 @@ const DevCardHub = ({ user, ...rest }) => {
         </div> */}
       </div>
 
-      {/* <aside
+      <aside
         sx={{
           gridArea: 'auth',
-          height: '100%',
-          minHeight: 500,
-          boxShadow: 0,
-          border: 'solid 3px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          p: 3,
           m: 3,
+          p: 3,
         }}
       >
-        <p
-          sx={{
-            fontFamily: 'heading',
-            fontWeight: 500,
-            fontSize: [2, 3],
-            borderBottom: 'solid 3px',
-            borderColor: 'text',
-          }}
-        >
-          Authorize Platform
-        </p>
-        <TwitterLogin />
-        <DevToLogin />
+        <TwitterLogin isLoggedIn={currentUser.isTwitterLoggedIn} />
+        {/* <DevToLogin />
         <CodePenLogin />
-        <LinkedInLogin />
-      </aside> */}
+        <LinkedInLogin /> */}
+      </aside>
       <section
         sx={{
           gridArea: 'push',

@@ -9,7 +9,8 @@ import { UserContext } from '../../context/user-context';
 import { APP_ID } from '../../butler';
 import LogoButton from '../common/logo-button';
 
-const TwitterLogin = () => {
+const TwitterLogin = ({ isLoggedIn }) => {
+  console.log({ isLoggedIn });
   const { currentUser, updateUser } = React.useContext(UserContext);
 
   // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
@@ -42,7 +43,7 @@ const TwitterLogin = () => {
 
   return (
     <LogoButton
-      text={currentUser.isTwitterLoggedIn ? 'Authorized!' : 'Authorize Twitter'}
+      text={!!currentUser.isTwitterLoggedIn || !!isLoggedIn ? 'Authorized!' : 'Authorize Twitter'}
       icon={<Twitter width="25px" height="25px" />}
       onClick={login}
       disabled={currentUser.isTwitterLoggedIn ? true : false}
