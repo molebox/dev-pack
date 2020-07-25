@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProfileUpload from '../../common/profile-upload';
 import OneGraphAuth from 'onegraph-auth';
 import { APP_ID } from '../../../butler';
+import jwt_decode from 'jwt-decode';
 
 const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {
@@ -124,25 +125,60 @@ const DevCardHub = ({ user, ...rest }) => {
 
   React.useEffect(() => {
     if (!needsLoginService) {
-      refetch();
+      !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+      !loading && !error && setLocation(userData.me.twitter.location);
+      !loading && !error && setDescription(userData.me.twitter.description);
+      !loading && !error && setName(userData.me.twitter.name);
     } else {
       auth.login(needsLoginService);
       const loginSuccess = auth.isLoggedIn(needsLoginService);
       if (loginSuccess) {
-        toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
         refetch();
+        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+        !loading && !error && setLocation(userData.me.twitter.location);
+        !loading && !error && setDescription(userData.me.twitter.description);
+        !loading && !error && setName(userData.me.twitter.name);
       }
     }
-  }, [needsLoginService]);
+  }, [loading, error, userData, needsLoginService]);
 
   React.useEffect(() => {
-    console.log({ error });
-    console.log({ userData });
-    !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-    !loading && !error && setLocation(userData.me.twitter.location);
-    !loading && !error && setDescription(userData.me.twitter.description);
-    !loading && !error && setName(userData.me.twitter.name);
-  }, [loading, error, userData]);
+    auth.isLoggedIn('github').then((isLoggedIn) => {
+      if (isLoggedIn) {
+        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+        toast.success("You're logged in to GitHub!", { position: toast.POSITION.BOTTOM_CENTER });
+      } else {
+        toast.error("You're not logged in to GitHub", { position: toast.POSITION.BOTTOM_CENTER });
+      }
+    });
+    auth.isLoggedIn('twitter').then((isLoggedIn) => {
+      if (isLoggedIn) {
+        !loading && !error && setLocation(userData.me.twitter.location);
+        !loading && !error && setDescription(userData.me.twitter.description);
+        !loading && !error && setName(userData.me.twitter.name);
+        toast.success("You're logged in to Twitter!", { position: toast.POSITION.BOTTOM_CENTER });
+      } else {
+        auth
+          .login('twitter')
+          .then(() => {
+            auth.isLoggedIn('twitter').then((isLoggedIn) => {
+              if (isLoggedIn) {
+                let jwt = jwt_decode(auth._accessToken.accessToken);
+                // Add the users github handle, name and email to the sites context
+                updateUser({
+                  isTwitterLoggedIn: true,
+                  handle: jwt.user.handle,
+                  displayName: jwt.user.twitterName,
+                });
+              } else {
+                toast.error('You did not grant auth for Twitter', { position: toast.POSITION.BOTTOM_CENTER });
+              }
+            });
+          })
+          .catch((e) => console.error('Problem logging in', e));
+      }
+    });
+  }, []);
 
   // const toDataURL = (url) =>
   //   fetch(url)
@@ -277,7 +313,7 @@ const DevCardHub = ({ user, ...rest }) => {
             'checkboxes form'
             'checkboxes form'
             'checkboxes form'
-            'auth form'
+            'checkboxes form'
             ' . push '
           `,
         ],
@@ -444,18 +480,18 @@ const DevCardHub = ({ user, ...rest }) => {
         </div> */}
       </div>
 
-      <aside
+      {/* <aside
         sx={{
           gridArea: 'auth',
           m: 3,
           p: 3,
         }}
       >
-        <TwitterLogin isLoggedIn={currentUser.isTwitterLoggedIn} />
-        {/* <DevToLogin />
+        <TwitterLogin />
+        <DevToLogin />
         <CodePenLogin />
-        <LinkedInLogin /> */}
-      </aside>
+        <LinkedInLogin />
+      </aside> */}
       <section
         sx={{
           gridArea: 'push',
