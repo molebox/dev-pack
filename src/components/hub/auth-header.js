@@ -3,9 +3,14 @@ import { jsx, css } from 'theme-ui';
 import React from 'react';
 import { UserContext } from './../../context/user-context';
 import Logout from './logout';
-import Tour from 'reactour';
 import { Button } from './../common/button';
 import TourBox from './../common/tour-box';
+import Loadable from 'react-loadable';
+
+const Tour = Loadable({
+  loader: () => import('reactour'),
+  loading: () => null,
+});
 
 const steps = [
   {
