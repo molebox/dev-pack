@@ -157,12 +157,6 @@ const DevCardHub = ({ user, ...rest }) => {
   //         })
   //     );
 
-  // Automatic progressive authentication!
-  // We automatically find which service needs to be authenticated
-  // based on the errors from the last call, then ask the user
-  // to log in if necessary before trying again.
-  const needsLoginService = auth.findMissingAuthServices(error)[0];
-
   const updateInfo = () => {
     if (checkboxGithub) {
       github({
