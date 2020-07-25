@@ -21,12 +21,29 @@ import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileUpload from '../../common/profile-upload';
+import OneGraphAuth from 'onegraph-auth';
+import { APP_ID } from '../../../butler';
 
 const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {
     twitter {
       makeRestCall {
         post(path: "/1.1/account/update_profile.json", query: $query) {
+          jsonBody
+          response {
+            statusCode
+          }
+        }
+      }
+    }
+  }
+`;
+
+const UPDATE_TWITTER_PROFILE_IMAGE = gql`
+  mutation UpdateTwitterProfileImage($query: [[String!]!]) {
+    twitter {
+      makeRestCall {
+        post(path: "/1.1/account/update_profile_image.json", query: $query) {
           jsonBody
           response {
             statusCode
@@ -74,7 +91,8 @@ toast.configure();
 const DevCardHub = ({ user, ...rest }) => {
   const [github, { data: githubData }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
-  const { loading, error, data: userData } = useQuery(GET_PROFILE_INFO);
+  // const [twitterProfileImage, { data: twitterProfileData }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
+  const { loading, error, data: userData, refetch } = useQuery(GET_PROFILE_INFO);
   const { currentUser } = React.useContext(UserContext);
 
   const [name, setName] = React.useState(currentUser.displayName !== '' ? currentUser.displayName : '');
@@ -84,7 +102,15 @@ const DevCardHub = ({ user, ...rest }) => {
   const [website, setWebsite] = React.useState(currentUser.websiteUrl !== '' ? currentUser.websiteUrl : '');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
-  const [uploadedProfileImage, setUploadedProfileImage] = React.useState('');
+  // const [uploadedProfileImage, setUploadedProfileImage] = React.useState('');
+  // const [profileImage, setProfileImage] = React.useState('');
+
+  const auth =
+    typeof window !== 'undefined'
+      ? new OneGraphAuth({
+          appId: APP_ID,
+        })
+      : null;
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -103,6 +129,25 @@ const DevCardHub = ({ user, ...rest }) => {
     !loading && !error && setName(userData.me.twitter.name);
   }, [loading, error, userData]);
 
+  // const toDataURL = (url) =>
+  //   fetch(url)
+  //     .then((response) => response.blob())
+  //     .then(
+  //       (blob) =>
+  //         new Promise((resolve, reject) => {
+  //           const reader = new FileReader();
+  //           reader.onloadend = () => resolve(reader.result);
+  //           reader.onerror = reject;
+  //           reader.readAsDataURL(blob);
+  //         })
+  //     );
+
+  // Automatic progressive authentication!
+  // We automatically find which service needs to be authenticated
+  // based on the errors from the last call, then ask the user
+  // to log in if necessary before trying again.
+  const needsLoginService = auth.findMissingAuthServices(error)[0];
+
   const updateInfo = () => {
     if (checkboxGithub) {
       github({
@@ -115,23 +160,65 @@ const DevCardHub = ({ user, ...rest }) => {
       });
     }
     if (checkboxTwitter) {
-      const query = [
-        ['url', website],
-        ['location', location],
-        ['description', description],
-        ['name', name],
-      ].filter((row) => Boolean(row[1]));
+      if (!needsLoginService) {
+        const query = [
+          ['url', website],
+          ['location', location],
+          ['description', description],
+          ['name', name],
+        ].filter((row) => Boolean(row[1]));
 
-      twitter({
-        variables: {
-          query: query,
-        },
-      }).then((res) => {
-        if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
-          toast.error("Boo! It didn't work", { position: toast.POSITION.BOTTOM_CENTER });
-        } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200)
-          toast.success('Updated!', { position: toast.POSITION.BOTTOM_CENTER });
-      });
+        console.log({ query });
+
+        // toDataURL(uploadedProfileImage)
+        //   .then((result) => {
+        //     setProfileImage(result);
+        //   })
+        //   .catch((error) => console.error(error));
+        // toDataURL('https://res.cloudinary.com/devpack-dev/image/upload/v1595539185/RichHaines/me%21.jpg.jpg')
+        // .then((result) => {
+        //   setProfileImage(result);
+        // })
+        // .catch((error) => console.error(error));
+
+        // const twitterProfileImageQuery = [['image', profileImage]].filter((row) => Boolean(row[1]));
+
+        // console.log({ twitterProfileImageQuery });
+
+        twitter({
+          variables: {
+            query: query,
+          },
+        }).then((res) => {
+          if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
+            toast.error("Boo! It didn't work", { position: toast.POSITION.BOTTOM_CENTER });
+          } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200)
+            toast.success('Updated profile info!', { position: toast.POSITION.BOTTOM_CENTER });
+        });
+
+        // twitterProfileImage({
+        //   variables: {
+        //     query: twitterProfileImageQuery,
+        //   },
+        // })
+        //   .then((res) => {
+        //     if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
+        //       console.log('ERROR IMAGE:', res.data.twitter.makeRestCall.post.jsonBody.errors);
+        //       toast.error('Could not update your profile image', { position: toast.POSITION.BOTTOM_CENTER });
+        //     } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200)
+        //       toast.success('Updated profile image!', { position: toast.POSITION.BOTTOM_CENTER });
+        //   })
+        //   .catch((error) => {
+        //     console.log('ERROR: ', error);
+        //   });
+      }
+    } else {
+      auth.login(needsLoginService);
+      const loginSuccess = auth.isLoggedIn(needsLoginService);
+      if (loginSuccess) {
+        toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
+        console.log('Successfully logged into ' + needsLoginService);
+      }
     }
   };
 
@@ -155,9 +242,11 @@ const DevCardHub = ({ user, ...rest }) => {
     setWebsite(e.target.value);
   };
 
-  const getUploadedProfileImage = ({ image }) => {
-    setUploadedProfileImage(image);
-  };
+  // const getUploadedProfileImage = (image) => {
+  //   if (image !== '') {
+  //     setUploadedProfileImage(image);
+  //   }
+  // };
 
   return (
     // <TabPanel {...rest}>
@@ -176,18 +265,19 @@ const DevCardHub = ({ user, ...rest }) => {
             'push'
             `,
           `
-            'checkboxes form  auth'
-            'checkboxes form  auth'
-            'checkboxes form  auth'
-            'checkboxes form  auth'
-            '.  push  .'
-            'profile profile profile'
+            'checkboxes form'
+            'checkboxes form'
+            'checkboxes form'
+            'checkboxes form'
+            ' . push '
           `,
         ],
-        gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
+        gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr'],
+        // gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
         gridAutoRows: 'auto',
         my: 2,
       }}
+      className="devCard"
     >
       <aside
         sx={{
@@ -203,6 +293,7 @@ const DevCardHub = ({ user, ...rest }) => {
           p: 3,
           m: 3,
         }}
+        className="platforms"
       >
         <div
           sx={{
@@ -246,6 +337,7 @@ const DevCardHub = ({ user, ...rest }) => {
           backgroundColor: 'background',
           m: 3,
         }}
+        className="form"
       >
         <h2
           sx={{
@@ -330,7 +422,7 @@ const DevCardHub = ({ user, ...rest }) => {
             placeholder="Your Bio..."
           />
         </Label>
-        <div
+        {/* <div
           sx={{
             textAlign: 'center',
             display: 'flex',
@@ -339,11 +431,11 @@ const DevCardHub = ({ user, ...rest }) => {
             width: '100%',
           }}
         >
-          <ProfileUpload userName={currentUser.displayName} uploadedImage={getUploadedProfileImage} />
-        </div>
+          <ProfileUpload userName={currentUser.displayName} getUploadedProfileImage={getUploadedProfileImage} />
+        </div> */}
       </div>
 
-      <aside
+      {/* <aside
         sx={{
           gridArea: 'auth',
           height: '100%',
@@ -373,8 +465,7 @@ const DevCardHub = ({ user, ...rest }) => {
         <DevToLogin />
         <CodePenLogin />
         <LinkedInLogin />
-      </aside>
-      <ProfileCard profileImage={uploadedProfileImage} />
+      </aside> */}
       <section
         sx={{
           gridArea: 'push',
@@ -384,7 +475,12 @@ const DevCardHub = ({ user, ...rest }) => {
           m: 3,
         }}
       >
-        <Button disabled={checkboxGithub || checkboxTwitter ? false : true} onClick={updateInfo} text="Push" />
+        <Button
+          className="push"
+          disabled={checkboxGithub || checkboxTwitter ? false : true}
+          onClick={updateInfo}
+          text="Push"
+        />
       </section>
     </section>
 

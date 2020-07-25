@@ -8,6 +8,7 @@ import { Link } from 'gatsby';
 import gsap from 'gsap';
 import IntroSection from '../components/home/intro-section';
 import Footer from '../components/footer';
+import { InternalLink } from './../components/common/internal-link';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
 
@@ -35,6 +36,18 @@ export default ({ location }) => {
       {
         opacity: 1,
         delay: 1.5,
+        duration: 1,
+      }
+    );
+
+    gsap.fromTo(
+      '.to-hub',
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        delay: 2.5,
         duration: 1,
       }
     );
@@ -100,7 +113,16 @@ export default ({ location }) => {
           </h2>
         </div>
         <SignupForm />
-        {/* <Link to="/app/hub">To Hub</Link> */}
+        <div
+          sx={{
+            minWidth: [300, 500],
+            maxHeight: 30,
+            margin: '0 auto',
+          }}
+        >
+          <InternalLink className="to-hub" to="/app/hub" text="Step inside (BETA)" />
+        </div>
+
         <IntroSection />
       </div>
     </Layout>

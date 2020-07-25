@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from 'theme-ui';
+import { Link } from 'gatsby';
 
 export const buttonBorderLeft = css`
   //   left: 2px;
@@ -47,13 +48,8 @@ export const buttonBorder = css`
   transition: all 0.25s ease-out;
 `;
 
-export const Button = ({ text, onClick, type, disabled, className }) => (
+export const InternalLink = ({ text, to, className }) => (
   <button
-    disabled={disabled}
-    type={type}
-    aria-label={text}
-    name={text}
-    onClick={onClick}
     className={className}
     css={css`
       display: inline-block;
@@ -150,19 +146,26 @@ export const Button = ({ text, onClick, type, disabled, className }) => (
       }
     `}
   >
-    <div className="bottom" />
-    <div className="top">
-      <div className="label">{disabled ? 'Select a platform' : text}</div>
-      <div css={buttonBorder} />
-      <div css={buttonBorderLeft} />
-      <div css={buttonBorder} />
-      <div css={buttonBorderTop} />
-      <div css={buttonBorder} />
-      <div css={buttonBorderRight} />
-      <div css={buttonBorder} />
-      <div css={buttonBorderBottom} />
-    </div>
+    <Link
+      to={to}
+      sx={{
+        textDecoration: 'none',
+      }}
+    >
+      <div className="bottom" />
+      <div className="top">
+        <div className="label">{text}</div>
+        <div css={buttonBorder} />
+        <div css={buttonBorderLeft} />
+        <div css={buttonBorder} />
+        <div css={buttonBorderTop} />
+        <div css={buttonBorder} />
+        <div css={buttonBorderRight} />
+        <div css={buttonBorder} />
+        <div css={buttonBorderBottom} />
+      </div>
+    </Link>
   </button>
 );
 
-export default Button;
+export default InternalLink;

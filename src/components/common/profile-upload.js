@@ -3,58 +3,141 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useUpload } from 'use-cloudinary';
+import Loading from './../svg/loading';
 
-const ProfileUpload = ({ userName, uploadedImage }) => {
+const ProfileUpload = ({ userName, getUploadedProfileImage }) => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
+
   const onDrop = React.useCallback((acceptedFiles) => {
-    console.log({ acceptedFiles });
-    upload({
-      file: acceptedFiles,
-      uploadOptions: {
-        public_id: `${userName}/${acceptedFiles.name}`,
-        responsive_breakpoints: {
-          max_width: 400,
-          transformation: {
-            crop: 'fill',
-            gravity: 'face',
-          },
+    console.log('Dropped File: ', acceptedFiles);
+
+    // Turn the blob into base64 to feed into the upload
+    const blobToBase64 = (blob) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    };
+
+    blobToBase64(acceptedFiles[0]).then((res) => {
+      console.log('RES: ', res);
+      // getUploadedProfileImage(res.split(',')[1])
+
+      return upload({
+        // We pass the whole base64 string including the data:image tag
+        file: res,
+        uploadOptions: {
+          // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
+          public_id: `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`,
+          tags: [],
+          eager: [
+            {
+              width: 400,
+              height: 400,
+              crop: 'fill',
+            },
+          ],
         },
-      },
+      });
     });
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
-    onDrop,
-    accept: 'image/jpeg, image/png',
-  });
-  const files = acceptedFiles.map((file) => <li key={file.path}>{file.path}</li>);
-
   React.useEffect(() => {
-    console.log({ data });
-    if (data) {
-      uploadedImage(data.url);
+    if (data && data.url) {
+      getUploadedProfileImage(data.url);
     }
   }, [data]);
 
-  if (isLoading) return <p>Loading...</p>;
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onDrop,
+    accept: 'image/jpeg, image/png, image/PNG',
+  });
+
+  if (isLoading)
+    return (
+      <div
+        sx={{
+          my: 3,
+        }}
+      >
+        <Loading />
+      </div>
+    );
 
   return (
-    <div {...getRootProps()}>
+    <div
+      sx={{
+        my: 3,
+        border: 'solid 3px',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+      {...getRootProps()}
+    >
       <input {...getInputProps()} />
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <>
-          <p>Drag 'n' drop some files here, or click to select files</p>
-          <em>(Only *.jpeg and *.png images will be accepted)</em>
-          <aside>
-            <h4>Files</h4>
-            <ul>{files}</ul>
+      <>
+        <div
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+            minHeight: 50,
+          }}
+        >
+          <p
+            sx={{
+              fontFamily: 'heading',
+            }}
+          >
+            Drag 'n' drop a profile image here, or click to select{' '}
+          </p>
+          <em
+            sx={{
+              fontFamily: 'heading',
+              fontSize: [0],
+              my: 2,
+              fontWeight: 700,
+            }}
+          >
+            (Only *.jpeg and *.png images will be accepted)
+          </em>
+        </div>
+        {data ? (
+          <aside
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              minWidth: 300,
+              maxWidth: 500,
+            }}
+          >
+            <h4
+              sx={{
+                fontFamily: 'heading',
+              }}
+            >
+              File:
+            </h4>
+            <div
+              sx={{
+                display: 'flex',
+              }}
+            >
+              <p sx={{ fontFamily: 'heading' }}>{acceptedFiles[0].path}</p>
+              <p sx={{ fontFamily: 'heading', ml: 2 }}>{acceptedFiles[0].size} Bytes</p>
+            </div>
           </aside>
-          {data && <img src={data.url} />}
-          {isError ? <p>{error.message}</p> : null}
-        </>
-      )}
+        ) : null}
+
+        {isError ? <p>{error.message}</p> : null}
+      </>
     </div>
   );
 };

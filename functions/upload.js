@@ -8,46 +8,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-exports.handler = (event) => {
-  console.log({event})
-  const { public_id, file, tags, eager, type = 'auto', size } = JSON.parse(event.body);
-  console.log({file});
-  console.log({public_id})
-
-  async function chooseUpload() {
-    function formatBytes(bytes, decimals = 2) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const dm = decimals < 0 ? 0 : decimals;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return [parseFloat((bytes / Math.pow(k, i)).toFixed(dm)), sizes[i]];
-    }
-
-    if (formatBytes(size)[0] > 100 && formatBytes(size)[1] === 'MB') {
-      await cloudinary.uploader.upload_large(file, {
-        public_id,
-        resource_type: type,
-        tags,
-        eager,
-      });
-    } else {
-      await cloudinary.uploader.upload(file, {
-        public_id,
-        resource_type: type,
-        tags,
-        eager,
-      });
-    }
-  }
-
-  const res = chooseUpload();
-
+// When doing a signed upload, you'll use a function like this
+exports.handler = async (event) => {
+  const { file } = JSON.parse(event.body);
+  const res = await cloudinary.uploader.upload(file, { ...JSON.parse(event.body) });
   return {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
     body: JSON.stringify(res),
   };
 };
