@@ -113,7 +113,7 @@ export default ({ location }) => {
           </h2>
         </div>
         <SignupForm />
-        <div
+        {/* <div
           sx={{
             minWidth: [300, 500],
             maxHeight: 30,
@@ -121,7 +121,7 @@ export default ({ location }) => {
           }}
         >
           <InternalLink className="to-hub" to="/app/hub" text="Step inside (BETA)" />
-        </div>
+        </div> */}
 
         <IntroSection />
       </div>
