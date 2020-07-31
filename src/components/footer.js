@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer
       sx={{
-        backgroundColor: location.pathname === '/' ? 'accent' : 'background',
+        backgroundColor: location.pathname === '/' || '/app' ? 'accent' : 'background',
         marginBottom: '-5px',
         width: '100%',
       }}

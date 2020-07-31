@@ -78,6 +78,7 @@ const ProfileUpload = ({ userName, getUploadedProfileImage }) => {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
+        backgroundColor: 'background',
       }}
       {...getRootProps()}
     >

@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const LogoButton = ({ onClick, disabled, icon, text, comingSoon }) => {
+const LogoButton = ({ onClick, disabled, icon, text, comingSoon, className }) => {
   return (
     <button
+      className={className}
       sx={{
         display: 'inline-block',
         height: 50,
@@ -22,7 +23,8 @@ const LogoButton = ({ onClick, disabled, icon, text, comingSoon }) => {
         position: 'relative',
         cursor: disabled ? null : 'pointer',
         ':hover': {
-          borderColor: disabled ? '' : 'accent',
+          borderColor: disabled ? '' : 'text',
+          backgroundColor: 'background',
         },
         ':after': {
           content: comingSoon ? "'coming soon'" : "''",

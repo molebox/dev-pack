@@ -181,6 +181,7 @@ const AuthHeader = () => {
         m: [3, '0 auto', '0 auto'],
         boxShadow: 0,
         border: 'solid 3px',
+        backgroundColor: 'background',
       }}
     >
       <Tour

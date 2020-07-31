@@ -8,21 +8,10 @@ import jwt_decode from 'jwt-decode';
 import { UserContext } from '../../context/user-context';
 import { APP_ID } from '../../butler';
 import LogoButton from '../common/logo-button';
-import gsap from 'gsap';
+import GitHub from './../svg/github';
 
-const TwitterLogin = ({ needsLogin }) => {
+const GitHubLogin = () => {
   const { currentUser, updateUser } = React.useContext(UserContext);
-
-  React.useEffect(() => {
-    if (needsLogin === 'twitter') {
-      gsap.to('.twitter', {
-        duration: 1,
-        x: 4,
-        ease: 'elastic.out',
-        repeat: -1,
-      });
-    }
-  }, [needsLogin]);
 
   // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
   const auth =
@@ -34,14 +23,14 @@ const TwitterLogin = ({ needsLogin }) => {
 
   const login = () =>
     auth
-      .login('twitter')
+      .login('github')
       .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
+        auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
             updateUser({
-              isTwitterLoggedIn: true,
+              isGithubLoggedIn: true,
               handle: jwt.user.handle,
               displayName: jwt.user.twitterName,
             });
@@ -54,13 +43,12 @@ const TwitterLogin = ({ needsLogin }) => {
 
   return (
     <LogoButton
-      className="twitter"
-      text={!!currentUser.isTwitterLoggedIn ? 'Authorized!' : 'Authorize Twitter'}
-      icon={<Twitter width="25px" height="25px" />}
+      text={!!currentUser.isTwitterLoggedIn ? 'Authorized!' : 'Authorize GitHub'}
+      icon={<GitHub width="25px" height="25px" />}
       onClick={login}
       disabled={!!currentUser.isTwitterLoggedIn ? true : false}
     />
   );
 };
 
-export default TwitterLogin;
+export default GitHubLogin;

@@ -12,7 +12,7 @@ const App = () => {
       <PrivateRoute
         path="/app/hub"
         component={Hub}
-        isLoggedIn={currentUser.isGithubLoggedIn || currentUser.isTwitterLoggedIn}
+        // isLoggedIn={currentUser.isGithubLoggedIn || currentUser.isTwitterLoggedIn}
       />
       <Login path="/app/login" />
     </Router>

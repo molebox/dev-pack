@@ -32,7 +32,7 @@ const Login = () => {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
             updateUser({
-              isGithubLoggedIn: true,
+              // isGithubLoggedIn: true,
               displayName: jwt.user.githubName,
               email: jwt.user.email,
             });

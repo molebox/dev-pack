@@ -23,7 +23,8 @@ const Hub = () => {
     <Layout>
       <div
         sx={{
-          mt: 6,
+          backgroundColor: 'accent',
+          pt: 6,
         }}
       >
         <AuthHeader />

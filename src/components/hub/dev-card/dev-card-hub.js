@@ -1,14 +1,13 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-import { TabPanel } from 'react-tabs';
-import ProfileCard from './profile-card';
+// import { TabPanel } from 'react-tabs';
+// import ProfileCard from './profile-card';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
-import Checkbox from './../../home/social-checkboxes/checkbox';
+// import Checkbox from './../../home/social-checkboxes/checkbox';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import Logout from '../logout';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
@@ -24,6 +23,9 @@ import ProfileUpload from '../../common/profile-upload';
 import OneGraphAuth from 'onegraph-auth';
 import { APP_ID } from '../../../butler';
 import jwt_decode from 'jwt-decode';
+import { PushButton } from './../../common/push-button';
+import GitHubLogin from './../../auth/github-login';
+import { linearGradient } from './../../../butler/index';
 
 const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {
@@ -94,7 +96,7 @@ const DevCardHub = ({ user, ...rest }) => {
   const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
   // const [twitterProfileImage, { data: twitterProfileData }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const { loading, error, data: userData, refetch } = useQuery(GET_PROFILE_INFO);
-  const { currentUser } = React.useContext(UserContext);
+  const { currentUser, updateUser } = React.useContext(UserContext);
 
   const [name, setName] = React.useState(currentUser.displayName !== '' ? currentUser.displayName : '');
   const [email, setEmail] = React.useState(currentUser.email !== '' ? currentUser.email : '');
@@ -103,7 +105,7 @@ const DevCardHub = ({ user, ...rest }) => {
   const [website, setWebsite] = React.useState(currentUser.websiteUrl !== '' ? currentUser.websiteUrl : '');
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
-  // const [uploadedProfileImage, setUploadedProfileImage] = React.useState('');
+  const [uploadedProfileImage, setUploadedProfileImage] = React.useState('');
   // const [profileImage, setProfileImage] = React.useState('');
 
   const auth =
@@ -114,6 +116,7 @@ const DevCardHub = ({ user, ...rest }) => {
       : null;
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
+  console.log({ needsLoginService });
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -124,61 +127,31 @@ const DevCardHub = ({ user, ...rest }) => {
   }, [currentUser]);
 
   React.useEffect(() => {
-    if (!needsLoginService) {
-      !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-      !loading && !error && setLocation(userData.me.twitter.location);
-      !loading && !error && setDescription(userData.me.twitter.description);
-      !loading && !error && setName(userData.me.twitter.name);
-    } else {
-      auth.login(needsLoginService);
-      const loginSuccess = auth.isLoggedIn(needsLoginService);
-      if (loginSuccess) {
-        refetch();
-        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-        !loading && !error && setLocation(userData.me.twitter.location);
-        !loading && !error && setDescription(userData.me.twitter.description);
-        !loading && !error && setName(userData.me.twitter.name);
-      }
-    }
-  }, [loading, error, userData, needsLoginService]);
+    console.log({ userData });
+    !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+    !loading && !error && setLocation(userData.me.twitter.location);
+    !loading && !error && setDescription(userData.me.twitter.description);
+    !loading && !error && setName(userData.me.twitter.name);
+  }, [loading, error, userData]);
 
-  React.useEffect(() => {
-    auth.isLoggedIn('github').then((isLoggedIn) => {
-      if (isLoggedIn) {
-        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-        toast.success("You're logged in to GitHub!", { position: toast.POSITION.BOTTOM_CENTER });
-      } else {
-        toast.error("You're not logged in to GitHub", { position: toast.POSITION.BOTTOM_CENTER });
-      }
-    });
-    auth.isLoggedIn('twitter').then((isLoggedIn) => {
-      if (isLoggedIn) {
-        !loading && !error && setLocation(userData.me.twitter.location);
-        !loading && !error && setDescription(userData.me.twitter.description);
-        !loading && !error && setName(userData.me.twitter.name);
-        toast.success("You're logged in to Twitter!", { position: toast.POSITION.BOTTOM_CENTER });
-      } else {
-        auth
-          .login('twitter')
-          .then(() => {
-            auth.isLoggedIn('twitter').then((isLoggedIn) => {
-              if (isLoggedIn) {
-                let jwt = jwt_decode(auth._accessToken.accessToken);
-                // Add the users github handle, name and email to the sites context
-                updateUser({
-                  isTwitterLoggedIn: true,
-                  handle: jwt.user.handle,
-                  displayName: jwt.user.twitterName,
-                });
-              } else {
-                toast.error('You did not grant auth for Twitter', { position: toast.POSITION.BOTTOM_CENTER });
-              }
-            });
-          })
-          .catch((e) => console.error('Problem logging in', e));
-      }
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   if (!needsLoginService) {
+  //     !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+  //     !loading && !error && setLocation(userData.me.twitter.location);
+  //     !loading && !error && setDescription(userData.me.twitter.description);
+  //     !loading && !error && setName(userData.me.twitter.name);
+  //   } else {
+  //     auth.login(needsLoginService);
+  //     const loginSuccess = auth.isLoggedIn(needsLoginService);
+  //     if (loginSuccess) {
+  //       refetch();
+  //       !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+  //       !loading && !error && setLocation(userData.me.twitter.location);
+  //       !loading && !error && setDescription(userData.me.twitter.description);
+  //       !loading && !error && setName(userData.me.twitter.name);
+  //     }
+  //   }
+  // }, [loading, error, userData, needsLoginService]);
 
   // const toDataURL = (url) =>
   //   fetch(url)
@@ -287,44 +260,45 @@ const DevCardHub = ({ user, ...rest }) => {
     setWebsite(e.target.value);
   };
 
-  // const getUploadedProfileImage = (image) => {
-  //   if (image !== '') {
-  //     setUploadedProfileImage(image);
-  //   }
-  // };
+  const getUploadedProfileImage = (image) => {
+    if (image !== '') {
+      setUploadedProfileImage(image);
+    }
+  };
 
   return (
-    // <TabPanel {...rest}>
     <section
       sx={{
-        maxWidth: 1440,
-        margin: '2em auto',
+        marginBottom: 1,
+        backgroundColor: 'accent',
+        margin: '0 auto',
+        p: 4,
         width: '100%',
         display: 'grid',
         gap: 3,
         gridTemplateAreas: [
           `
             'form'
-            'checkboxes'
+            'imageUpload'
             'auth'
             'push'
             `,
           `
-            'checkboxes form'
-            'checkboxes form'
-            'checkboxes form'
-            'checkboxes form'
-            ' . push '
+            'form auth'
+            'form imageUpload'
+            'form imageUpload'
+            'form imageUpload'
+            'form push'
           `,
         ],
-        gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr'],
+        gridAutoColumns: ['1fr', '1fr 1fr'],
         // gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
         gridAutoRows: 'auto',
         my: 2,
       }}
       className="devCard"
     >
-      <aside
+      {/* <aside
         sx={{
           gridArea: 'checkboxes',
           minHeight: 500,
@@ -366,7 +340,7 @@ const DevCardHub = ({ user, ...rest }) => {
           <Checkbox comingSoon type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
           <Checkbox comingSoon type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
         </div>
-      </aside>
+      </aside> */}
 
       <div
         sx={{
@@ -467,53 +441,56 @@ const DevCardHub = ({ user, ...rest }) => {
             placeholder="Your Bio..."
           />
         </Label>
-        {/* <div
-          sx={{
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: ['column', 'row'],
-            justifyContent: 'space-evenly',
-            width: '100%',
-          }}
-        >
-          <ProfileUpload userName={currentUser.displayName} getUploadedProfileImage={getUploadedProfileImage} />
-        </div> */}
       </div>
-
-      {/* <aside
+      <section
         sx={{
-          gridArea: 'auth',
-          m: 3,
-          p: 3,
+          gridArea: 'imageUpload',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: ['column', 'row'],
+          justifyContent: 'space-evenly',
+          flexGrow: 'grow',
+          height: '100%',
         }}
       >
-        <TwitterLogin />
-        <DevToLogin />
-        <CodePenLogin />
-        <LinkedInLogin />
-      </aside> */}
+        <ProfileUpload userName={currentUser.displayName} getUploadedProfileImage={getUploadedProfileImage} />
+      </section>
+
+      <aside
+        sx={{
+          gridArea: 'auth',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-evenly',
+          m: 1,
+          minHeight: 50,
+        }}
+      >
+        <GitHubLogin />
+        <TwitterLogin needsLogin={needsLoginService} />
+      </aside>
       <section
         sx={{
           gridArea: 'push',
           minWidth: [300, 500],
-          maxHeight: 30,
-          margin: '0 auto',
           m: 3,
+          pt: 5,
+          display: 'flex',
+          alignItems: 'flex-end',
         }}
       >
-        <Button
+        <PushButton
           className="push"
-          disabled={checkboxGithub || checkboxTwitter ? false : true}
+          // disabled={checkboxGithub || checkboxTwitter ? false : true}
           onClick={updateInfo}
-          text="Push"
+          text="Push to production"
         />
       </section>
     </section>
-
-    // </TabPanel>      {/* <ProfileCard name={name} bio={bio} location={location} website={website} email={email} />
   );
 };
 
-DevCardHub.tabsRole = 'TabPanel';
+// DevCardHub.tabsRole = 'TabPanel';
 
 export default DevCardHub;
