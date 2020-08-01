@@ -68,7 +68,7 @@ const IntroSection = () => {
               Your Dev Card is your <strong>Hello World</strong> tag that you send out to the world. Think about how
               your profile reads on different social media platforms, <strong>name</strong>, <strong>location</strong>,{' '}
               <strong>website</strong>, <strong>email</strong> and <strong>bio</strong>. Set these in one place and push
-              them to your chosen platforms.
+              them to selected platforms.
             </IntroCardText>
 
             <IntroCardText>

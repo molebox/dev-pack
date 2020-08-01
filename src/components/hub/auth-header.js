@@ -6,6 +6,8 @@ import Logout from './logout';
 import { Button } from './../common/button';
 import TourBox from './../common/tour-box';
 import Loadable from 'react-loadable';
+import OneGraphAuth from 'onegraph-auth';
+import { APP_ID } from '../../butler';
 
 const Tour = Loadable({
   loader: () => import('reactour'),
@@ -164,11 +166,12 @@ const steps = [
   },
 ];
 
-const AuthHeader = () => {
+const AuthHeader = ({ userName }) => {
   const { currentUser } = React.useContext(UserContext);
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
   const closeTour = () => setIsTourOpen(false);
+
   return (
     <section
       sx={{
@@ -177,8 +180,8 @@ const AuthHeader = () => {
         flexDirection: ['column', null],
         gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px'],
         justifyContent: ['space-between', null, null],
-        maxWidth: 1440,
-        m: [3, '0 auto', '0 auto'],
+        // maxWidth: 1440,
+        m: [3, null, null],
         boxShadow: 0,
         border: 'solid 3px',
         backgroundColor: 'background',
@@ -209,7 +212,7 @@ const AuthHeader = () => {
           textAlign: 'center',
         }}
       >
-        Welcome {currentUser.displayName}!
+        Welcome {userName}!
       </p>
       <div></div>
       <div

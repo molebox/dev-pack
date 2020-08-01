@@ -63,6 +63,41 @@ const Footer = () => {
           <p
             sx={{
               fontFamily: 'heading',
+              fontSize: '1em',
+              color: 'background',
+              margin: 10,
+            }}
+          >
+            Powered by{' '}
+            <a
+              sx={{
+                fontFamily: 'heading',
+                color: 'background',
+                ':hover': {
+                  color: 'accent',
+                },
+              }}
+              href="https://www.gatsbyjs.org/"
+            >
+              Gatsby
+            </a>{' '}
+            and{' '}
+            <a
+              sx={{
+                fontFamily: 'heading',
+                color: 'background',
+                ':hover': {
+                  color: 'accent',
+                },
+              }}
+              href="https://www.onegraph.com/"
+            >
+              OneGraph
+            </a>
+          </p>
+          <p
+            sx={{
+              fontFamily: 'heading',
               fontSize: '0.8em',
               color: 'background',
               margin: 10,

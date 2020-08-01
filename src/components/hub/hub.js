@@ -27,7 +27,7 @@ const Hub = () => {
           pt: 6,
         }}
       >
-        <AuthHeader />
+        {/* <AuthHeader /> */}
         <DevCardHub />
       </div>
       {/* <section

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { gql } from '@apollo/client';
 
 export const linearGradient = `linear-gradient(90deg, rgba(98,70,234,1) 9%, rgba(209,209,233,1) 28%, rgba(224,62,62,1) 60%, rgba(98,70,234,1) 100%);`;
 export const APP_ID = process.env.GATSBY_ONEGRAPH_APP_ID;
@@ -10,3 +11,82 @@ export const FunkyText = styled.span`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   `;
+
+export const UPDATE_TWITTER_USER = gql`
+  mutation UpdateTwitterProfile($query: [[String!]!]) {
+    twitter {
+      makeRestCall {
+        post(path: "/1.1/account/update_profile.json", query: $query) {
+          jsonBody
+          response {
+            statusCode
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const UPDATE_GITHUB_USER = gql`
+  mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
+    gitHub {
+      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, description: $bio }) {
+        updatedUser {
+          bio
+          name
+          email
+          location
+        }
+      }
+    }
+  }
+`;
+
+export const GET_PROFILE_INFO = gql`
+  query GetTwitterGithubProfileQuery {
+    me {
+      twitter {
+        name
+        description
+        location
+        screenName
+      }
+      github {
+        email
+        websiteUrl
+      }
+    }
+  }
+`;
+
+export const UPLOAD_TWITTER_MEDIA = gql`
+  mutation UploadTwitterMedia($imageData: String!) {
+    twitter {
+      uploadBase64EncodedMedia(input: { base64EncodedMediaData: $imageData }) {
+        mediaResponse {
+          expiresAfterSeconds
+          size
+          # Use this reference when posting
+          # a tweet with an image, or updating
+          # a banner image, etc.
+          mediaId
+        }
+      }
+    }
+  }
+`;
+
+export const UPDATE_TWITTER_PROFILE_IMAGE = gql`
+  mutation UpdateTwitterProfileImage($mediaId: String!) {
+    twitter {
+      makeRestCall {
+        post(path: "/1.1/account/update_profile_image.json", query: [["media_id", $mediaId]]) {
+          jsonBody
+          response {
+            statusCode
+          }
+        }
+      }
+    }
+  }
+`;
