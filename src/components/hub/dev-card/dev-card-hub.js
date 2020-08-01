@@ -57,6 +57,7 @@ const DevCardHub = ({ user }) => {
   const [checkboxGithub, setCheckboxGithub] = React.useState(false);
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
   const [base64Image, setBase64Image] = React.useState('');
+  const [mediaId, setMediaId] = React.useState('');
 
   const auth =
     typeof window !== 'undefined'
@@ -65,26 +66,19 @@ const DevCardHub = ({ user }) => {
         })
       : null;
 
-  React.useEffect(() => {
+  const fetchUserData = () => {
     const needsLoginService = auth.findMissingAuthServices(error)[0];
     console.log({ needsLoginService });
     if (!needsLoginService) {
+      refetch();
       console.log('logged in: ', userData);
       console.log({ error });
-      if (userData) {
-        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-        !loading && !error && setEmail(userData.me.github.email);
-        !loading && !error && setLocation(userData.me.twitter.location);
-        !loading && !error && setDescription(userData.me.twitter.description);
-        !loading && !error && setName(userData.me.twitter.name);
-      } else {
-        refetch();
-        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-        !loading && !error && setEmail(userData.me.github.email);
-        !loading && !error && setLocation(userData.me.twitter.location);
-        !loading && !error && setDescription(userData.me.twitter.description);
-        !loading && !error && setName(userData.me.twitter.name);
-      }
+      !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+      !loading && !error && setEmail(userData.me.github.email);
+      !loading && !error && setLocation(userData.me.twitter.location);
+      !loading && !error && setDescription(userData.me.twitter.description);
+      !loading && !error && setName(userData.me.twitter.name);
+      updateUser({ displayName: userData.me.twitter.name });
     } else {
       auth.login(needsLoginService);
       const loginSuccess = auth.isLoggedIn(needsLoginService);
@@ -96,10 +90,11 @@ const DevCardHub = ({ user }) => {
           !loading && !error && setLocation(userData.me.twitter.location);
           !loading && !error && setDescription(userData.me.twitter.description);
           !loading && !error && setName(userData.me.twitter.name);
+          updateUser({ displayName: userData.me.twitter.name });
         }
       }
     }
-  }, [userData, error, loading]);
+  };
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -119,33 +114,49 @@ const DevCardHub = ({ user }) => {
       },
     });
 
-  const updateTwitterUserProfileImage = () => {
-    if (base64Image !== '') {
-      console.log('the base64 string: ', base64Image.split(',')[1]);
-      return uploadTwitterMedia({
+  const updateTwitterUserProfileImage = (image) => {
+    if (image !== '') {
+      console.log('the base64 string: ', image.split(',')[1]);
+
+      uploadTwitterMedia({
         variables: {
-          imageData: base64Image.split(',')[1],
+          imageData: image.split(',')[1],
         },
       })
         .then((res) => {
-          updateTwitterProfileImage({
-            variables: {
-              mediaId: res.mediaId,
-            },
-          })
-            .then((res) => {
-              toast.success('Successfully updated Twitter profile image ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            })
-            .catch((error) => {
-              toast.error(`This went wrong uploading profile image: ${error.message}`, {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            });
+          console.log({ res });
+          console.log(res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId);
+          setMediaId(res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId);
+          toast.success('Successfully uploaded Twitter media ', {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
         })
         .catch((error) => {
           toast.error(`This went wrong uploading initial media: ${error.message}`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        });
+      console.log('THE MEDIA ID: ', mediaId);
+
+      const query = [['image', mediaId.toString()]];
+      console.log({ query });
+      updateTwitterProfileImage({
+        variables: {
+          query: query,
+        },
+      })
+        .then((res) => {
+          console.log('media upload: ', res);
+          if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
+            toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
+          } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200) {
+            toast.success('Successfully updated Twitter profile image ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error(`This went wrong uploading profile image: ${error.message}`, {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
@@ -166,8 +177,9 @@ const DevCardHub = ({ user }) => {
     }).then((res) => {
       if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
         toast.error("Boo! It didn't work", { position: toast.POSITION.BOTTOM_CENTER });
-      } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200)
+      } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200) {
         toast.success('Updated profile info!', { position: toast.POSITION.BOTTOM_CENTER });
+      }
     });
   };
 
@@ -188,7 +200,7 @@ const DevCardHub = ({ user }) => {
     if (checkboxTwitter) {
       if (!needsLoginService) {
         updateTwitterProfile();
-        updateTwitterUserProfileImage();
+        updateTwitterUserProfileImage(base64Image);
       }
     } else {
       auth.login(needsLoginService);
@@ -196,7 +208,7 @@ const DevCardHub = ({ user }) => {
       if (loginSuccess) {
         toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
         updateTwitterProfile();
-        updateTwitterUserProfileImage();
+        updateTwitterUserProfileImage(base64Image);
       }
     }
   };
@@ -331,7 +343,7 @@ const DevCardHub = ({ user }) => {
               height: 30,
             }}
           >
-            <Button text="Fetch Data" onClick={() => refetch()} />
+            <Button text="Fetch Data" onClick={fetchUserData} />
           </div>
         </div>
 

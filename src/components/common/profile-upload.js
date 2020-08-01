@@ -4,13 +4,18 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useUpload } from 'use-cloudinary';
 import Loading from './../svg/loading';
+import Error from './../svg/error';
 
 const ProfileUpload = ({ userName, getBase64Image }) => {
-  console.log('username', userName.replace(/\s/g, ''));
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
 
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log('Dropped File: ', acceptedFiles);
+    console.log('username: ', userName.replace(/\s/g, ''));
+    const publicId = `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`;
+    console.log({ publicId });
+
+    const pushBase64Image = (res) => getBase64Image(res);
 
     // Turn the blob into base64 to feed into the upload
     const blobToBase64 = (blob) => {
@@ -25,17 +30,16 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
 
     blobToBase64(acceptedFiles[0]).then((res) => {
       console.log('RES: ', res);
-      getBase64Image(res);
-      // getUploadedProfileImage(res.split(',')[1])
+      pushBase64Image(res);
 
-      console.log('the full public_id ', `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`);
+      console.log({ userName });
 
       return upload({
         // We pass the whole base64 string including the data:image tag
         file: res,
         uploadOptions: {
           // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
-          public_id: `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`,
+          public_id: publicId,
           tags: [],
           eager: [
             {
@@ -180,7 +184,18 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           </>
         ) : null}
 
-        {isError ? <p>{error.message}</p> : null}
+        {isError ? (
+          <div>
+            <Error width="150px" height="150px" />
+            <p
+              sx={{
+                fontFamily: 'heading',
+              }}
+            >
+              {error.message}
+            </p>
+          </div>
+        ) : null}
       </>
     </div>
   );
