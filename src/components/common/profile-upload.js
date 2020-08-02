@@ -12,7 +12,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log('Dropped File: ', acceptedFiles);
     console.log('username: ', userName.replace(/\s/g, ''));
-    const publicId = `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`;
+    const publicId = userName ? `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}` : acceptedFiles[0].path;
     console.log({ publicId });
 
     const pushBase64Image = (res) => getBase64Image(res);

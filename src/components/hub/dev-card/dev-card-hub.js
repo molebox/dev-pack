@@ -33,6 +33,7 @@ import jwt_decode from 'jwt-decode';
 import { PushButton } from './../../common/push-button';
 import GitHubLogin from './../../auth/github-login';
 import AuthHeader from './../auth-header';
+import Loading from './../../svg/loading';
 
 toast.configure();
 
@@ -66,23 +67,27 @@ const DevCardHub = ({ user }) => {
         })
       : null;
 
+  const needsLoginService = auth.findMissingAuthServices(error)[0];
+
   const fetchUserData = () => {
-    const needsLoginService = auth.findMissingAuthServices(error)[0];
     console.log({ needsLoginService });
     if (!needsLoginService) {
       refetch();
       console.log('logged in: ', userData);
       console.log({ error });
-      !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-      !loading && !error && setEmail(userData.me.github.email);
-      !loading && !error && setLocation(userData.me.twitter.location);
-      !loading && !error && setDescription(userData.me.twitter.description);
-      !loading && !error && setName(userData.me.twitter.name);
-      updateUser({ displayName: userData.me.twitter.name });
+      if (userData) {
+        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
+        !loading && !error && setEmail(userData.me.github.email);
+        !loading && !error && setLocation(userData.me.twitter.location);
+        !loading && !error && setDescription(userData.me.twitter.description);
+        !loading && !error && setName(userData.me.twitter.name);
+        updateUser({ displayName: userData.me.twitter.name });
+      }
     } else {
       auth.login(needsLoginService);
       const loginSuccess = auth.isLoggedIn(needsLoginService);
       if (loginSuccess) {
+        refetch();
         console.log('NEW logged in: ', userData);
         if (userData) {
           !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
@@ -124,8 +129,6 @@ const DevCardHub = ({ user }) => {
         },
       })
         .then((res) => {
-          console.log({ res });
-          console.log(res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId);
           setMediaId(res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId);
           toast.success('Successfully uploaded Twitter media ', {
             position: toast.POSITION.BOTTOM_CENTER,
@@ -138,8 +141,8 @@ const DevCardHub = ({ user }) => {
         });
       console.log('THE MEDIA ID: ', mediaId);
 
-      const query = [['image', mediaId.toString()]];
-      console.log({ query });
+      const query = [['media_id', mediaId.toString()]];
+
       updateTwitterProfileImage({
         variables: {
           query: query,
@@ -246,25 +249,20 @@ const DevCardHub = ({ user }) => {
         backgroundColor: 'accent',
         margin: '0 auto',
         p: 4,
-        width: '100%',
+        // width: '100%',
         display: 'grid',
         gap: 3,
         gridTemplateAreas: [
           `
             'authHeader'
             'form'
-            'imageUpload'
-            'auth'
-            'checkboxes'
-            'push'
+            'selections'
             `,
           `
             'authHeader authHeader'
-            'form imageUpload'
-            'form imageUpload'
-            'form imageUpload'
-            'checkboxes checkboxes'
-            'push push'
+            'form selections'
+            'form selections'
+            'form selections'
           `,
         ],
         gridAutoColumns: ['1fr', '1fr 1fr'],
@@ -275,165 +273,230 @@ const DevCardHub = ({ user }) => {
       className="devCard"
     >
       <AuthHeader userName={name} />
-      <aside
-        sx={{
-          gridArea: 'checkboxes',
-          minHeight: 50,
-          height: '100%',
-          boxShadow: 0,
-          border: 'solid 3px',
-          display: 'flex',
-          flexDirection: ['column', 'row'],
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          p: 3,
-          m: 3,
-        }}
-        className="platforms"
-      >
+
+      {loading ? (
         <div
           sx={{
+            gridArea: 'form',
+            my: 3,
+            border: 'solid 3px',
+            width: '100%',
+            height: '100%',
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            backgroundColor: 'background',
           }}
         >
-          <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
-          <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
-
-          <Checkbox comingSoon type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-          <Checkbox comingSoon type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-          <Checkbox comingSoon type="LinkedIn" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+          <Loading />
         </div>
-      </aside>
+      ) : (
+        <div
+          sx={{
+            gridArea: 'form',
+            height: '100%',
+            maxHeight: 900,
+            boxShadow: 0,
+            border: 'solid 3px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+            padding: 4,
+            backgroundColor: 'background',
+            m: 3,
+          }}
+          className="form"
+        >
+          <div
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <h2
+              sx={{
+                fontFamily: 'heading',
+                color: 'text',
+                fontWeight: 400,
+              }}
+            >
+              Tell the world about yourself...
+            </h2>
+            <div
+              sx={{
+                height: 30,
+              }}
+            >
+              <Button text="Fetch Data" onClick={fetchUserData} />
+            </div>
+          </div>
 
-      <div
+          <div
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <Label>
+              <LabelText>
+                What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
+              </LabelText>
+              <Input
+                type="text"
+                name="name"
+                handleChange={handleOnNameChange}
+                value={name}
+                ariaLabel="Your name"
+                placeholder="Your Name..."
+              />
+            </Label>
+            <Label>
+              <LabelText>
+                Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
+              </LabelText>
+              <Input
+                type="text"
+                name="location"
+                handleChange={handleOnLocationChange}
+                value={location}
+                ariaLabel="Your location"
+                placeholder="Your Location..."
+              />
+            </Label>
+            <Label>
+              <LabelText>
+                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
+              </LabelText>
+              <Input
+                type="text"
+                name="website"
+                handleChange={handleOnWebsiteChange}
+                value={website}
+                ariaLabel="Your website"
+                placeholder="Your Website..."
+              />
+            </Label>
+            <Label>
+              <LabelText>
+                Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
+              </LabelText>
+              <Input
+                type="text"
+                name="email"
+                handleChange={handleOnEmailChange}
+                value={email}
+                ariaLabel="Your email"
+                placeholder="Your email..."
+              />
+            </Label>
+          </div>
+
+          <Label>
+            <LabelText>
+              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+            </LabelText>
+            <TextArea
+              type="text"
+              name="name"
+              handleChange={handleOnBioChange}
+              value={description}
+              ariaLabel="Your bio"
+              placeholder="Your Bio..."
+            />
+          </Label>
+        </div>
+      )}
+
+      <section
         sx={{
-          gridArea: 'form',
-          height: '100%',
-          maxHeight: 900,
-          boxShadow: 0,
-          border: 'solid 3px',
+          gridArea: 'selections',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-evenly',
-          padding: 4,
-          backgroundColor: 'background',
-          m: 3,
         }}
-        className="form"
       >
-        <div
+        <aside
           sx={{
+            // gridArea: 'imageUpload',
+            textAlign: 'center',
             display: 'flex',
-            justifyContent: 'space-between',
+            flexDirection: ['column', 'row'],
+            justifyContent: 'space-evenly',
+            flexGrow: 'grow',
+            height: 250,
           }}
+          className="imageUpload"
         >
-          <h2
+          <ProfileUpload userName={name} getBase64Image={getBase64Image} />
+        </aside>
+
+        <aside
+          sx={{
+            // gridArea: 'checkboxes',
+            minHeight: 50,
+            height: 150,
+            boxShadow: 0,
+            border: 'solid 3px',
+            display: 'flex',
+            flexDirection: ['column'],
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            backgroundColor: 'background',
+            p: 3,
+            m: 3,
+          }}
+          className="platforms"
+        >
+          <h3
             sx={{
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 400,
             }}
           >
-            Tell the world about yourself...
-          </h2>
+            Select Platform(s) to update
+          </h3>
           <div
             sx={{
-              height: 30,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
             }}
           >
-            <Button text="Fetch Data" onClick={fetchUserData} />
-          </div>
-        </div>
+            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
+            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
 
-        <div
+            <Checkbox comingSoon type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+            <Checkbox comingSoon type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+            <Checkbox
+              comingSoon
+              type="LinkedIn"
+              onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)}
+              disabled
+            />
+          </div>
+        </aside>
+
+        <aside
           sx={{
+            // gridArea: 'push',
+            minWidth: [300, 500],
+            m: 3,
+            pt: 5,
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
+            alignItems: 'flex-end',
+            height: 30,
           }}
         >
-          <Label>
-            <LabelText>
-              What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
-            </LabelText>
-            <Input
-              type="text"
-              name="name"
-              handleChange={handleOnNameChange}
-              value={name}
-              ariaLabel="Your name"
-              placeholder="Your Name..."
-            />
-          </Label>
-          <Label>
-            <LabelText>
-              Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
-            </LabelText>
-            <Input
-              type="text"
-              name="location"
-              handleChange={handleOnLocationChange}
-              value={location}
-              ariaLabel="Your location"
-              placeholder="Your Location..."
-            />
-          </Label>
-          <Label>
-            <LabelText>
-              Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
-            </LabelText>
-            <Input
-              type="text"
-              name="website"
-              handleChange={handleOnWebsiteChange}
-              value={website}
-              ariaLabel="Your website"
-              placeholder="Your Website..."
-            />
-          </Label>
-          <Label>
-            <LabelText>
-              Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
-            </LabelText>
-            <Input
-              type="text"
-              name="email"
-              handleChange={handleOnEmailChange}
-              value={email}
-              ariaLabel="Your email"
-              placeholder="Your email..."
-            />
-          </Label>
-        </div>
-
-        <Label>
-          <LabelText>
-            Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
-          </LabelText>
-          <TextArea
-            type="text"
-            name="name"
-            handleChange={handleOnBioChange}
-            value={description}
-            ariaLabel="Your bio"
-            placeholder="Your Bio..."
+          <PushButton
+            className="push"
+            // disabled={checkboxGithub || checkboxTwitter ? false : true}
+            onClick={updateInfo}
+            text="Push to production"
           />
-        </Label>
-      </div>
-      <section
-        sx={{
-          gridArea: 'imageUpload',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: ['column', 'row'],
-          justifyContent: 'space-evenly',
-          flexGrow: 'grow',
-          height: '100%',
-        }}
-      >
-        <ProfileUpload userName={name} getBase64Image={getBase64Image} />
+        </aside>
       </section>
 
       {/* <aside
@@ -450,23 +513,6 @@ const DevCardHub = ({ user }) => {
         <GitHubLogin />
         <TwitterLogin needsLogin={needsLoginService} />
       </aside> */}
-      <section
-        sx={{
-          gridArea: 'push',
-          minWidth: [300, 500],
-          m: 3,
-          pt: 5,
-          display: 'flex',
-          alignItems: 'flex-end',
-        }}
-      >
-        <PushButton
-          className="push"
-          // disabled={checkboxGithub || checkboxTwitter ? false : true}
-          onClick={updateInfo}
-          text="Push to production"
-        />
-      </section>
     </section>
   );
 };

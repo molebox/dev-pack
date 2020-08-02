@@ -2,15 +2,11 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Layout from '../layout';
-import { Tab, Tabs, TabList } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import DevCardHub from './dev-card/dev-card-hub';
-import DomainsHub from './domain/domains-hub';
+
 import gsap from 'gsap';
 import { UserContext } from './../../context/user-context';
-import Logout from './logout';
-import AuthHeader from './auth-header';
-import Footer from './../footer';
 
 const Hub = () => {
   const { currentUser } = React.useContext(UserContext);
@@ -24,7 +20,7 @@ const Hub = () => {
       <div
         sx={{
           backgroundColor: 'accent',
-          pt: 6,
+          pt: 2,
         }}
       >
         {/* <AuthHeader /> */}

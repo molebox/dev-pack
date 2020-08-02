@@ -58,39 +58,6 @@ const steps = [
     navDotAriaLabel: 'Go to dev card form',
   },
   {
-    selector: '.platforms',
-    content: () => (
-      <TourBox>
-        <p
-          sx={{
-            fontFamily: 'heading',
-          }}
-        >
-          Begin by selecting which platforms you wish to be updated. As you can see, right now you can choose from
-          Twitter and GitHub.
-        </p>
-      </TourBox>
-    ),
-    position: 'right',
-    // you could do something like:
-    // position: [160, 250],
-    action: (node) => {
-      // by using this, focus trap is temporary disabled
-      node.focus();
-      console.log('yup, the target element is also focused!');
-    },
-    style: {
-      backgroundColor: '#fffffe',
-      border: 'solid 3px',
-    },
-    // Disable interaction for this specific step.
-    // Could be enabled passing `true`
-    // when `disableInteraction` prop is present in Tour
-    stepInteraction: false,
-    // Text read to screen reader software for this step's navigation dot
-    navDotAriaLabel: 'Go to dev card form',
-  },
-  {
     selector: '.form',
     content: () => (
       <TourBox>
@@ -122,6 +89,72 @@ const steps = [
     stepInteraction: false,
     // Text read to screen reader software for this step's navigation dot
     navDotAriaLabel: 'Go to push button',
+  },
+  {
+    selector: '.imageUpload',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          You can drag and drop or select a local file to be used as your profile image. A placeholder image will be
+          shown so that you can double check it's the correct one before uploading it to your selected platform.
+        </p>
+      </TourBox>
+    ),
+    position: 'left',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
+    selector: '.platforms',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          Select which platforms you wish to be updated. As you can see, right now you can choose from Twitter and
+          GitHub.
+        </p>
+      </TourBox>
+    ),
+    position: 'left',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
   },
   {
     selector: '.push',
