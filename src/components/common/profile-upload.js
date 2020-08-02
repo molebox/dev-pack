@@ -8,12 +8,15 @@ import Error from './../svg/error';
 
 const ProfileUpload = ({ userName, getBase64Image }) => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
-
+  const [name, setName] = React.useState('');
+  React.useEffect(() => {
+    if (userName && userName !== '') {
+      setName(userName);
+    }
+  }, [userName]);
   const onDrop = React.useCallback((acceptedFiles) => {
     console.log('Dropped File: ', acceptedFiles);
-    console.log('username: ', userName.replace(/\s/g, ''));
-    const publicId = userName ? `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}` : acceptedFiles[0].path;
-    console.log({ publicId });
+    console.log({ userName });
 
     const pushBase64Image = (res) => getBase64Image(res);
 
@@ -32,14 +35,12 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
       console.log('RES: ', res);
       pushBase64Image(res);
 
-      console.log({ userName });
-
       return upload({
         // We pass the whole base64 string including the data:image tag
         file: res,
         uploadOptions: {
           // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
-          public_id: publicId,
+          public_id: `${userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`,
           tags: [],
           eager: [
             {
@@ -84,79 +85,103 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
     );
 
   return (
-    <div
+    <section
       sx={{
+        display: 'flex',
+        justifyContent: 'space-around',
         my: 3,
         border: 'solid 3px',
         width: '100%',
         height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
         backgroundColor: 'background',
       }}
-      {...getRootProps()}
     >
-      <input {...getInputProps()} />
-      <>
-        <div
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            minHeight: 50,
-          }}
-        >
-          <p
-            sx={{
-              fontFamily: 'heading',
-            }}
-          >
-            Drag 'n' drop a profile image here, or click to select{' '}
-          </p>
+      <div
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          backgroundColor: 'background',
+          flexGrow: 'grow',
+        }}
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
+        <>
           <div
             sx={{
-              mt: 1,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: 'space-evenly',
+              minHeight: 50,
             }}
           >
-            <em
+            <p
               sx={{
                 fontFamily: 'heading',
-                fontSize: [0],
-                my: 2,
-                fontWeight: 700,
               }}
             >
-              (Only *.jpeg and *.png images will be accepted)
-            </em>
-            <em
+              Drag 'n' drop a profile image here, or click to select{' '}
+            </p>
+            {/* <p>{name}</p> */}
+            <div
               sx={{
-                fontFamily: 'heading',
-                fontSize: [0],
-                my: 2,
-                fontWeight: 700,
+                mt: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              The GitHub API doesn't allow you to update your profile picture
-            </em>
-          </div>
-        </div>
-        {data ? (
-          <>
-            {data.url && (
-              <div
+              <em
                 sx={{
-                  mt: 5,
+                  fontFamily: 'heading',
+                  fontSize: [0],
+                  my: 2,
+                  fontWeight: 700,
                 }}
               >
-                <img src={data.url} width="200" height="200" />
-              </div>
-            )}
+                (Only *.jpeg and *.png images will be accepted)
+              </em>
+              <em
+                sx={{
+                  fontFamily: 'heading',
+                  fontSize: [0],
+                  my: 2,
+                  fontWeight: 700,
+                }}
+              >
+                The GitHub API doesn't allow you to update your profile picture
+              </em>
+            </div>
+          </div>
+
+          {isError ? (
+            <div>
+              <Error width="90px" height="90px" />
+              <p
+                sx={{
+                  fontFamily: 'heading',
+                }}
+              >
+                {error.message}
+              </p>
+            </div>
+          ) : null}
+        </>
+      </div>
+      <div
+        sx={{
+          border: 'solid 3px',
+          width: 200,
+          height: 200,
+          alignSelf: 'center',
+        }}
+      >
+        {data ? (
+          <>
+            {data.url && <img src={data.url} width="200" height="200" />}
             <aside
               sx={{
                 display: 'flex',
@@ -183,21 +208,8 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             </aside>
           </>
         ) : null}
-
-        {isError ? (
-          <div>
-            <Error width="150px" height="150px" />
-            <p
-              sx={{
-                fontFamily: 'heading',
-              }}
-            >
-              {error.message}
-            </p>
-          </div>
-        ) : null}
-      </>
-    </div>
+      </div>
+    </section>
   );
 };
 

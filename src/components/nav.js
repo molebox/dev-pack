@@ -6,7 +6,6 @@ import gsap from 'gsap';
 import { useSiteMetadata } from './useSiteMetadata';
 import Logo from './svg/logo';
 import { useWindupString } from 'windups';
-import { UserContext } from './../context/user-context';
 
 const Nav = () => {
   const { siteName } = useSiteMetadata();

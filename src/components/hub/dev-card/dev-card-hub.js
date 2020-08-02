@@ -1,21 +1,15 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-// import { TabPanel } from 'react-tabs';
-// import ProfileCard from './profile-card';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import Checkbox from './../../home/social-checkboxes/checkbox';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
 import { UserContext } from './../../../context/user-context';
-// import TwitterLogin from '../../auth/twitter-login';
-// import DevToLogin from './../../auth/dev-to-login';
-// import CodePenLogin from './../../auth/codepen-login';
-// import LinkedInLogin from './../../auth/linkedIn-login';
 import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,15 +23,13 @@ import {
   UPDATE_TWITTER_PROFILE_IMAGE,
   UPLOAD_TWITTER_MEDIA,
 } from '../../../butler';
-import jwt_decode from 'jwt-decode';
 import { PushButton } from './../../common/push-button';
-import GitHubLogin from './../../auth/github-login';
 import AuthHeader from './../auth-header';
 import Loading from './../../svg/loading';
 
 toast.configure();
 
-const DevCardHub = ({ user }) => {
+const DevCardHub = () => {
   const [github, { data: githubData }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
   const [uploadTwitterMedia, { data: twitterProfileData, loadingTwitterMedia, errorTwitterMedia }] = useMutation(
@@ -47,8 +39,8 @@ const DevCardHub = ({ user }) => {
     updateTwitterProfileImage,
     { data: twitterProfileImage, loadingTwitterProfileIMage, errorTwitterProfileImage },
   ] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
-  const { loading, error, data: userData, refetch } = useQuery(GET_PROFILE_INFO);
-  const { currentUser, updateUser } = React.useContext(UserContext);
+  const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  const { updateUser } = React.useContext(UserContext);
 
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -69,32 +61,42 @@ const DevCardHub = ({ user }) => {
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
+  React.useEffect(() => {
+    if (userData) {
+      userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
+      userData.me && setEmail(userData.me.github.email);
+      userData.me && setLocation(userData.me.twitter.location);
+      userData.me && setDescription(userData.me.twitter.description);
+      userData.me && setName(userData.me.twitter.name);
+      updateUser({ displayName: userData.me.twitter.name });
+    }
+  }, [userData]);
+
   const fetchUserData = () => {
+    getUserDetails();
     console.log({ needsLoginService });
     if (!needsLoginService) {
-      refetch();
       console.log('logged in: ', userData);
       console.log({ error });
       if (userData) {
-        !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-        !loading && !error && setEmail(userData.me.github.email);
-        !loading && !error && setLocation(userData.me.twitter.location);
-        !loading && !error && setDescription(userData.me.twitter.description);
-        !loading && !error && setName(userData.me.twitter.name);
+        userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
+        userData.me && setEmail(userData.me.github.email);
+        userData.me && setLocation(userData.me.twitter.location);
+        userData.me && setDescription(userData.me.twitter.description);
+        userData.me && setName(userData.me.twitter.name);
         updateUser({ displayName: userData.me.twitter.name });
       }
     } else {
       auth.login(needsLoginService);
       const loginSuccess = auth.isLoggedIn(needsLoginService);
       if (loginSuccess) {
-        refetch();
         console.log('NEW logged in: ', userData);
         if (userData) {
-          !loading && !error && setWebsite(userData.me.github.websiteUrl.slice(12));
-          !loading && !error && setEmail(userData.me.github.email);
-          !loading && !error && setLocation(userData.me.twitter.location);
-          !loading && !error && setDescription(userData.me.twitter.description);
-          !loading && !error && setName(userData.me.twitter.name);
+          userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
+          userData.me && setEmail(userData.me.github.email);
+          userData.me && setLocation(userData.me.twitter.location);
+          userData.me && setDescription(userData.me.twitter.description);
+          userData.me && setName(userData.me.twitter.name);
           updateUser({ displayName: userData.me.twitter.name });
         }
       }
@@ -104,10 +106,6 @@ const DevCardHub = ({ user }) => {
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
-
-  React.useEffect(() => {
-    console.log({ base64Image });
-  }, [base64Image]);
 
   const updateGitHub = () =>
     github({
@@ -278,15 +276,15 @@ const DevCardHub = ({ user }) => {
         <div
           sx={{
             gridArea: 'form',
-            my: 3,
-            border: 'solid 3px',
-            width: '100%',
             height: '100%',
+            maxHeight: 900,
+            boxShadow: 0,
+            border: 'solid 3px',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'center',
-            flexDirection: 'column',
+            padding: 4,
             backgroundColor: 'background',
+            m: 3,
           }}
         >
           <Loading />

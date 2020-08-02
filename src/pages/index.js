@@ -4,12 +4,9 @@ import React from 'react';
 import Layout from './../components/layout';
 import SEO from 'gatsby-theme-seo/src/components/seo';
 import SignupForm from './../components/home/signup/form';
-import { Link } from 'gatsby';
 import gsap from 'gsap';
 import IntroSection from '../components/home/intro-section';
-import Footer from '../components/footer';
 import { InternalLink } from './../components/common/internal-link';
-import DevPackTabs from './../components/home/dev-pack-tabs';
 
 const keywords = ['manage social profile', 'branding', 'developer branding', 'manage media', 'manage online presence'];
 
