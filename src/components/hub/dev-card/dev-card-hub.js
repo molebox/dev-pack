@@ -26,6 +26,7 @@ import {
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
 import Loading from './../../svg/loading';
+import TwitterLogin from './../../auth/twitter-login';
 
 toast.configure();
 
@@ -59,49 +60,71 @@ const DevCardHub = () => {
         })
       : null;
 
-  const needsLoginService = auth.findMissingAuthServices(error)[0];
+  React.useEffect(() => {
+    auth
+      .login('twitter')
+      .then(() => {
+        auth.isLoggedIn('twitter').then((isLoggedIn) => {
+          if (isLoggedIn) {
+            toast.success('Successfully logged in to Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          } else {
+            toast.error('You did not grant auth for Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        });
+      })
+      .catch((e) => console.error('Problem logging in', e));
+  }, []);
 
   React.useEffect(() => {
-    if (userData) {
+    console.log({ userData });
+    console.log({ error });
+    console.log({ loading });
+    if (userData && userData.me) {
       userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
       userData.me && setEmail(userData.me.github.email);
       userData.me && setLocation(userData.me.twitter.location);
       userData.me && setDescription(userData.me.twitter.description);
       userData.me && setName(userData.me.twitter.name);
-      updateUser({ displayName: userData.me.twitter.name });
+      // updateUser({ displayName: userData.me.twitter.name });
     }
-  }, [userData]);
+  }, [userData, error, loading]);
 
-  const fetchUserData = () => {
-    getUserDetails();
-    console.log({ needsLoginService });
-    if (!needsLoginService) {
-      console.log('logged in: ', userData);
-      console.log({ error });
-      if (userData) {
-        userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
-        userData.me && setEmail(userData.me.github.email);
-        userData.me && setLocation(userData.me.twitter.location);
-        userData.me && setDescription(userData.me.twitter.description);
-        userData.me && setName(userData.me.twitter.name);
-        updateUser({ displayName: userData.me.twitter.name });
-      }
-    } else {
-      auth.login(needsLoginService);
-      const loginSuccess = auth.isLoggedIn(needsLoginService);
-      if (loginSuccess) {
-        console.log('NEW logged in: ', userData);
-        if (userData) {
-          userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
-          userData.me && setEmail(userData.me.github.email);
-          userData.me && setLocation(userData.me.twitter.location);
-          userData.me && setDescription(userData.me.twitter.description);
-          userData.me && setName(userData.me.twitter.name);
-          updateUser({ displayName: userData.me.twitter.name });
-        }
-      }
-    }
-  };
+  // const fetchUserData = (error) => {
+
+  //   console.log({ needsLoginService });
+  //   if (!needsLoginService) {
+  //     getUserDetails();
+  //     console.log('logged in: ', userData);
+  //     console.log({ error });
+  //     if (userData) {
+  //       userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
+  //       userData.me && setEmail(userData.me.github.email);
+  //       userData.me && setLocation(userData.me.twitter.location);
+  //       userData.me && setDescription(userData.me.twitter.description);
+  //       userData.me && setName(userData.me.twitter.name);
+  //       // updateUser({ displayName: userData.me.twitter.name });
+  //     }
+  //   } else {
+  //     auth.login(needsLoginService);
+  //     const loginSuccess = auth.isLoggedIn(needsLoginService);
+  //     if (loginSuccess) {
+  //       getUserDetails();
+  //       console.log('NEW logged in: ', userData);
+  //       if (userData) {
+  //         userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
+  //         userData.me && setEmail(userData.me.github.email);
+  //         userData.me && setLocation(userData.me.twitter.location);
+  //         userData.me && setDescription(userData.me.twitter.description);
+  //         userData.me && setName(userData.me.twitter.name);
+  //         // updateUser({ displayName: userData.me.twitter.name });
+  //       }
+  //     }
+  //   }
+  // };
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -272,140 +295,140 @@ const DevCardHub = () => {
     >
       <AuthHeader userName={name} />
 
-      {loading ? (
+      <div
+        sx={{
+          gridArea: 'form',
+          height: '100%',
+          maxHeight: 900,
+          boxShadow: 0,
+          border: 'solid 3px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          padding: 4,
+          backgroundColor: 'background',
+          m: 3,
+        }}
+        className="form"
+      >
         <div
           sx={{
-            gridArea: 'form',
-            height: '100%',
-            maxHeight: 900,
-            boxShadow: 0,
-            border: 'solid 3px',
             display: 'flex',
-            justifyContent: 'center',
-            padding: 4,
-            backgroundColor: 'background',
-            m: 3,
+            justifyContent: 'space-between',
           }}
         >
-          <Loading />
+          <h2
+            sx={{
+              fontFamily: 'heading',
+              color: 'text',
+              fontWeight: 400,
+            }}
+          >
+            Tell the world about yourself...
+          </h2>
+          <div
+            sx={{
+              height: 30,
+            }}
+          >
+            {loading ? <Loading /> : null}
+            <Button
+              text="Load Data"
+              onClick={async () => {
+                const needsLoginService = auth.findMissingAuthServices(error)[0];
+                if (!needsLoginService) {
+                  console.log({ needsLoginService });
+                  getUserDetails();
+                } else {
+                  await auth.login(needsLoginService);
+                  const loginSuccess = await auth.isLoggedIn(needsLoginService);
+                  if (loginSuccess) {
+                    console.log('Successfully logged into ' + needsLoginService);
+                    getUserDetails();
+                  } else {
+                    console.log('The user did not grant auth to ' + needsLoginService);
+                  }
+                }
+              }}
+            />
+          </div>
         </div>
-      ) : (
+
         <div
           sx={{
-            gridArea: 'form',
-            height: '100%',
-            maxHeight: 900,
-            boxShadow: 0,
-            border: 'solid 3px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-evenly',
-            padding: 4,
-            backgroundColor: 'background',
-            m: 3,
           }}
-          className="form"
         >
-          <div
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <h2
-              sx={{
-                fontFamily: 'heading',
-                color: 'text',
-                fontWeight: 400,
-              }}
-            >
-              Tell the world about yourself...
-            </h2>
-            <div
-              sx={{
-                height: 30,
-              }}
-            >
-              <Button text="Fetch Data" onClick={fetchUserData} />
-            </div>
-          </div>
-
-          <div
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <Label>
-              <LabelText>
-                What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="name"
-                handleChange={handleOnNameChange}
-                value={name}
-                ariaLabel="Your name"
-                placeholder="Your Name..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="location"
-                handleChange={handleOnLocationChange}
-                value={location}
-                ariaLabel="Your location"
-                placeholder="Your Location..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="website"
-                handleChange={handleOnWebsiteChange}
-                value={website}
-                ariaLabel="Your website"
-                placeholder="Your Website..."
-              />
-            </Label>
-            <Label>
-              <LabelText>
-                Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
-              </LabelText>
-              <Input
-                type="text"
-                name="email"
-                handleChange={handleOnEmailChange}
-                value={email}
-                ariaLabel="Your email"
-                placeholder="Your email..."
-              />
-            </Label>
-          </div>
-
           <Label>
             <LabelText>
-              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+              What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
             </LabelText>
-            <TextArea
+            <Input
               type="text"
               name="name"
-              handleChange={handleOnBioChange}
-              value={description}
-              ariaLabel="Your bio"
-              placeholder="Your Bio..."
+              handleChange={handleOnNameChange}
+              value={name}
+              ariaLabel="Your name"
+              placeholder="Your Name..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="location"
+              handleChange={handleOnLocationChange}
+              value={location}
+              ariaLabel="Your location"
+              placeholder="Your Location..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="website"
+              handleChange={handleOnWebsiteChange}
+              value={website}
+              ariaLabel="Your website"
+              placeholder="Your Website..."
+            />
+          </Label>
+          <Label>
+            <LabelText>
+              Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
+            </LabelText>
+            <Input
+              type="text"
+              name="email"
+              handleChange={handleOnEmailChange}
+              value={email}
+              ariaLabel="Your email"
+              placeholder="Your email..."
             />
           </Label>
         </div>
-      )}
+
+        <Label>
+          <LabelText>
+            Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+          </LabelText>
+          <TextArea
+            type="text"
+            name="name"
+            handleChange={handleOnBioChange}
+            value={description}
+            ariaLabel="Your bio"
+            placeholder="Your Bio..."
+          />
+        </Label>
+      </div>
 
       <section
         sx={{
@@ -423,7 +446,7 @@ const DevCardHub = () => {
             flexDirection: ['column', 'row'],
             justifyContent: 'space-evenly',
             flexGrow: 'grow',
-            height: 250,
+            height: 300,
           }}
           className="imageUpload"
         >

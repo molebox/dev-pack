@@ -5,7 +5,7 @@ const LabelText = ({ children }) => (
   <div
     sx={{
       display: 'flex',
-      marginBottom: 10,
+      marginBottom: 1,
     }}
   >
     {children}

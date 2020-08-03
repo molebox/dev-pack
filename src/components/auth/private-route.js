@@ -18,15 +18,16 @@ const PrivateRoute = ({ component: Component, location, isLoggedIn, ...rest }) =
         })
       : null;
   // check if the user is logged in. If they are already then navigate them to the hub
+
   auth.isLoggedIn('github').then((isLoggedIn) => {
-    if (isLoggedIn && location.pathname === `/app/login`) {
-      let jwt = jwt_decode(auth._accessToken.accessToken);
+    if (!isLoggedIn && location.pathname !== `/app/login`) {
+      // let jwt = jwt_decode(auth._accessToken.accessToken);
       // Add the users github handle, name and email to the sites context
-      updateUser({
-        isGithubLoggedIn: true,
-        displayName: jwt.user.githubName,
-        email: jwt.user.email,
-      });
+      // updateUser({
+      //   isGithubLoggedIn: true,
+      //   displayName: jwt.user.githubName,
+      //   email: jwt.user.email,
+      // });
       navigate(`/app/login`);
       return null;
     }

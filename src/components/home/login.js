@@ -29,13 +29,13 @@ const Login = () => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
-            let jwt = jwt_decode(auth._accessToken.accessToken);
+            // let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
-            updateUser({
-              // isGithubLoggedIn: true,
-              displayName: jwt.user.githubName,
-              email: jwt.user.email,
-            });
+            // updateUser({
+            //   // isGithubLoggedIn: true,
+            //   displayName: jwt.user.githubName,
+            //   email: jwt.user.email,
+            // });
             navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');

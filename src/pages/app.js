@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Router>
       <PrivateRoute
-        path="/app/hub"
+        path="app/hub"
         component={Hub}
         // isLoggedIn={currentUser.isGithubLoggedIn || currentUser.isTwitterLoggedIn}
       />

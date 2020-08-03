@@ -7,8 +7,8 @@ const Loading = () => {
     <Loader
       type="Watch"
       color="#2b2c34"
-      height={50}
-      width={50}
+      height={30}
+      width={30}
       timeout={3000} //3 secs
     />
   );
