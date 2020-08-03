@@ -185,24 +185,6 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           ) : null}
         </>
       </div>
-      <div
-        sx={{
-          gridArea: 'input',
-          width: 300,
-        }}
-      >
-        <Label>
-          <LabelText>Manually set cloudinary folder name</LabelText>
-          <Input
-            type="text"
-            name="cloudinaryFolder"
-            handleChange={handleOnNameChange}
-            value={cloudinaryName}
-            ariaLabel="Folder name"
-            placeholder="Folder name..."
-          />
-        </Label>
-      </div>
 
       <div
         sx={{
@@ -250,6 +232,24 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             </aside>
           </>
         ) : null}
+      </div>
+      <div
+        sx={{
+          gridArea: 'input',
+          width: 300,
+        }}
+      >
+        <Label>
+          <LabelText>Manually set cloudinary folder name</LabelText>
+          <Input
+            type="text"
+            name="cloudinaryFolder"
+            handleChange={handleOnNameChange}
+            value={cloudinaryName}
+            ariaLabel="Folder name"
+            placeholder="Folder name..."
+          />
+        </Label>
       </div>
     </section>
   );
