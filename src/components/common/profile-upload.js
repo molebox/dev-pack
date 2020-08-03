@@ -94,10 +94,11 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
         display: 'grid',
         gridTemplateAreas: `
         'dropzone preview'
-        'input .'
+        'input saved'
+        'input fileInfo'
         `,
-        gridTemplateColumns: '400px 200px',
-        gridTemplateRows: '200px 50px',
+        gridTemplateColumns: '400px 350px',
+        gridTemplateRows: 'minmax(200px, auto) minmax(50px, auto)',
         justifyContent: 'space-around',
         gap: 1,
         alignItems: 'center',
@@ -106,6 +107,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
         width: '100%',
         height: '100%',
         backgroundColor: 'background',
+        margin: '0 auto',
       }}
     >
       <div
@@ -118,6 +120,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           backgroundColor: 'background',
           flexGrow: 'grow',
           mt: 3,
+          height: '100%',
         }}
         {...getRootProps()}
       >
@@ -189,54 +192,101 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
       <div
         sx={{
           gridArea: 'preview',
-          width: 150,
-          height: 150,
-          border: 'solid 3px',
-          alignSelf: 'end',
-          ':before': {
-            content: "'Image Preview'",
-            top: -30,
-            left: 0,
-            position: 'relative',
-            fontFamily: 'heading',
-          },
+          width: 350,
+          height: 200,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
         }}
       >
         {data ? (
           <>
-            {data.url && <img sx={{ border: 'solid 3px' }} src={data.url} width="150" height="150" />}
-            <aside
+            <div
               sx={{
+                border: 'solid 3px',
+                width: 154,
+                height: 154,
+                alignSelf: 'center',
+                justifySelf: 'center',
                 display: 'flex',
-                justifyContent: 'space-evenly',
-                minWidth: 200,
-                maxWidth: 500,
-                mt: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <h4
-                sx={{
-                  fontFamily: 'heading',
-                }}
-              >
-                File:
-              </h4>
-              <div
-                sx={{
-                  display: 'flex',
-                }}
-              >
-                <p sx={{ fontFamily: 'heading' }}>{acceptedFiles[0].path}</p>
-                <p sx={{ fontFamily: 'heading', ml: 2 }}>{acceptedFiles[0].size} Bytes</p>
-              </div>
-            </aside>
+              {data.url && <img src={data.url} width="150" height="150" />}
+            </div>
           </>
         ) : null}
       </div>
       <div
         sx={{
+          gridArea: 'saved',
+          display: 'flex',
+          justifyContent: 'space-evenly',
+        }}
+      >
+        <div
+          sx={{
+            width: 80,
+            height: 80,
+            border: 'solid 2px',
+          }}
+        ></div>
+        <div
+          sx={{
+            width: 80,
+            height: 80,
+            border: 'solid 2px',
+          }}
+        ></div>
+        <div
+          sx={{
+            width: 80,
+            height: 80,
+            border: 'solid 2px',
+          }}
+        ></div>
+        <div
+          sx={{
+            width: 80,
+            height: 80,
+            border: 'solid 2px',
+          }}
+        ></div>
+      </div>
+      <aside
+        sx={{
+          gridArea: 'fileInfo',
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          maxWidth: 350,
+          mt: 2,
+        }}
+      >
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          File:
+        </p>
+        <div
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <p sx={{ fontFamily: 'heading' }}>{acceptedFiles[0].path}</p>
+          <p sx={{ fontFamily: 'heading', ml: 2 }}>{acceptedFiles[0].size} Bytes</p>
+        </div>
+      </aside>
+      <div
+        sx={{
           gridArea: 'input',
+          gridRow: 3,
           width: 300,
+          display: 'flex',
+          justifyContent: 'start',
+          alignItems: 'start',
         }}
       >
         <Label>

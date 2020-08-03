@@ -29,13 +29,14 @@ const Login = () => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
+            console.log('Im in!!!');
             // let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
-            // updateUser({
-            //   // isGithubLoggedIn: true,
-            //   displayName: jwt.user.githubName,
-            //   email: jwt.user.email,
-            // });
+            updateUser({
+              isGithubLoggedIn: true,
+              // displayName: jwt.user.githubName,
+              // email: jwt.user.email,
+            });
             navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');
@@ -72,7 +73,7 @@ const Login = () => {
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 500,
-              fontSize: [3, 3, 5],
+              fontSize: [3, 3, 4],
             }}
           >
             Looks like you're not logged in

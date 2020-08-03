@@ -41,7 +41,7 @@ const DevCardHub = () => {
     { data: twitterProfileImage, loadingTwitterProfileIMage, errorTwitterProfileImage },
   ] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
-  const { updateUser } = React.useContext(UserContext);
+  const { currentUser } = React.useContext(UserContext);
 
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -60,7 +60,10 @@ const DevCardHub = () => {
         })
       : null;
 
+  const needsLoginService = auth.findMissingAuthServices(error)[0];
+
   React.useEffect(() => {
+    console.log({ currentUser });
     auth
       .login('twitter')
       .then(() => {
@@ -263,6 +266,22 @@ const DevCardHub = () => {
     }
   };
 
+  const loadData = async () => {
+    if (!needsLoginService) {
+      console.log({ needsLoginService });
+      getUserDetails();
+    } else {
+      await auth.login(needsLoginService);
+      const loginSuccess = await auth.isLoggedIn(needsLoginService);
+      if (loginSuccess) {
+        console.log('Successfully logged into ' + needsLoginService);
+        getUserDetails();
+      } else {
+        console.log('The user did not grant auth to ' + needsLoginService);
+      }
+    }
+  };
+
   return (
     <section
       sx={{
@@ -281,6 +300,7 @@ const DevCardHub = () => {
             `,
           `
             'authHeader authHeader'
+            'form selections'
             'form selections'
             'form selections'
             'form selections'
@@ -331,26 +351,7 @@ const DevCardHub = () => {
               height: 30,
             }}
           >
-            {loading ? <Loading /> : null}
-            <Button
-              text="Load Data"
-              onClick={async () => {
-                const needsLoginService = auth.findMissingAuthServices(error)[0];
-                if (!needsLoginService) {
-                  console.log({ needsLoginService });
-                  getUserDetails();
-                } else {
-                  await auth.login(needsLoginService);
-                  const loginSuccess = await auth.isLoggedIn(needsLoginService);
-                  if (loginSuccess) {
-                    console.log('Successfully logged into ' + needsLoginService);
-                    getUserDetails();
-                  } else {
-                    console.log('The user did not grant auth to ' + needsLoginService);
-                  }
-                }
-              }}
-            />
+            {loading ? <Loading /> : <Button text="Load Data" onClick={loadData} />}
           </div>
         </div>
 
@@ -433,9 +434,15 @@ const DevCardHub = () => {
       <section
         sx={{
           gridArea: 'selections',
+          boxShadow: 0,
+          border: 'solid 3px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-evenly',
+          padding: 4,
+          backgroundColor: 'background',
+          m: 3,
+          height: '100%',
         }}
       >
         <aside
@@ -446,7 +453,7 @@ const DevCardHub = () => {
             flexDirection: ['column', 'row'],
             justifyContent: 'space-evenly',
             flexGrow: 'grow',
-            height: 300,
+            height: 400,
           }}
           className="imageUpload"
         >
@@ -457,8 +464,7 @@ const DevCardHub = () => {
           sx={{
             // gridArea: 'checkboxes',
             minHeight: 50,
-            height: 150,
-            boxShadow: 0,
+            height: 100,
             border: 'solid 3px',
             display: 'flex',
             flexDirection: ['column'],
@@ -466,7 +472,7 @@ const DevCardHub = () => {
             alignItems: 'center',
             backgroundColor: 'background',
             p: 3,
-            m: 3,
+            my: 4,
           }}
           className="platforms"
         >
@@ -504,8 +510,7 @@ const DevCardHub = () => {
           sx={{
             // gridArea: 'push',
             minWidth: [300, 500],
-            m: 3,
-            pt: 5,
+            my: 5,
             display: 'flex',
             alignItems: 'flex-end',
             height: 30,
