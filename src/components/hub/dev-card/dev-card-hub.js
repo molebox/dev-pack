@@ -96,39 +96,6 @@ const DevCardHub = () => {
     }
   }, [userData, error, loading]);
 
-  // const fetchUserData = (error) => {
-
-  //   console.log({ needsLoginService });
-  //   if (!needsLoginService) {
-  //     getUserDetails();
-  //     console.log('logged in: ', userData);
-  //     console.log({ error });
-  //     if (userData) {
-  //       userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
-  //       userData.me && setEmail(userData.me.github.email);
-  //       userData.me && setLocation(userData.me.twitter.location);
-  //       userData.me && setDescription(userData.me.twitter.description);
-  //       userData.me && setName(userData.me.twitter.name);
-  //       // updateUser({ displayName: userData.me.twitter.name });
-  //     }
-  //   } else {
-  //     auth.login(needsLoginService);
-  //     const loginSuccess = auth.isLoggedIn(needsLoginService);
-  //     if (loginSuccess) {
-  //       getUserDetails();
-  //       console.log('NEW logged in: ', userData);
-  //       if (userData) {
-  //         userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
-  //         userData.me && setEmail(userData.me.github.email);
-  //         userData.me && setLocation(userData.me.twitter.location);
-  //         userData.me && setDescription(userData.me.twitter.description);
-  //         userData.me && setName(userData.me.twitter.name);
-  //         // updateUser({ displayName: userData.me.twitter.name });
-  //       }
-  //     }
-  //   }
-  // };
-
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
@@ -318,8 +285,8 @@ const DevCardHub = () => {
       <div
         sx={{
           gridArea: 'form',
-          height: '100%',
-          maxHeight: 900,
+          // height: '100%',
+          maxHeight: 700,
           boxShadow: 0,
           border: 'solid 3px',
           display: 'flex',
@@ -447,13 +414,13 @@ const DevCardHub = () => {
       >
         <aside
           sx={{
-            // gridArea: 'imageUpload',
-            textAlign: 'center',
             display: 'flex',
-            flexDirection: ['column', 'row'],
+            // flexDirection: ['column', 'row'],
             justifyContent: 'space-evenly',
             flexGrow: 'grow',
-            height: 400,
+            height: '100%',
+            my: 1,
+            // maxHeight: 500,
           }}
           className="imageUpload"
         >
@@ -510,7 +477,7 @@ const DevCardHub = () => {
           sx={{
             // gridArea: 'push',
             minWidth: [300, 500],
-            my: 5,
+            mt: 5,
             display: 'flex',
             alignItems: 'flex-end',
             height: 30,

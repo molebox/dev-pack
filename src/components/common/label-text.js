@@ -6,6 +6,7 @@ const LabelText = ({ children }) => (
     sx={{
       display: 'flex',
       marginBottom: 1,
+      fontWeight: 500,
     }}
   >
     {children}
