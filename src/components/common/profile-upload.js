@@ -9,12 +9,15 @@ import Label from '../home/signup/label';
 import LabelText from './label-text';
 import Input from '../home/signup/input';
 import Button from './button';
+import SavedImages from '../hub/dev-card/saved-images';
 
 const ProfileUpload = ({ userName, getBase64Image }) => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
   const [cloudinaryName, setCloudinaryName] = React.useState('');
+  const [file, setFile] = React.useState({});
 
   const onDrop = (acceptedFiles) => {
+    setFile(acceptedFiles[0]);
     console.log('Dropped File: ', acceptedFiles);
     console.log({ userName });
 
@@ -218,7 +221,12 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           </>
         ) : null}
       </div>
-      <div
+      <SavedImages
+        endpoint="/.netlify/functions/search"
+        folder={cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}
+      />
+
+      {/* <div
         sx={{
           gridArea: 'saved',
           display: 'flex',
@@ -253,7 +261,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             border: 'solid 2px',
           }}
         ></div>
-      </div>
+      </div> */}
       <aside
         sx={{
           gridArea: 'fileInfo',
@@ -275,8 +283,8 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             display: 'flex',
           }}
         >
-          <p sx={{ fontFamily: 'heading' }}>{acceptedFiles[0].path}</p>
-          <p sx={{ fontFamily: 'heading', ml: 2 }}>{acceptedFiles[0].size} Bytes</p>
+          <p sx={{ fontFamily: 'heading' }}>{file.path}</p>
+          <p sx={{ fontFamily: 'heading', ml: 2 }}>{file.size} Bytes</p>
         </div>
       </aside>
       <div
