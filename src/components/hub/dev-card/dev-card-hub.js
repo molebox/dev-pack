@@ -22,6 +22,7 @@ import {
   GET_PROFILE_INFO,
   UPDATE_TWITTER_PROFILE_IMAGE,
   UPLOAD_TWITTER_MEDIA,
+  getWeekDay,
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
@@ -52,6 +53,7 @@ const DevCardHub = () => {
   const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
   const [base64Image, setBase64Image] = React.useState('');
   const [mediaId, setMediaId] = React.useState('');
+  const [isFriday, setIsFriday] = React.useState(false);
 
   const auth =
     typeof window !== 'undefined'
@@ -59,6 +61,15 @@ const DevCardHub = () => {
           appId: APP_ID,
         })
       : null;
+
+  React.useEffect(() => {
+    let date = new Date();
+    let today = getWeekDay(date);
+
+    if (today === 'Friday') {
+      setIsFriday(true);
+    }
+  }, []);
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
@@ -431,7 +442,7 @@ const DevCardHub = () => {
           sx={{
             // gridArea: 'checkboxes',
             minHeight: 50,
-            height: 100,
+            height: 120,
             border: 'solid 3px',
             display: 'flex',
             flexDirection: ['column'],
@@ -448,6 +459,7 @@ const DevCardHub = () => {
               fontFamily: 'heading',
               color: 'text',
               fontWeight: 400,
+              my: 2,
             }}
           >
             Select Platform(s) to update
@@ -457,6 +469,7 @@ const DevCardHub = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-evenly',
+              my: 2,
             }}
           >
             <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
@@ -487,7 +500,7 @@ const DevCardHub = () => {
             className="push"
             // disabled={checkboxGithub || checkboxTwitter ? false : true}
             onClick={updateInfo}
-            text="Push to production"
+            text={`${isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
           />
         </aside>
       </section>

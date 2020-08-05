@@ -16,16 +16,52 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
   const [cloudinaryName, setCloudinaryName] = React.useState('');
   const [selectedImage, setSelectedImage] = React.useState('');
 
+  const pushBase64Image = (res) => getBase64Image(res);
+
   const getSelectedImage = (imageUrl) => {
-    console.log({ imageUrl });
     setSelectedImage(imageUrl);
+
+    // The use has selected a previously saved image from cloudinary so we convert that url back to a base64 string and push it up ready to be set as the new profile picture
+    const toDataURL = (url) =>
+      fetch(url)
+        .then((response) => response.blob())
+        .then(
+          (blob) =>
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            })
+        );
+
+    toDataURL(imageUrl).then((dataUrl) => {
+      pushBase64Image(dataUrl);
+    });
+  };
+
+  const UploadImage = ({ filePath, name, file }) => {
+    return upload({
+      // We pass the whole base64 string including the data:image tag
+      file,
+      uploadOptions: {
+        // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
+        public_id: `${name.replace(/\s/g, '')}/${filePath}`,
+        tags: [],
+        eager: [
+          {
+            width: 400,
+            height: 400,
+            crop: 'fill',
+          },
+        ],
+      },
+    });
   };
 
   const onDrop = (acceptedFiles) => {
     console.log('Dropped File: ', acceptedFiles);
     console.log({ userName });
-
-    const pushBase64Image = (res) => getBase64Image(res);
 
     // Turn the blob into base64 to feed into the upload
     const blobToBase64 = (blob) => {
@@ -42,22 +78,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
       console.log('RES: ', res);
       pushBase64Image(res);
 
-      return upload({
-        // We pass the whole base64 string including the data:image tag
-        file: res,
-        uploadOptions: {
-          // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
-          public_id: `${cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}/${acceptedFiles[0].path}`,
-          tags: [],
-          eager: [
-            {
-              width: 400,
-              height: 400,
-              crop: 'fill',
-            },
-          ],
-        },
-      });
+      UploadImage(acceptedFiles[0].path, cloudinaryName || userName, res);
     });
   };
 
@@ -129,7 +150,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           gridArea: 'dropzone',
           display: 'flex',
           width: '100%',
-          height: 200,
+          height: 'auto',
           border: 'solid 2px',
           p: 3,
           // alignItems: 'center',
@@ -161,7 +182,18 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
                 fontFamily: 'heading',
               }}
             >
-              Select from one of your previously used images or drop a profile image here, or click to select
+              Load and select from one of your previously used images or drop a profile image here, or click to select.
+              Once you drop a file here it will automatically be uploaded to cloudinary and stored in a folder set as
+              your current name.
+            </p>
+            <p
+              sx={{
+                fontFamily: 'heading',
+                my: 1,
+              }}
+            >
+              You can also choose to set your folder name manually below. If you do this, choose the folder then drop
+              the file.
             </p>
             <div
               sx={{

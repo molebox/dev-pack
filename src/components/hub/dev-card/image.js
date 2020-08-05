@@ -5,17 +5,7 @@ import { useImage } from 'use-cloudinary';
 
 // Image w/ Lazy-load + placeholder
 function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, getSelectedImage }) {
-  const {
-    generateUrl,
-    blurredPlaceholderUrl,
-    url,
-    isError,
-    error,
-    ref,
-    supportsLazyLoading,
-    inView,
-    isSuccess,
-  } = useImage({
+  const { generateUrl, blurredPlaceholderUrl, isError, error, ref, supportsLazyLoading, inView, isSuccess } = useImage({
     cloudName,
   });
   React.useEffect(() => {
@@ -40,7 +30,12 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
       }}
       sx={{
         cursor: 'pointer',
+        outline: 'none',
       }}
+      role="button"
+      tabindex="0"
+      // aria-pressed="false"
+      onKeyPress={() => getSelectedImage(secure_url)}
       onClick={() => getSelectedImage(secure_url)}
     >
       {inView || (supportsLazyLoading && isSuccess) ? (
@@ -52,7 +47,7 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
             height: `${height}px`,
             border: 'solid 2px',
           }}
-          alt="Lazy loaded"
+          alt="Lazy loaded profile"
         />
       ) : null}
     </div>
