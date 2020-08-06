@@ -10,8 +10,10 @@ import LabelText from './label-text';
 import Input from '../home/signup/input';
 import Button from './button';
 import SavedImages from '../hub/dev-card/saved-images';
+import Cloud from '../svg/cloud';
+import Emoji from './emoji';
 
-const ProfileUpload = ({ userName, getBase64Image }) => {
+const ProfileUpload = ({ userName, getBase64Image, currentImage }) => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
   const [cloudinaryName, setCloudinaryName] = React.useState('');
   const [selectedImage, setSelectedImage] = React.useState('');
@@ -21,7 +23,7 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
   const getSelectedImage = (imageUrl) => {
     setSelectedImage(imageUrl);
 
-    // The use has selected a previously saved image from cloudinary so we convert that url back to a base64 string and push it up ready to be set as the new profile picture
+    // The user has selected a previously saved image from cloudinary so we convert that url back to a base64 string and push it up ready to be set as the new profile picture
     const toDataURL = (url) =>
       fetch(url)
         .then((response) => response.blob())
@@ -36,33 +38,31 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
         );
 
     toDataURL(imageUrl).then((dataUrl) => {
+      console.log('converted to base64', dataUrl);
       pushBase64Image(dataUrl);
     });
   };
 
-  const UploadImage = ({ filePath, name, file }) => {
-    return upload({
-      // We pass the whole base64 string including the data:image tag
-      file,
-      uploadOptions: {
-        // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
-        public_id: `${name.replace(/\s/g, '')}/${filePath}`,
-        tags: [],
-        eager: [
-          {
-            width: 400,
-            height: 400,
-            crop: 'fill',
-          },
-        ],
-      },
-    });
-  };
+  // const UploadImage = ({ filePath, name, file }) => {
+  //   return upload({
+  //     // We pass the whole base64 string including the data:image tag
+  //     file,
+  //     uploadOptions: {
+  //       // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
+  //       public_id: `${name.replace(/\s/g, '')}/${filePath}`,
+  //       tags: [],
+  //       eager: [
+  //         {
+  //           width: 400,
+  //           height: 400,
+  //           crop: 'fill',
+  //         },
+  //       ],
+  //     },
+  //   });
+  // };
 
   const onDrop = (acceptedFiles) => {
-    console.log('Dropped File: ', acceptedFiles);
-    console.log({ userName });
-
     // Turn the blob into base64 to feed into the upload
     const blobToBase64 = (blob) => {
       const reader = new FileReader();
@@ -75,10 +75,24 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
     };
 
     blobToBase64(acceptedFiles[0]).then((res) => {
-      console.log('RES: ', res);
+      const name = cloudinaryName ? cloudinaryName : userName;
       pushBase64Image(res);
-
-      UploadImage(acceptedFiles[0].path, cloudinaryName || userName, res);
+      return upload({
+        // We pass the whole base64 string including the data:image tag
+        file: res,
+        uploadOptions: {
+          // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
+          public_id: `${name.replace(/\s/g, '')}/${acceptedFiles[0]}`,
+          tags: [],
+          eager: [
+            {
+              width: 400,
+              height: 400,
+              crop: 'fill',
+            },
+          ],
+        },
+      });
     });
   };
 
@@ -126,40 +140,32 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
         // 'input saved'
         // `,
         gridTemplateAreas: `
-        'dropzone dropzone'
-        'preview saved'
-        'input fileInfo'
-        '. .'
+        'fileInfo preview '
+        'dropzone saved'
+        '. . '
         `,
-        gridTemplateColumns: '400px 350px',
-        // gridTemplateRows: 'minmax(200px, auto) auto',
+        gridTemplateColumns: '1fr 1fr',
         gridAutoRows: 'auto',
         justifyContent: 'space-evenly',
-        gap: 1,
+        gap: 3,
         alignItems: 'center',
-        my: 3,
-        border: 'solid 3px',
+        m: 3,
         width: '100%',
         height: '100%',
-        backgroundColor: 'background',
-        margin: '0 auto',
       }}
     >
       <div
         sx={{
           gridArea: 'dropzone',
           display: 'flex',
-          width: '100%',
           height: 'auto',
           border: 'solid 2px',
           p: 3,
-          // alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-          backgroundColor: 'background',
-          flexGrow: 'grow',
-          // height: '100%',
-          mt: 3,
+          backgroundColor: 'secondary',
+          maxWidth: 800,
+          width: '100%',
         }}
         {...getRootProps()}
       >
@@ -169,15 +175,16 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-evenly',
-              alignItems: 'flex-start',
+              justifyContent: 'center',
+              alignItems: 'center',
               flexWrap: 'wrap',
-              textAlign: 'start',
+              textAlign: 'center',
               // border: 'solid 2px',
-              // p: 3,
+              p: 3,
             }}
           >
-            <p
+            <Cloud width="80px" height="80px" />
+            {/* <p
               sx={{
                 fontFamily: 'heading',
               }}
@@ -194,14 +201,13 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
             >
               You can also choose to set your folder name manually below. If you do this, choose the folder then drop
               the file.
-            </p>
+            </p> */}
             <div
               sx={{
-                mt: 1,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                alignItems: 'start',
+                alignItems: 'center',
               }}
             >
               <em
@@ -245,21 +251,20 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
       <div
         sx={{
           gridArea: 'preview',
-          height: 200,
+          // height: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'start',
+          justifyContent: 'center',
           alignItems: 'center',
-          mt: 3,
+          gridRow: 1,
         }}
       >
-        <p sx={{ fontFamily: 'heading', pb: 2 }}>Selected Image</p>
         {data ? (
           <div
             sx={{
-              border: 'solid 3px',
-              width: 154,
-              height: 154,
+              border: 'solid 2px',
+              width: 304,
+              height: 304,
               alignSelf: 'center',
               justifySelf: 'center',
               display: 'flex',
@@ -267,14 +272,14 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
               alignItems: 'center',
             }}
           >
-            {data.url && <img src={data.url} width="150" height="150" />}
+            {data.url && <img src={data.url} width="300" height="300" />}
           </div>
         ) : selectedImage !== '' ? (
           <div
             sx={{
-              border: 'solid 3px',
-              width: 154,
-              height: 154,
+              border: 'solid 2px',
+              width: 304,
+              height: 304,
               alignSelf: 'center',
               justifySelf: 'center',
               display: 'flex',
@@ -282,32 +287,67 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
               alignItems: 'center',
             }}
           >
-            <img src={selectedImage} width="150" height="150" />
+            <img src={selectedImage} width="300" height="300" />
           </div>
         ) : (
           <div
             sx={{
-              border: 'solid 3px',
-              width: 154,
-              height: 154,
+              border: 'solid 2px',
+              width: 304,
+              height: 304,
               alignSelf: 'center',
             }}
-          ></div>
+          >
+            <img src={currentImage} width="300" height="300" />
+          </div>
         )}
       </div>
-      <SavedImages
-        endpoint="/.netlify/functions/search"
-        folder={cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}
-        getSelectedImage={getSelectedImage}
-      />
+
+      <div
+        sx={{
+          gridArea: 'saved',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <SavedImages
+          endpoint="/.netlify/functions/search"
+          folder={cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}
+          getSelectedImage={getSelectedImage}
+        />
+      </div>
+
       <aside
         sx={{
           gridArea: 'fileInfo',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'start',
           alignItems: 'start',
         }}
       >
+        <h2
+          sx={{
+            fontFamily: 'heading',
+            color: 'text',
+            fontWeight: 400,
+            fontSize: [4],
+          }}
+        >
+          Say cheese! <Emoji ariaLabel="A camera">📸</Emoji>
+        </h2>
+        <Label>
+          <LabelText>Manually set folder name (optional)</LabelText>
+          <Input
+            type="text"
+            name="cloudinaryFolder"
+            handleChange={handleOnNameChange}
+            value={cloudinaryName}
+            ariaLabel="Folder name"
+            placeholder="Folder name..."
+          />
+        </Label>
         <Label>
           <LabelText>Image Info</LabelText>
           <div
@@ -342,26 +382,6 @@ const ProfileUpload = ({ userName, getBase64Image }) => {
           </div>
         </Label>
       </aside>
-      <div
-        sx={{
-          gridArea: 'input',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Label>
-          <LabelText>Manually set cloudinary folder name</LabelText>
-          <Input
-            type="text"
-            name="cloudinaryFolder"
-            handleChange={handleOnNameChange}
-            value={cloudinaryName}
-            ariaLabel="Folder name"
-            placeholder="Folder name..."
-          />
-        </Label>
-      </div>
     </section>
   );
 };

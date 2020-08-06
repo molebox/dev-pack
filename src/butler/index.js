@@ -66,6 +66,7 @@ export const GET_PROFILE_INFO = gql`
       github {
         email
         websiteUrl
+        avatarUrl
       }
     }
   }
@@ -78,9 +79,6 @@ export const UPLOAD_TWITTER_MEDIA = gql`
         mediaResponse {
           expiresAfterSeconds
           size
-          # Use this reference when posting
-          # a tweet with an image, or updating
-          # a banner image, etc.
           mediaId
         }
       }
@@ -91,11 +89,11 @@ export const UPLOAD_TWITTER_MEDIA = gql`
 export const UPDATE_TWITTER_PROFILE_IMAGE = gql`
   mutation UpdateTwitterProfileImage($mediaId: String!) {
     twitter {
-      makeRestCall {
-        post(path: "/1.1/account/update_profile_image.json", query: [["media_id", $mediaId]]) {
-          jsonBody
-          response {
-            statusCode
+      updateProfileImage(input: { mediaId: $mediaId }) {
+        mediaResponse {
+          user {
+            id
+            name
           }
         }
       }

@@ -10,6 +10,7 @@ const TextArea = ({ type, name, handleChange, value, ariaLabel, placeholder }) =
         fontFamily: 'heading',
         padding: 2,
         resize: 'none',
+        maxWidth: 800,
         '&:focus': {
           borderColor: 'accent',
         },

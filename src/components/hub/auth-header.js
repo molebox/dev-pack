@@ -199,7 +199,7 @@ const steps = [
   },
 ];
 
-const AuthHeader = ({ userName }) => {
+const AuthHeader = ({ userName, loadBtn }) => {
   const { currentUser } = React.useContext(UserContext);
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
@@ -211,13 +211,14 @@ const AuthHeader = ({ userName }) => {
         gridArea: 'authHeader',
         display: ['flex', 'grid'],
         flexDirection: ['column', null],
-        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px'],
+        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px 200px'],
         justifyContent: ['space-between', null, null],
         // maxWidth: 1440,
-        m: [3, null, null],
+        // m: [3, null, null],
         boxShadow: 0,
         border: 'solid 3px',
         backgroundColor: 'background',
+        mb: 4,
       }}
     >
       <Tour
@@ -248,6 +249,19 @@ const AuthHeader = ({ userName }) => {
         Welcome {userName}!
       </p>
       <div></div>
+      <div
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          justifySelf: 'flex-end',
+          width: 200,
+          height: 'min-content',
+          alignSelf: 'center',
+          m: 3,
+        }}
+      >
+        {loadBtn}
+      </div>
       <div
         sx={{
           display: 'flex',

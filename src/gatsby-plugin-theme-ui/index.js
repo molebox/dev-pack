@@ -30,7 +30,7 @@ export default {
     text: '#2b2c34',
     background: '#fffffe',
     primary: '#6246ea',
-    secondary: '#d1d1e9',
+    secondary: '#F1F1F8',
     accent: '#E03E3E',
     disabled: '#A6A8B5',
   },

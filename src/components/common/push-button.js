@@ -93,7 +93,7 @@ export const PushButton = ({ text, onClick, type, disabled, className }) => (
         font-family: Jost;
         font-weight: 500;
         color: #fffffe;
-        font-size: 2rem;
+        font-size: 1.5rem;
         line-height: 110%;
         letter-spacing: 5px;
         text-align: center;

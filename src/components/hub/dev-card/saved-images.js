@@ -19,13 +19,13 @@ export default function SavedImages({ endpoint, folder, getSelectedImage }) {
 
   if (isLoading)
     return (
-      <div sx={{ gridArea: 'saved', textAlign: 'center', height: '100%' }}>
+      <div sx={{ gridArea: 'saved', gridColumn: 2, textAlign: 'center', height: 200 }}>
         <Loading />
       </div>
     );
   if (isError)
     return (
-      <div sx={{ gridArea: 'saved', textAlign: 'center', height: '100%' }}>
+      <div sx={{ gridArea: 'saved', textAlign: 'center', height: 200, gridColumn: 2 }}>
         <Error width="90px" height="90px" />
         <p
           sx={{
@@ -42,11 +42,14 @@ export default function SavedImages({ endpoint, folder, getSelectedImage }) {
       <div
         sx={{
           gridArea: 'saved',
+          gridColumn: 2,
           textAlign: 'center',
-          height: '100%',
+          height: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: 400,
         }}
       >
         <div
@@ -59,6 +62,7 @@ export default function SavedImages({ endpoint, folder, getSelectedImage }) {
           {data &&
             data.resources
               .filter((image) => image.folder === folder)
+              .slice(0, 3)
               .map((image) => {
                 return (
                   <LazyImage
@@ -100,20 +104,28 @@ export default function SavedImages({ endpoint, folder, getSelectedImage }) {
     <div
       sx={{
         gridArea: 'saved',
+        gridColumn: 2,
         display: 'flex',
+        justifyContent: 'center',
         flexDirection: 'column',
+        alignItems: 'center',
+        m: 6,
+
+        height: 30,
+        maxWidth: 400,
       }}
     >
-      <p
+      <Button text="Load Images" onClick={() => customConfigSearch()} />
+      <em
         sx={{
           fontFamily: 'heading',
-          textAlign: 'center',
-          mb: 2,
+          fontSize: [0],
+          mt: 2,
+          fontWeight: 700,
         }}
       >
-        Load your previously saved images
-      </p>
-      <Button text="Load Images" onClick={() => customConfigSearch()} />
+        Your last 3 saves are shown
+      </em>
     </div>
   );
 }

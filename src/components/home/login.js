@@ -92,21 +92,22 @@ const Login = () => {
           </p>
 
           <em
-          sx={{
-            fontFamily: 'heading',
-            fontSize: [0],
-            fontWeight: 700,
-          }}
-        >
-          This site uses popups to allow you to login. Please disable any popup blockers you have installed for this domain to allow for proper login and data fetching. 
-        </em>
+            sx={{
+              fontFamily: 'heading',
+              fontSize: [0],
+              fontWeight: 700,
+            }}
+          >
+            This site uses popups to allow you to login. Please disable any popup blockers you have installed for this
+            domain to allow for proper login and data fetching.
+          </em>
 
           <div
             sx={{
               margin: '0 auto',
               height: 'min-content',
               width: 'min-content',
-              mt: 3
+              mt: 3,
             }}
           >
             <Button onClick={login} text="Login" />
