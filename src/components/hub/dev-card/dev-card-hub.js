@@ -21,6 +21,7 @@ import {
   UPDATE_TWITTER_PROFILE_IMAGE,
   UPLOAD_TWITTER_MEDIA,
   getWeekDay,
+  UPDATE_TWITTER_COVER_IMAGE,
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
@@ -40,6 +41,7 @@ const DevCardHub = () => {
   const [twitter] = useMutation(UPDATE_TWITTER_USER);
   const [uploadTwitterMedia, { errorTwitterMedia }] = useMutation(UPLOAD_TWITTER_MEDIA);
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
+  const [updateTwitterCoverImage, { errorTwitterCoverImage }] = useMutation(UPDATE_TWITTER_COVER_IMAGE);
   const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
 
   const dispatch = React.useContext(DevCardDispatchContext);
@@ -118,7 +120,7 @@ const DevCardHub = () => {
       })
         .then((res) => {
           dispatch({
-            type: 'mediaId',
+            type: 'profileMediaId',
             payload: res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId,
           });
           toast.success('Successfully uploaded Twitter media ', {
@@ -130,11 +132,61 @@ const DevCardHub = () => {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
-      console.log('THE MEDIA ID: ', state.mediaId);
+      console.log('THE MEDIA ID: ', state.profileMediaId);
 
       updateTwitterProfileImage({
         variables: {
-          mediaId: state.mediaId.toString(),
+          mediaId: state.profileMediaId.toString(),
+        },
+      })
+        .then((res) => {
+          console.log('media upload: ', res);
+          if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
+            toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
+          } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200) {
+            toast.success('Successfully updated Twitter profile image ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          // toast.error(`This went wrong uploading the initial media: ${error.message}`, {
+          //   position: toast.POSITION.BOTTOM_CENTER,
+          // });
+        });
+    }
+  };
+
+  const updateTwitterUserCoverImage = (image) => {
+    console.log({ image });
+    if (image !== '') {
+      console.log('the base64 string: ', image.split(',')[1]);
+
+      uploadTwitterMedia({
+        variables: {
+          imageData: image.split(',')[1],
+        },
+      })
+        .then((res) => {
+          dispatch({
+            type: 'coverMediaId',
+            payload: res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId,
+          });
+          toast.success('Successfully uploaded Twitter media ', {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        })
+        .catch((error) => {
+          toast.error(`This went wrong uploading the profile image: ${error.message}`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        });
+      console.log('THE MEDIA ID: ', state.coverMediaId);
+
+      updateTwitterCoverImage({
+        variables: {
+          mediaId: state.coverMediaId.toString(),
         },
       })
         .then((res) => {
@@ -195,8 +247,11 @@ const DevCardHub = () => {
         if (state.pushContent) {
           updateTwitterProfile();
         }
-        if (state.pushImage) {
+        if (state.pushProfileImage) {
           updateTwitterUserProfileImage(state.profileBase64Image);
+        }
+        if (state.pushCoverImage) {
+          updateTwitterUserCoverImage(state.coverBase64Image);
         }
       }
     } else {
@@ -205,8 +260,15 @@ const DevCardHub = () => {
       const loginSuccess = auth.isLoggedIn(needsLoginService);
       if (loginSuccess) {
         toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
-        updateTwitterProfile();
-        updateTwitterUserProfileImage(state.profileBase64Image);
+        if (state.pushContent) {
+          updateTwitterProfile();
+        }
+        if (state.pushProfileImage) {
+          updateTwitterUserProfileImage(state.profileBase64Image);
+        }
+        if (state.pushCoverImage) {
+          updateTwitterUserCoverImage(state.coverBase64Image);
+        }
       }
     }
   };
@@ -436,9 +498,14 @@ const DevCardHub = () => {
             }}
           >
             <Checkbox
-              type="Profile Image"
-              checked={state.pushImage}
-              onCheckboxChange={() => dispatch({ type: 'pushImage', payload: !state.pushImage })}
+              type="Profile image"
+              checked={state.pushProfileImage}
+              onCheckboxChange={() => dispatch({ type: 'pushProfileImage', payload: !state.pushProfileImage })}
+            />
+            <Checkbox
+              type="Cover image"
+              checked={state.pushCoverImage}
+              onCheckboxChange={() => dispatch({ type: 'pushCoverImage', payload: !state.pushCoverImage })}
             />
             <Checkbox
               type="Profile content"

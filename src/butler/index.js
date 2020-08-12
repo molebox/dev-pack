@@ -121,3 +121,14 @@ export const UPDATE_TWITTER_PROFILE_IMAGE = gql`
     }
   }
 `;
+
+export const UPDATE_TWITTER_COVER_IMAGE = gql`
+mutation UpdateProfileBanner($mediaId: String!) {
+  twitter {
+    updateProfileBanner(input: { mediaId: $mediaId }) {
+      # Just select __typename if you don't want the new user
+      __typename
+    }
+  }
+}
+`;

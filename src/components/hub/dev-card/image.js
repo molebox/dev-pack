@@ -3,6 +3,7 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { useImage } from 'use-cloudinary';
 import { DevCardDispatchContext } from '../../../context/devcard-context';
+import { getSelectedImage } from '../../../butler';
 
 // Image w/ Lazy-load + placeholder
 function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, isProfile }) {
@@ -10,6 +11,15 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
     cloudName,
   });
   const dispatch = React.useContext(DevCardDispatchContext);
+
+  const getBase64Image = (image) => {
+    dispatch({type: isProfile ? 'profileBase64Image' : 'coverBase64Image', payload: image})
+  } 
+
+  const setImageForPush = () => {
+    dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })
+    getSelectedImage(secure_url, getBase64Image)
+  }
   React.useEffect(() => {
     generateUrl({
       publicId,
@@ -37,10 +47,8 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
       role="button"
       tabIndex="0"
       // aria-pressed="false"
-      onKeyPress={() =>
-        dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })
-      }
-      onClick={() => dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })}
+      onKeyPress={() => setImageForPush()}
+      onClick={() => setImageForPush()}
     >
       {inView || (supportsLazyLoading && isSuccess) ? (
         <img
