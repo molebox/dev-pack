@@ -303,20 +303,22 @@ const ProfileUpload = ({ userName, getBase64Image, currentImage }) => {
         )}
       </div>
 
-      <div
-        sx={{
-          gridArea: 'saved',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <SavedImages
-          endpoint="/.netlify/functions/search"
-          folder={cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}
-          getSelectedImage={getSelectedImage}
-        />
-      </div>
+      {userName ? (
+        <div
+          sx={{
+            gridArea: 'saved',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <SavedImages
+            endpoint="/.netlify/functions/search"
+            folder={cloudinaryName ? cloudinaryName : userName.replace(/\s/g, '')}
+            getSelectedImage={getSelectedImage}
+          />
+        </div>
+      ) : null}
 
       <aside
         sx={{

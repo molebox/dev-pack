@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
+const Input = ({ type, name, handleChange, value, ariaLabel, placeholder, id }) => {
   return (
     <input
       sx={{
@@ -23,6 +23,7 @@ const Input = ({ type, name, handleChange, value, ariaLabel, placeholder }) => {
       type={type}
       name={name}
       onChange={handleChange}
+      id={id}
     />
   );
 };

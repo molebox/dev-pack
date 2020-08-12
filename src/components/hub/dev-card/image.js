@@ -2,12 +2,14 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { useImage } from 'use-cloudinary';
+import { DevCardDispatchContext } from '../../../context/devcard-context';
 
 // Image w/ Lazy-load + placeholder
-function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, getSelectedImage }) {
+function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, isProfile }) {
   const { generateUrl, blurredPlaceholderUrl, isError, error, ref, supportsLazyLoading, inView, isSuccess } = useImage({
     cloudName,
   });
+  const dispatch = React.useContext(DevCardDispatchContext);
   React.useEffect(() => {
     generateUrl({
       publicId,
@@ -33,10 +35,12 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
         outline: 'none',
       }}
       role="button"
-      tabindex="0"
+      tabIndex="0"
       // aria-pressed="false"
-      onKeyPress={() => getSelectedImage(secure_url)}
-      onClick={() => getSelectedImage(secure_url)}
+      onKeyPress={() =>
+        dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })
+      }
+      onClick={() => dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })}
     >
       {inView || (supportsLazyLoading && isSuccess) ? (
         <img

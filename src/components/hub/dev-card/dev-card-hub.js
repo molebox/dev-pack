@@ -9,11 +9,9 @@ import { useMutation, useLazyQuery } from '@apollo/client';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
-import { UserContext } from './../../../context/user-context';
 import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProfileUpload from '../../common/profile-upload';
 import OneGraphAuth from 'onegraph-auth';
 import {
   APP_ID,
@@ -26,36 +24,26 @@ import {
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
-import Loading from './../../svg/loading';
-import TwitterLogin from './../../auth/twitter-login';
+import FileInfo from '../../common/file-info';
+import ProfileCard from './profile-card';
+import SavedProfileImages from '../../common/saved-profile-images';
+import SavedCoverImages from '../../common/saved-cover-images';
+import ProfileDropzone from '../../common/profile-dropzone';
+import CoverDropzone from '../../common/cover-dropzone';
+import { DevCardDispatchContext } from '../../../context/devcard-context';
+import { DevCardStateContext } from './../../../context/devcard-context';
 
 toast.configure();
 
 const DevCardHub = () => {
-  const [github, { data: githubData }] = useMutation(UPDATE_GITHUB_USER);
-  const [twitter, { data: twitterData }] = useMutation(UPDATE_TWITTER_USER);
-  const [uploadTwitterMedia, { data: twitterProfileData, loadingTwitterMedia, errorTwitterMedia }] = useMutation(
-    UPLOAD_TWITTER_MEDIA
-  );
-  const [
-    updateTwitterProfileImage,
-    { data: twitterProfileImage, loadingTwitterProfileIMage, errorTwitterProfileImage },
-  ] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
+  const [github] = useMutation(UPDATE_GITHUB_USER);
+  const [twitter] = useMutation(UPDATE_TWITTER_USER);
+  const [uploadTwitterMedia, { errorTwitterMedia }] = useMutation(UPLOAD_TWITTER_MEDIA);
+  const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
-  const { currentUser } = React.useContext(UserContext);
 
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [location, setLocation] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [website, setWebsite] = React.useState('');
-  const [checkboxGithub, setCheckboxGithub] = React.useState(false);
-  const [checkboxTwitter, setCheckboxTwitter] = React.useState(false);
-  const [pushContent, setPushContent] = React.useState(true);
-  const [pushImage, setPushImage] = React.useState(true);
-  const [base64Image, setBase64Image] = React.useState('');
-  const [mediaId, setMediaId] = React.useState('');
-  const [isFriday, setIsFriday] = React.useState(false);
+  const dispatch = React.useContext(DevCardDispatchContext);
+  const state = React.useContext(DevCardStateContext);
 
   const auth =
     typeof window !== 'undefined'
@@ -69,14 +57,13 @@ const DevCardHub = () => {
     let today = getWeekDay(date);
 
     if (today === 'Friday') {
-      setIsFriday(true);
+      dispatch({ type: 'isFriday', isFriday: true });
     }
   }, []);
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
   React.useEffect(() => {
-    console.log({ currentUser });
     auth
       .login('twitter')
       .then(() => {
@@ -96,16 +83,12 @@ const DevCardHub = () => {
   }, []);
 
   React.useEffect(() => {
-    console.log({ userData });
-    console.log({ error });
-    console.log({ loading });
     if (userData && userData.me) {
-      userData.me && setWebsite(userData.me.github.websiteUrl.slice(12));
-      userData.me && setEmail(userData.me.github.email);
-      userData.me && setLocation(userData.me.twitter.location);
-      userData.me && setDescription(userData.me.twitter.description);
-      userData.me && setName(userData.me.twitter.name);
-      // updateUser({ displayName: userData.me.twitter.name });
+      userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
+      userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
+      userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
+      userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
+      userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
     }
   }, [userData, error, loading]);
 
@@ -116,10 +99,10 @@ const DevCardHub = () => {
   const updateGitHub = () =>
     github({
       variables: {
-        name: name !== '' ? name : null,
-        location: location !== '' ? location : null,
-        email: email !== '' ? email : null,
-        bio: description !== '' ? description : null,
+        name: state.name !== '' ? state.name : null,
+        location: state.location !== '' ? state.location : null,
+        email: state.email !== '' ? state.email : null,
+        bio: state.description !== '' ? state.description : null,
       },
     });
 
@@ -134,7 +117,10 @@ const DevCardHub = () => {
         },
       })
         .then((res) => {
-          setMediaId(res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId);
+          dispatch({
+            type: 'mediaId',
+            payload: res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId,
+          });
           toast.success('Successfully uploaded Twitter media ', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
@@ -144,11 +130,11 @@ const DevCardHub = () => {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
-      console.log('THE MEDIA ID: ', mediaId);
+      console.log('THE MEDIA ID: ', state.mediaId);
 
       updateTwitterProfileImage({
         variables: {
-          mediaId: mediaId.toString(),
+          mediaId: state.mediaId.toString(),
         },
       })
         .then((res) => {
@@ -172,10 +158,10 @@ const DevCardHub = () => {
 
   const updateTwitterProfile = () => {
     const query = [
-      ['url', website],
-      ['location', location],
-      ['description', description],
-      ['name', name],
+      ['url', state.website],
+      ['location', state.location],
+      ['description', state.description],
+      ['name', state.name],
     ].filter((row) => Boolean(row[1]));
     return twitter({
       variables: {
@@ -192,7 +178,7 @@ const DevCardHub = () => {
 
   const updateInfo = () => {
     const needsLoginService = auth.findMissingAuthServices(error || errorTwitterMedia || errorTwitterProfileImage)[0];
-    if (checkboxGithub && pushContent) {
+    if (state.checkboxGithub && state.pushContent) {
       if (!needsLoginService) {
         updateGitHub();
       } else {
@@ -204,13 +190,13 @@ const DevCardHub = () => {
         }
       }
     }
-    if (checkboxTwitter) {
+    if (state.checkboxTwitter) {
       if (!needsLoginService) {
-        if (pushContent) {
+        if (state.pushContent) {
           updateTwitterProfile();
         }
-        if (pushImage) {
-          updateTwitterUserProfileImage(base64Image);
+        if (state.pushImage) {
+          updateTwitterUserProfileImage(state.profileBase64Image);
         }
       }
     } else {
@@ -220,35 +206,29 @@ const DevCardHub = () => {
       if (loginSuccess) {
         toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
         updateTwitterProfile();
-        updateTwitterUserProfileImage(base64Image);
+        updateTwitterUserProfileImage(state.profileBase64Image);
       }
     }
   };
 
   const handleOnNameChange = (e) => {
-    setName(e.target.value);
+    dispatch({ type: 'name', payload: e.target.value });
   };
 
   const handleOnEmailChange = (e) => {
-    setEmail(e.target.value);
+    dispatch({ type: 'email', payload: e.target.value });
   };
 
   const handleOnBioChange = (e) => {
-    setDescription(e.target.value);
+    dispatch({ type: 'description', payload: e.target.value });
   };
 
   const handleOnLocationChange = (e) => {
-    setLocation(e.target.value);
+    dispatch({ type: 'location', payload: e.target.value });
   };
 
   const handleOnWebsiteChange = (e) => {
-    setWebsite(e.target.value);
-  };
-
-  const getBase64Image = (image) => {
-    if (image !== '') {
-      setBase64Image(image);
-    }
+    dispatch({ type: 'website', payload: e.target.value });
   };
 
   const loadData = async () => {
@@ -279,7 +259,7 @@ const DevCardHub = () => {
       }}
       className="devCard"
     >
-      <AuthHeader userName={name} loadBtn={<Button text="Load Profile Data" onClick={loadData} />} />
+      <AuthHeader userName={state.name} loadBtn={<Button text="Load Profile Data" onClick={loadData} />} />
       <div
         sx={{
           backgroundColor: 'background',
@@ -295,23 +275,28 @@ const DevCardHub = () => {
             `,
             `
             'authHeader authHeader'
-            'imageSection imageSection'
-            'imageSection imageSection'
+            'fileInfo preview'
+            'profileDropzone savedProfile'
+            'coverDropzone savedCover'
             'form checkboxes'
             'form checkboxes'
             'push push'
           `,
           ],
           gridAutoColumns: ['1fr', '1fr 1fr'],
-          // gridAutoColumns: ['1fr', 'minmax(auto, 250px) 1fr minmax(auto, 300px)'],
           gridAutoRows: 'auto',
           p: 4,
         }}
       >
+        <FileInfo />
+        <ProfileCard />
+        <SavedProfileImages />
+        <SavedCoverImages />
+        <ProfileDropzone />
+        <CoverDropzone />
         <div
           sx={{
             gridArea: 'form',
-            // height: '100%',
             maxHeight: 700,
             display: 'flex',
             flexDirection: 'column',
@@ -348,92 +333,79 @@ const DevCardHub = () => {
               justifyContent: 'space-evenly',
             }}
           >
-            <Label>
+            <Label forAttribute="name">
               <LabelText>
-                What should people call you? <Emoji ariaLabel="Two hands shaking">🤝🏽</Emoji>
+                What should people call you? <Emoji ariaLabel="Two hands shaking" symbol="🤝🏽" />
               </LabelText>
               <Input
+                id="name"
                 type="text"
                 name="name"
                 handleChange={handleOnNameChange}
-                value={name}
+                value={state.name}
                 ariaLabel="Your name"
                 placeholder="Your Name..."
               />
             </Label>
-            <Label>
+            <Label forAttribute="location">
               <LabelText>
-                Where do you live? <Emoji ariaLabel="Planet earth">🌎</Emoji>
+                Where do you live? <Emoji ariaLabel="Planet earth" symbol="🌎" />
               </LabelText>
               <Input
                 type="text"
                 name="location"
                 handleChange={handleOnLocationChange}
-                value={location}
+                value={state.location}
                 ariaLabel="Your location"
                 placeholder="Your Location..."
+                id="location"
               />
             </Label>
-            <Label>
+            <Label forAttribute="website">
               <LabelText>
-                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk">💾</Emoji>
+                Got a personal site? Drop it here <Emoji ariaLabel="A floppy disk" symbol="💾" />
               </LabelText>
               <Input
                 type="text"
                 name="website"
                 handleChange={handleOnWebsiteChange}
-                value={website}
+                value={state.website}
                 ariaLabel="Your website"
                 placeholder="Your Website..."
+                id="website"
               />
             </Label>
-            <Label>
+            <Label forAttribute="email">
               <LabelText>
-                Your preferred email <Emoji ariaLabel="Email">📧</Emoji>
+                Your preferred email <Emoji ariaLabel="Email" symbol="📧" />
               </LabelText>
               <Input
                 type="text"
                 name="email"
                 handleChange={handleOnEmailChange}
-                value={email}
+                value={state.email}
                 ariaLabel="Your email"
                 placeholder="Your email..."
+                id="email"
               />
             </Label>
           </div>
 
-          <Label>
+          <Label forAttribute="description">
             <LabelText>
-              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO">🛸</Emoji>
+              Who are you? Be creative, this short blurb could be first contact! <Emoji ariaLabel="A UFO" symbol="🛸" />
             </LabelText>
             <TextArea
               type="text"
-              name="name"
+              name="description"
               handleChange={handleOnBioChange}
-              value={description}
+              value={state.description}
               ariaLabel="Your bio"
               placeholder="Your Bio..."
+              id="description"
             />
           </Label>
         </div>
-
-        <aside
-          sx={{
-            gridArea: 'imageSection',
-            display: 'flex',
-            justifyContent: 'space-evenly',
-            flexGrow: 'grow',
-            height: '100%',
-            my: 1,
-          }}
-          className="imageUpload"
-        >
-          <ProfileUpload
-            userName={name}
-            getBase64Image={getBase64Image}
-            currentImage={userData && userData.me.github.avatarUrl}
-          />
-        </aside>
 
         <aside
           sx={{
@@ -463,11 +435,15 @@ const DevCardHub = () => {
               width: '100%',
             }}
           >
-            <Checkbox type="Profile Image" checked={pushImage} onCheckboxChange={() => setPushImage((prev) => !prev)} />
+            <Checkbox
+              type="Profile Image"
+              checked={state.pushImage}
+              onCheckboxChange={() => dispatch({ type: 'pushImage', payload: !state.pushImage })}
+            />
             <Checkbox
               type="Profile content"
-              checked={pushContent}
-              onCheckboxChange={() => setPushContent((prev) => !prev)}
+              checked={state.pushContent}
+              onCheckboxChange={() => dispatch({ type: 'pushContent', payload: !state.pushContent })}
             />
           </div>
           <Label>
@@ -483,15 +459,31 @@ const DevCardHub = () => {
               width: '100%',
             }}
           >
-            <Checkbox type="Github" onCheckboxChange={() => setCheckboxGithub((prev) => !prev)} />
-            <Checkbox type="Twitter" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} />
+            <Checkbox
+              type="Github"
+              onCheckboxChange={() => dispatch({ type: 'checkboxGitHub', payload: !state.checkboxGitHub })}
+            />
+            <Checkbox
+              type="Twitter"
+              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
+            />
 
-            <Checkbox comingSoon type="dev.to" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
-            <Checkbox comingSoon type="CodePen" onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)} disabled />
+            <Checkbox
+              comingSoon
+              type="dev.to"
+              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
+              disabled
+            />
+            <Checkbox
+              comingSoon
+              type="CodePen"
+              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
+              disabled
+            />
             <Checkbox
               comingSoon
               type="LinkedIn"
-              onCheckboxChange={() => setCheckboxTwitter((prev) => !prev)}
+              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
               disabled
             />
           </div>
@@ -510,7 +502,7 @@ const DevCardHub = () => {
             className="push"
             // disabled={checkboxGithub || checkboxTwitter ? false : true}
             onClick={updateInfo}
-            text={`${isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
+            text={`${state.isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
           />
         </aside>
       </div>

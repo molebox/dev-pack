@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const Label = ({ children }) => (
+const Label = ({ children, forAttribute }) => (
   <label
     sx={{
       fontFamily: 'body',
@@ -10,6 +10,7 @@ const Label = ({ children }) => (
       color: 'text',
       marginTop: 20,
     }}
+    for={forAttribute}
   >
     {children}
   </label>

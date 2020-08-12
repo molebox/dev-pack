@@ -1,13 +1,10 @@
 /** @jsx jsx */
 import { jsx, css } from 'theme-ui';
 import React from 'react';
-import { UserContext } from './../../context/user-context';
 import Logout from './logout';
 import { Button } from './../common/button';
 import TourBox from './../common/tour-box';
 import Loadable from 'react-loadable';
-import OneGraphAuth from 'onegraph-auth';
-import { APP_ID } from '../../butler';
 
 const Tour = Loadable({
   loader: () => import('reactour'),
@@ -200,7 +197,6 @@ const steps = [
 ];
 
 const AuthHeader = ({ userName, loadBtn }) => {
-  const { currentUser } = React.useContext(UserContext);
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
   const closeTour = () => setIsTourOpen(false);

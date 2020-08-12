@@ -24,6 +24,27 @@ export function getWeekDay(date) {
   return weekdays[day];
 }
 
+export const getSelectedImage = (imageUrl, pushBase64Image) => {
+  // The user has selected a previously saved image from cloudinary so we convert that url back to a base64 string and push it up ready to be set as the new profile picture
+  const toDataURL = (url) =>
+    fetch(url)
+      .then((response) => response.blob())
+      .then(
+        (blob) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          })
+      );
+
+  toDataURL(imageUrl).then((dataUrl) => {
+    console.log('converted to base64', dataUrl);
+    pushBase64Image(dataUrl);
+  });
+};
+
 export const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {
     twitter {
