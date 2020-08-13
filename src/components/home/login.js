@@ -90,18 +90,6 @@ const Login = () => {
             All your information is secure in your pack. Please login to gain access. By default we use your Github
             account.
           </p>
-
-          <em
-            sx={{
-              fontFamily: 'heading',
-              fontSize: [0],
-              fontWeight: 700,
-            }}
-          >
-            This site uses popups to allow you to login. Please disable any popup blockers you have installed for this
-            domain to allow for proper login and data fetching.
-          </em>
-
           <div
             sx={{
               margin: '0 auto',
@@ -113,6 +101,17 @@ const Login = () => {
             <Button onClick={login} text="Login" />
           </div>
         </div>
+        <em
+            sx={{
+              fontFamily: 'heading',
+              fontSize: [1],
+              fontWeight: 700,
+              mt: 3
+            }}
+          >
+            This site uses popups to allow you to login. Please disable any popup blockers you have installed for this
+            domain to allow for proper login and data fetching.
+          </em>
       </section>
     </Layout>
   );

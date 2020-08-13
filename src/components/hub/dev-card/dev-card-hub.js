@@ -66,6 +66,27 @@ const DevCardHub = () => {
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
   React.useEffect(() => {
+    const checkLogin = async () => {
+      if (!needsLoginService) {
+        console.log({ needsLoginService });
+        getUserDetails();
+      } else {
+        await auth.login(needsLoginService);
+        const loginSuccess = await auth.isLoggedIn(needsLoginService);
+        if (loginSuccess) {
+          console.log('Successfully logged into ' + needsLoginService);
+          getUserDetails();
+        } else {
+          console.log('You did not grant auth to ' + needsLoginService);
+        }
+      }
+    }
+
+    checkLogin();
+
+  }, [needsLoginService])
+
+  React.useEffect(() => {
     auth
       .login('twitter')
       .then(() => {
