@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from 'theme-ui';
+import Loading from '../svg/loading';
 
 export const buttonBorderLeft = css`
   //   left: 2px;
@@ -47,7 +48,7 @@ export const buttonBorder = css`
   transition: all 0.25s ease-out;
 `;
 
-export const PushButton = ({ text, onClick, type, disabled, className }) => (
+export const PushButton = ({ text, onClick, type, disabled, className, loading }) => (
   <button
     disabled={disabled}
     type={type}
@@ -154,7 +155,7 @@ export const PushButton = ({ text, onClick, type, disabled, className }) => (
   >
     <div className="bottom" />
     <div className="top">
-      <div className="label">{text}</div>
+      <div className="label">{loading ? <Loading /> : text}</div>
       <div css={buttonBorder} />
       <div css={buttonBorderLeft} />
       <div css={buttonBorder} />

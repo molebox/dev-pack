@@ -39,13 +39,13 @@ import Loading from '../../svg/loading';
 toast.configure();
 
 const DevCardHub = () => {
-  const [github, { error: githubError }] = useMutation(UPDATE_GITHUB_USER);
-  const [twitter] = useMutation(UPDATE_TWITTER_USER);
+  const [github, { error: githubError, loading: githubUpdateLoading }] = useMutation(UPDATE_GITHUB_USER);
+  const [twitter, { loading: twitterUpdateLoading }] = useMutation(UPDATE_TWITTER_USER);
   const [uploadTwitterMedia, { errorTwitterMedia }] = useMutation(UPLOAD_TWITTER_MEDIA);
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [updateTwitterCoverImage, { errorTwitterCoverImage }] = useMutation(UPDATE_TWITTER_COVER_IMAGE);
-  const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
-  const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
+  // const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  // const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
@@ -57,31 +57,55 @@ const DevCardHub = () => {
         })
       : null;
 
-  React.useEffect(() => {
-    console.log({ loggedInServiceData });
-    if (
-      loggedInServiceData &&
-      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
-    ) {
-      auth
-        .login('twitter')
-        .then(() => {
-          auth.isLoggedIn('twitter').then((isLoggedIn) => {
-            if (isLoggedIn) {
-              toast.success('Successfully logged in to Twitter ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            } else {
-              toast.error('You did not grant auth for Twitter ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            }
-          });
-        })
-        .catch((e) => console.error('Problem logging in', e));
-    }
-  }, [loggedInServiceData]);
+  // const needsLoginService = auth.findMissingAuthServices(error)[0];
+
+  // React.useEffect(() => {
+  //   console.log({ loggedInServiceData });
+  //   if (
+  //     loggedInServiceData &&
+  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
+  //   ) {
+  //     auth
+  //       .login('twitter')
+  //       .then(() => {
+  //         auth.isLoggedIn('twitter').then((isLoggedIn) => {
+  //           if (isLoggedIn) {
+  //             toast.success('Successfully logged in to Twitter ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           } else {
+  //             toast.error('You did not grant auth for Twitter ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           }
+  //         });
+  //       })
+  //       .catch((e) => console.error('Problem logging in', e));
+  //   }
+  //   if (
+  //     loggedInServiceData &&
+  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
+  //   ) {
+  //     auth
+  //       .login('github')
+  //       .then(() => {
+  //         auth.isLoggedIn('github').then((isLoggedIn) => {
+  //           if (isLoggedIn) {
+  //             toast.success('Successfully logged in to GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           } else {
+  //             toast.error('You did not grant auth for GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           }
+  //         });
+  //       })
+  //       .catch((e) => console.error('Problem logging in', e));
+  //   }
+  // }, [loggedInServiceData]);
 
   React.useEffect(() => {
     let date = new Date();
@@ -91,8 +115,6 @@ const DevCardHub = () => {
       dispatch({ type: 'isFriday', isFriday: true });
     }
   }, []);
-
-  const needsLoginService = auth.findMissingAuthServices(error)[0];
 
   /*   React.useEffect(() => {
     const checkLogin = async () => {
@@ -134,15 +156,15 @@ const DevCardHub = () => {
   //     .catch((e) => console.error('Problem logging in', e));
   // }, []);
 
-  React.useEffect(() => {
-    if (userData && userData.me) {
-      userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
-      userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
-      userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
-      userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
-      userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
-    }
-  }, [userData, error, loading]);
+  // React.useEffect(() => {
+  //   if (userData && userData.me) {
+  //     userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
+  //     userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
+  //     userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
+  //     userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
+  //     userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+  //   }
+  // }, [userData, error, loading]);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -294,7 +316,7 @@ const DevCardHub = () => {
 
   const updateInfo = () => {
     const needsLoginService = auth.findMissingAuthServices(
-      error || errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage || githubError
+      errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage || githubError
     )[0];
     console.log('update info needLoginService: ', needsLoginService);
     if (state.checkboxGitHub && state.pushContent) {
@@ -363,21 +385,21 @@ const DevCardHub = () => {
     dispatch({ type: 'website', payload: e.target.value });
   };
 
-  const loadData = async () => {
-    if (!needsLoginService) {
-      console.log({ needsLoginService });
-      getUserDetails();
-    } else {
-      await auth.login(needsLoginService);
-      const loginSuccess = await auth.isLoggedIn(needsLoginService);
-      if (loginSuccess) {
-        console.log('Successfully logged into ' + needsLoginService);
-        getUserDetails();
-      } else {
-        console.log('You did not grant auth to ' + needsLoginService);
-      }
-    }
-  };
+  // const loadData = async () => {
+  //   if (!needsLoginService) {
+  //     console.log({ needsLoginService });
+  //     getUserDetails();
+  //   } else {
+  //     await auth.login(needsLoginService);
+  //     const loginSuccess = await auth.isLoggedIn(needsLoginService);
+  //     if (loginSuccess) {
+  //       console.log('Successfully logged into ' + needsLoginService);
+  //       getUserDetails();
+  //     } else {
+  //       console.log('You did not grant auth to ' + needsLoginService);
+  //     }
+  //   }
+  // };
 
   return (
     <section
@@ -393,7 +415,7 @@ const DevCardHub = () => {
     >
       <AuthHeader
         userName={state.name}
-        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
+        // loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
       />
       <div
         sx={{
@@ -642,6 +664,7 @@ const DevCardHub = () => {
         >
           <PushButton
             className="push"
+            loading={githubUpdateLoading || twitterUpdateLoading}
             // disabled={checkboxGithub || checkboxTwitter ? false : true}
             onClick={updateInfo}
             text={`${state.isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
