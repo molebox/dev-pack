@@ -204,8 +204,7 @@ const steps = [
             mb: 1,
           }}
         >
-          <strong>Coming soon....</strong> As well as additional platforms to choose from, you will be able to edit your
-          profile and cover images too.
+          <strong>Coming soon....</strong> Additional platforms to choose from
         </p>
       </TourBox>
     ),

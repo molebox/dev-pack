@@ -142,7 +142,7 @@ const DevCardHub = () => {
         })
           .then((res) => {
             console.log('media upload: ', res);
-            if (!res) {
+            if (!res.data) {
               toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
             } else {
               toast.success('Successfully updated Twitter profile image ', {
@@ -233,7 +233,7 @@ const DevCardHub = () => {
   };
 
   const updateInfo = () => {
-    const needsLoginService = auth.findMissingAuthServices(error || errorTwitterMedia || errorTwitterProfileImage)[0];
+    const needsLoginService = auth.findMissingAuthServices(error || errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage)[0];
     if (state.checkboxGithub && state.pushContent) {
       if (!needsLoginService) {
         updateGitHub();
@@ -310,7 +310,7 @@ const DevCardHub = () => {
         console.log('Successfully logged into ' + needsLoginService);
         getUserDetails();
       } else {
-        console.log('The user did not grant auth to ' + needsLoginService);
+        console.log('You did not grant auth to ' + needsLoginService);
       }
     }
   };
@@ -533,7 +533,7 @@ const DevCardHub = () => {
             }}
           >
             <Checkbox
-              type="Github"
+              type="GitHub"
               onCheckboxChange={() => dispatch({ type: 'checkboxGitHub', payload: !state.checkboxGitHub })}
             />
             <Checkbox
@@ -543,7 +543,7 @@ const DevCardHub = () => {
 
             <Checkbox
               comingSoon
-              type="dev.to"
+              type="DEV"
               onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
               disabled
             />

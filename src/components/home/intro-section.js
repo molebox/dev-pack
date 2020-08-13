@@ -106,7 +106,7 @@ const IntroSection = () => {
           }}
         >
           Launch platforms include <strong sx={{ color: 'background' }}>Twitter</strong> and{' '}
-          <strong sx={{ color: 'background' }}>GitHub</strong>. Planned integrations include dev.to, LinkedIn, CodePen,
+          <strong sx={{ color: 'background' }}>GitHub</strong>. Planned integrations include DEV, LinkedIn, CodePen,
           Twitch and Stack Overflow.
         </h5>
       </div>
