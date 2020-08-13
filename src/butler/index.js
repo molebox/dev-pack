@@ -63,7 +63,7 @@ export const UPDATE_TWITTER_USER = gql`
 export const UPDATE_GITHUB_USER = gql`
   mutation UpdateGitHubUserProfile($email: String, $bio: String, $location: String, $name: String) {
     gitHub {
-      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, description: $bio }) {
+      updateAuthenticatedUser_oneGraph(input: { name: $name, location: $location, email: $email, bio: $bio }) {
         updatedUser {
           bio
           name

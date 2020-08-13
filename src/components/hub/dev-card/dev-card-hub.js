@@ -37,7 +37,7 @@ import { DevCardStateContext } from './../../../context/devcard-context';
 toast.configure();
 
 const DevCardHub = () => {
-  const [github] = useMutation(UPDATE_GITHUB_USER);
+  const [github, { error: githubError }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter] = useMutation(UPDATE_TWITTER_USER);
   const [uploadTwitterMedia, { errorTwitterMedia }] = useMutation(UPLOAD_TWITTER_MEDIA);
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
@@ -65,7 +65,7 @@ const DevCardHub = () => {
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
-/*   React.useEffect(() => {
+  /*   React.useEffect(() => {
     const checkLogin = async () => {
       if (!needsLoginService) {
         console.log({ needsLoginService });
@@ -119,15 +119,25 @@ const DevCardHub = () => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
 
-  const updateGitHub = () =>
-    github({
+  const updateGitHub = () => {
+    if (githubError) {
+      console.log({ githubError });
+    }
+    console.log({ state });
+
+    return github({
       variables: {
         name: state.name !== '' ? state.name : null,
         location: state.location !== '' ? state.location : null,
         email: state.email !== '' ? state.email : null,
         bio: state.description !== '' ? state.description : null,
       },
+    }).then((res) => {
+      if (res) {
+        toast.success('Updated GitHub profile info!', { position: toast.POSITION.BOTTOM_CENTER });
+      }
     });
+  };
 
   const updateTwitterUserProfileImage = (image) => {
     console.log({ image });
@@ -254,8 +264,12 @@ const DevCardHub = () => {
   };
 
   const updateInfo = () => {
-    const needsLoginService = auth.findMissingAuthServices(error || errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage)[0];
-    if (state.checkboxGithub && state.pushContent) {
+    const needsLoginService = auth.findMissingAuthServices(
+      error || errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage || githubError
+    )[0];
+    console.log('update info needLoginService: ', needsLoginService);
+    if (state.checkboxGitHub && state.pushContent) {
+      console.log('github checked');
       if (!needsLoginService) {
         updateGitHub();
       } else {
@@ -555,10 +569,12 @@ const DevCardHub = () => {
           >
             <Checkbox
               type="GitHub"
+              checked={state.checkboxGitHub}
               onCheckboxChange={() => dispatch({ type: 'checkboxGitHub', payload: !state.checkboxGitHub })}
             />
             <Checkbox
               type="Twitter"
+              checked={state.checkboxTwitter}
               onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
             />
 
