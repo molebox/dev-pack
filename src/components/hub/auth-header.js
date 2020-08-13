@@ -238,27 +238,12 @@ const AuthHeader = ({ userName, loadBtn }) => {
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
   const closeTour = () => setIsTourOpen(false);
-  const { loading, error, data: userData, refetch } = useQuery(GET_PROFILE_INFO);
-  const dispatch = React.useContext(DevCardDispatchContext);
   const auth =
     typeof window !== 'undefined'
       ? new OneGraphAuth({
           appId: APP_ID,
         })
       : null;
-
-  const needsLoginService = auth.findMissingAuthServices(error)[0];
-
-  React.useEffect(() => {
-    console.log({ userData });
-    if (userData && userData.me) {
-      dispatch({ type: 'name', payload: userData.me.twitter.name });
-      dispatch({ type: 'email', payload: userData.me.github.email });
-      dispatch({ type: 'description', payload: userData.me.twitter.description });
-      dispatch({ type: 'location', payload: userData.me.twitter.location });
-      dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
-    }
-  }, [userData, error, loading, refetch]);
 
   return (
     <section
@@ -315,27 +300,7 @@ const AuthHeader = ({ userName, loadBtn }) => {
           m: 3,
         }}
       >
-        <Button
-          text="Load Profile Data"
-          onClick={async () => {
-            if (!needsLoginService) {
-              refetch();
-            } else {
-              await auth.login(needsLoginService);
-              const loginSuccess = await auth.isLoggedIn(needsLoginService);
-              if (loginSuccess) {
-                toast.success('Successfully logged into ' + needsLoginService, {
-                  position: toast.POSITION.BOTTOM_CENTER,
-                });
-                refetch();
-              } else {
-                toast.error('you did not grant auth to ' + needsLoginService, {
-                  position: toast.POSITION.BOTTOM_CENTER,
-                });
-              }
-            }
-          }}
-        />
+        {loadBtn}
       </div>
       <div
         sx={{

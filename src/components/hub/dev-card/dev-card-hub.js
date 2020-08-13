@@ -44,8 +44,8 @@ const DevCardHub = () => {
   const [uploadTwitterMedia, { errorTwitterMedia }] = useMutation(UPLOAD_TWITTER_MEDIA);
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [updateTwitterCoverImage, { errorTwitterCoverImage }] = useMutation(UPDATE_TWITTER_COVER_IMAGE);
-  // const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
-  // const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
+  const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
@@ -57,7 +57,7 @@ const DevCardHub = () => {
         })
       : null;
 
-  // const needsLoginService = auth.findMissingAuthServices(error)[0];
+  const needsLoginService = auth.findMissingAuthServices(error)[0];
 
   // React.useEffect(() => {
   //   console.log({ loggedInServiceData });
@@ -137,34 +137,34 @@ const DevCardHub = () => {
 
   }, [needsLoginService]) */
 
-  // React.useEffect(() => {
-  //   auth
-  //     .login('twitter')
-  //     .then(() => {
-  //       auth.isLoggedIn('twitter').then((isLoggedIn) => {
-  //         if (isLoggedIn) {
-  //           toast.success('Successfully logged in to Twitter ', {
-  //             position: toast.POSITION.BOTTOM_CENTER,
-  //           });
-  //         } else {
-  //           toast.error('You did not grant auth for Twitter ', {
-  //             position: toast.POSITION.BOTTOM_CENTER,
-  //           });
-  //         }
-  //       });
-  //     })
-  //     .catch((e) => console.error('Problem logging in', e));
-  // }, []);
+  React.useEffect(() => {
+    auth
+      .login('twitter')
+      .then(() => {
+        auth.isLoggedIn('twitter').then((isLoggedIn) => {
+          if (isLoggedIn) {
+            toast.success('Successfully logged in to Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          } else {
+            toast.error('You did not grant auth for Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        });
+      })
+      .catch((e) => console.error('Problem logging in', e));
+  }, []);
 
-  // React.useEffect(() => {
-  //   if (userData && userData.me) {
-  //     userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
-  //     userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
-  //     userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
-  //     userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
-  //     userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
-  //   }
-  // }, [userData, error, loading]);
+  React.useEffect(() => {
+    if (userData && userData.me) {
+      userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
+      userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
+      userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
+      userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
+      userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+    }
+  }, [userData, error, loading]);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
@@ -385,21 +385,21 @@ const DevCardHub = () => {
     dispatch({ type: 'website', payload: e.target.value });
   };
 
-  // const loadData = async () => {
-  //   if (!needsLoginService) {
-  //     console.log({ needsLoginService });
-  //     getUserDetails();
-  //   } else {
-  //     await auth.login(needsLoginService);
-  //     const loginSuccess = await auth.isLoggedIn(needsLoginService);
-  //     if (loginSuccess) {
-  //       console.log('Successfully logged into ' + needsLoginService);
-  //       getUserDetails();
-  //     } else {
-  //       console.log('You did not grant auth to ' + needsLoginService);
-  //     }
-  //   }
-  // };
+  const loadData = async () => {
+    if (!needsLoginService) {
+      console.log({ needsLoginService });
+      getUserDetails();
+    } else {
+      await auth.login(needsLoginService);
+      const loginSuccess = await auth.isLoggedIn(needsLoginService);
+      if (loginSuccess) {
+        console.log('Successfully logged into ' + needsLoginService);
+        getUserDetails();
+      } else {
+        console.log('You did not grant auth to ' + needsLoginService);
+      }
+    }
+  };
 
   return (
     <section
@@ -415,7 +415,7 @@ const DevCardHub = () => {
     >
       <AuthHeader
         userName={state.name}
-        // loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
+        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
       />
       <div
         sx={{
