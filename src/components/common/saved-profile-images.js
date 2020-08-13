@@ -12,7 +12,6 @@ const SavedProfileImages = () => {
   const { search, data, isLoading, isSuccess, isError, error } = useSearch({
     endpoint: '/.netlify/functions/search-profile-image',
   });
-  console.log('search data: ', data);
   const state = React.useContext(DevCardStateContext);
 
   const getFolder = () => {

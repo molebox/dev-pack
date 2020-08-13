@@ -2,21 +2,24 @@ import React from 'react';
 import { navigate } from 'gatsby';
 import { toast } from 'react-toastify';
 import OneGraphAuth from 'onegraph-auth';
-import { APP_ID } from '../../butler';
+import { APP_ID, LOGGED_IN_SERVICES } from '../../butler';
 import jwt_decode from 'jwt-decode';
 import { UserContext } from '../../context/user-context';
+import { useQuery } from '@apollo/client';
 
 toast.configure();
 
 const PrivateRoute = ({ component: Component, location, isLoggedIn, ...rest }) => {
-  const { currentUser } = React.useContext(UserContext);
+  const { loading, error, data } = useQuery(LOGGED_IN_SERVICES);
+  // const { currentUser } = React.useContext(UserContext);
   // create the auth
-  // let auth =
-  //   typeof window !== 'undefined'
-  //     ? new OneGraphAuth({
-  //         appId: APP_ID,
-  //       })
-  //     : null;
+  let auth =
+    typeof window !== 'undefined'
+      ? new OneGraphAuth({
+          appId: APP_ID,
+        })
+      : null;
+
   // check if the user is logged in. If they are already then navigate them to the hub
 
   // auth.isLoggedIn('github').then((isLoggedIn) => {
@@ -32,7 +35,17 @@ const PrivateRoute = ({ component: Component, location, isLoggedIn, ...rest }) =
   //     return null;
   //   }
   // });
-  if (!currentUser.isGithubLoggedIn && location.pathname !== `/app/login`) {
+  // if (!currentUser.isGithubLoggedIn && location.pathname !== `/app/login`) {
+  //   // If we’re not logged in, redirect to the home page.
+  //   navigate(`/app/login`);
+  //   return null;
+  // }
+  if (
+    data &&
+    !data.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+    data.me.serviceMetadata.loggedInServices[0].service === 'GITHUB' &&
+    location.pathname !== `/app/login`
+  ) {
     // If we’re not logged in, redirect to the home page.
     navigate(`/app/login`);
     return null;

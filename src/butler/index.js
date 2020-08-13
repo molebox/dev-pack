@@ -40,10 +40,25 @@ export const getSelectedImage = (imageUrl, getBase64Image) => {
       );
 
   toDataURL(imageUrl).then((dataUrl) => {
-    console.log('converted to base64', dataUrl);
     getBase64Image(dataUrl);
   });
 };
+
+export const LOGGED_IN_SERVICES = gql`
+  query AllMyLoggedInServices {
+    me {
+      serviceMetadata {
+        loggedInServices {
+          service
+          friendlyServiceName
+          isLoggedIn
+          foreignUserId
+          bearerToken
+        }
+      }
+    }
+  }
+`;
 
 export const UPDATE_TWITTER_USER = gql`
   mutation UpdateTwitterProfile($query: [[String!]!]) {

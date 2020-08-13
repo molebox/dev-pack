@@ -5,7 +5,7 @@ import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import Checkbox from './../../home/social-checkboxes/checkbox';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
@@ -22,6 +22,7 @@ import {
   UPLOAD_TWITTER_MEDIA,
   getWeekDay,
   UPDATE_TWITTER_COVER_IMAGE,
+  LOGGED_IN_SERVICES,
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
@@ -33,6 +34,7 @@ import ProfileDropzone from '../../common/profile-dropzone';
 import CoverDropzone from '../../common/cover-dropzone';
 import { DevCardDispatchContext } from '../../../context/devcard-context';
 import { DevCardStateContext } from './../../../context/devcard-context';
+import Loading from '../../svg/loading';
 
 toast.configure();
 
@@ -43,6 +45,7 @@ const DevCardHub = () => {
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [updateTwitterCoverImage, { errorTwitterCoverImage }] = useMutation(UPDATE_TWITTER_COVER_IMAGE);
   const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
@@ -53,6 +56,32 @@ const DevCardHub = () => {
           appId: APP_ID,
         })
       : null;
+
+  React.useEffect(() => {
+    console.log({ loggedInServiceData });
+    if (
+      loggedInServiceData &&
+      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
+    ) {
+      auth
+        .login('twitter')
+        .then(() => {
+          auth.isLoggedIn('twitter').then((isLoggedIn) => {
+            if (isLoggedIn) {
+              toast.success('Successfully logged in to Twitter ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            } else {
+              toast.error('You did not grant auth for Twitter ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          });
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+  }, [loggedInServiceData]);
 
   React.useEffect(() => {
     let date = new Date();
@@ -86,24 +115,24 @@ const DevCardHub = () => {
 
   }, [needsLoginService]) */
 
-  React.useEffect(() => {
-    auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            toast.success('Successfully logged in to Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          } else {
-            toast.error('You did not grant auth for Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
-  }, []);
+  // React.useEffect(() => {
+  //   auth
+  //     .login('twitter')
+  //     .then(() => {
+  //       auth.isLoggedIn('twitter').then((isLoggedIn) => {
+  //         if (isLoggedIn) {
+  //           toast.success('Successfully logged in to Twitter ', {
+  //             position: toast.POSITION.BOTTOM_CENTER,
+  //           });
+  //         } else {
+  //           toast.error('You did not grant auth for Twitter ', {
+  //             position: toast.POSITION.BOTTOM_CENTER,
+  //           });
+  //         }
+  //       });
+  //     })
+  //     .catch((e) => console.error('Problem logging in', e));
+  // }, []);
 
   React.useEffect(() => {
     if (userData && userData.me) {
@@ -362,7 +391,10 @@ const DevCardHub = () => {
       }}
       className="devCard"
     >
-      <AuthHeader userName={state.name} loadBtn={<Button text="Load Profile Data" onClick={loadData} />} />
+      <AuthHeader
+        userName={state.name}
+        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
+      />
       <div
         sx={{
           backgroundColor: 'background',

@@ -12,7 +12,6 @@ const SavedCoverImages = () => {
   const { search, data, isLoading, isSuccess, isError, error } = useSearch({
     endpoint: '/.netlify/functions/search-cover-image',
   });
-  console.log('search data: ', data);
   const state = React.useContext(DevCardStateContext);
 
   const getFolder = () => {
