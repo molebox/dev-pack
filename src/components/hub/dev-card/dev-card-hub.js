@@ -65,7 +65,7 @@ const DevCardHub = () => {
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     const checkLogin = async () => {
       if (!needsLoginService) {
         console.log({ needsLoginService });
@@ -84,7 +84,7 @@ const DevCardHub = () => {
 
     checkLogin();
 
-  }, [needsLoginService])
+  }, [needsLoginService]) */
 
   React.useEffect(() => {
     auth
