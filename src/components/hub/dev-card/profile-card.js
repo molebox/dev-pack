@@ -33,6 +33,7 @@ const ProfileCard = () => {
         padding: 4,
         backgroundColor: 'background',
       }}
+      className="preview"
     >
       <div
         sx={{
@@ -86,7 +87,7 @@ const ProfileCard = () => {
               position: 'absolute',
               backgroundColor: 'accent',
               alignSelf: 'flex-end',
-              bottom: -50,
+              bottom: -70,
               left: 10,
             }}
             src={getProfileImage()}

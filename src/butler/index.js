@@ -24,7 +24,7 @@ export function getWeekDay(date) {
   return weekdays[day];
 }
 
-export const getSelectedImage = (imageUrl, pushBase64Image) => {
+export const getSelectedImage = (imageUrl, getBase64Image) => {
   // The user has selected a previously saved image from cloudinary so we convert that url back to a base64 string and push it up ready to be set as the new profile picture
   const toDataURL = (url) =>
     fetch(url)
@@ -41,7 +41,7 @@ export const getSelectedImage = (imageUrl, pushBase64Image) => {
 
   toDataURL(imageUrl).then((dataUrl) => {
     console.log('converted to base64', dataUrl);
-    pushBase64Image(dataUrl);
+    getBase64Image(dataUrl);
   });
 };
 
@@ -123,12 +123,12 @@ export const UPDATE_TWITTER_PROFILE_IMAGE = gql`
 `;
 
 export const UPDATE_TWITTER_COVER_IMAGE = gql`
-mutation UpdateProfileBanner($mediaId: String!) {
-  twitter {
-    updateProfileBanner(input: { mediaId: $mediaId }) {
-      # Just select __typename if you don't want the new user
-      __typename
+  mutation UpdateProfileBanner($mediaId: String!) {
+    twitter {
+      updateProfileBanner(input: { mediaId: $mediaId }) {
+        # Just select __typename if you don't want the new user
+        __typename
+      }
     }
   }
-}
 `;

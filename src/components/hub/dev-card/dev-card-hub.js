@@ -123,7 +123,7 @@ const DevCardHub = () => {
             type: 'profileMediaId',
             payload: res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId,
           });
-          toast.success('Successfully uploaded Twitter media ', {
+          toast.success('Successfully uploaded Twitter profile media ', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         })
@@ -134,27 +134,29 @@ const DevCardHub = () => {
         });
       console.log('THE MEDIA ID: ', state.profileMediaId);
 
-      updateTwitterProfileImage({
-        variables: {
-          mediaId: state.profileMediaId.toString(),
-        },
-      })
-        .then((res) => {
-          console.log('media upload: ', res);
-          if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
-            toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
-          } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200) {
-            toast.success('Successfully updated Twitter profile image ', {
+      if (state.profileMediaId !== '') {
+        updateTwitterProfileImage({
+          variables: {
+            mediaId: state.profileMediaId.toString(),
+          },
+        })
+          .then((res) => {
+            console.log('media upload: ', res);
+            if (!res) {
+              toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
+            } else {
+              toast.success('Successfully updated Twitter profile image ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+            toast.error(`This went wrong uploading the initial profile media: ${error.message}`, {
               position: toast.POSITION.BOTTOM_CENTER,
             });
-          }
-        })
-        .catch((error) => {
-          console.log(error.message);
-          // toast.error(`This went wrong uploading the initial media: ${error.message}`, {
-          //   position: toast.POSITION.BOTTOM_CENTER,
-          // });
-        });
+          });
+      }
     }
   };
 
@@ -173,38 +175,40 @@ const DevCardHub = () => {
             type: 'coverMediaId',
             payload: res.data.twitter.uploadBase64EncodedMedia.mediaResponse.mediaId,
           });
-          toast.success('Successfully uploaded Twitter media ', {
+          toast.success('Successfully uploaded Twitter cover media ', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         })
         .catch((error) => {
-          toast.error(`This went wrong uploading the profile image: ${error.message}`, {
+          toast.error(`This went wrong uploading the cover image: ${error.message}`, {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
-      console.log('THE MEDIA ID: ', state.coverMediaId);
+      console.log('THE COVER MEDIA ID: ', state.coverMediaId);
 
-      updateTwitterCoverImage({
-        variables: {
-          mediaId: state.coverMediaId.toString(),
-        },
-      })
-        .then((res) => {
-          console.log('media upload: ', res);
-          if (res.data.twitter.makeRestCall.post.jsonBody.errors) {
-            toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
-          } else if (res.data.twitter.makeRestCall.post.response.statusCode === 200) {
-            toast.success('Successfully updated Twitter profile image ', {
+      if (state.coverMediaId !== '') {
+        updateTwitterCoverImage({
+          variables: {
+            mediaId: state.coverMediaId.toString(),
+          },
+        })
+          .then((res) => {
+            console.log('media upload: ', res);
+            if (!res.data) {
+              toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
+            } else {
+              toast.success('Successfully updated Twitter cover image ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+            toast.error(`This went wrong uploading the initial cover media: ${error.message}`, {
               position: toast.POSITION.BOTTOM_CENTER,
             });
-          }
-        })
-        .catch((error) => {
-          console.log(error.message);
-          // toast.error(`This went wrong uploading the initial media: ${error.message}`, {
-          //   position: toast.POSITION.BOTTOM_CENTER,
-          // });
-        });
+          });
+      }
     }
   };
 
@@ -255,19 +259,21 @@ const DevCardHub = () => {
         }
       }
     } else {
-      console.log({ needsLoginService });
-      auth.login(needsLoginService);
-      const loginSuccess = auth.isLoggedIn(needsLoginService);
-      if (loginSuccess) {
-        toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
-        if (state.pushContent) {
-          updateTwitterProfile();
-        }
-        if (state.pushProfileImage) {
-          updateTwitterUserProfileImage(state.profileBase64Image);
-        }
-        if (state.pushCoverImage) {
-          updateTwitterUserCoverImage(state.coverBase64Image);
+      if (needsLoginService !== undefined) {
+        console.log({ needsLoginService });
+        auth.login(needsLoginService);
+        const loginSuccess = auth.isLoggedIn(needsLoginService);
+        if (loginSuccess) {
+          toast.success('Successfully logged into ' + needsLoginService, { position: toast.POSITION.BOTTOM_CENTER });
+          if (state.pushContent) {
+            updateTwitterProfile();
+          }
+          if (state.pushProfileImage) {
+            updateTwitterUserProfileImage(state.profileBase64Image);
+          }
+          if (state.pushCoverImage) {
+            updateTwitterUserCoverImage(state.coverBase64Image);
+          }
         }
       }
     }

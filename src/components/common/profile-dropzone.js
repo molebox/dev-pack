@@ -96,6 +96,7 @@ const ProfileDropzone = () => {
         m: 3,
       }}
       {...getRootProps()}
+      className="imageUpload"
     >
       <input {...getInputProps()} />
       <>

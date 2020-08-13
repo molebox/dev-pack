@@ -55,6 +55,39 @@ const steps = [
     navDotAriaLabel: 'Go to dev card form',
   },
   {
+    selector: '.preview',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          When you upload a new profile or cover image, or you select a previously saved image they will be shown here.
+          This is just a mockup for you to get an idea of how they might look together.
+        </p>
+      </TourBox>
+    ),
+    position: 'left',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
     selector: '.form',
     content: () => (
       <TourBox>
@@ -96,8 +129,7 @@ const steps = [
             fontFamily: 'heading',
           }}
         >
-          You can drag and drop or select a local file to be used as your profile image. A placeholder image will be
-          shown so that you can double check it's the correct one before uploading it to your selected platform.
+          You can drag and drop or select a local file to be used as your profile or cover image.
         </p>
       </TourBox>
     ),

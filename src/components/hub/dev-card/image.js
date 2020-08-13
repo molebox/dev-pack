@@ -13,13 +13,13 @@ function LazyImage({ publicId, transformations, width, height, cloudName, secure
   const dispatch = React.useContext(DevCardDispatchContext);
 
   const getBase64Image = (image) => {
-    dispatch({type: isProfile ? 'profileBase64Image' : 'coverBase64Image', payload: image})
-  } 
+    dispatch({ type: isProfile ? 'profileBase64Image' : 'coverBase64Image', payload: image });
+  };
 
   const setImageForPush = () => {
-    dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url })
-    getSelectedImage(secure_url, getBase64Image)
-  }
+    dispatch({ type: isProfile ? 'selectedProfileImage' : 'selectedCoverImage', payload: secure_url });
+    getSelectedImage(secure_url, getBase64Image);
+  };
   React.useEffect(() => {
     generateUrl({
       publicId,

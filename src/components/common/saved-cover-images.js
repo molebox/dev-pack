@@ -95,7 +95,7 @@ const SavedCoverImages = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           width: '100%',
-          maxWidth: 400,
+          maxWidth: 500,
           justifySelf: 'center',
         }}
       >

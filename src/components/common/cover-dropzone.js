@@ -96,6 +96,7 @@ const CoverDropzone = () => {
         m: 3,
       }}
       {...getRootProps()}
+      className="imageUpload"
     >
       <input {...getInputProps()} />
       <>

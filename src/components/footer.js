@@ -7,10 +7,24 @@ const heart = '\u{1F498}';
 
 const Footer = () => {
   const location = useLocation();
+
+  const setBackground = () => {
+    switch (location.pathname) {
+      case '/':
+        return 'accent';
+      case '/app/hub':
+        return 'accent';
+      case '/app/login':
+        return 'background';
+      default:
+        return 'background';
+    }
+  };
+
   return (
     <footer
       sx={{
-        backgroundColor: location.pathname === '/' || '/app/hub' ? 'accent' : 'background',
+        backgroundColor: setBackground(),
         marginBottom: '-5px',
         width: '100%',
       }}

@@ -118,9 +118,8 @@ export default ({ location }) => {
             margin: '0 auto',
           }}
         >
-          <InternalLink className="to-hub" to="/app/hub" text="Step inside (BETA)" />
+          <InternalLink className="to-hub" to="/app/hub" text="Step inside (ALPHA)" />
         </div>
-        {/* <DevPackTabs/> */}
         <IntroSection />
       </div>
     </Layout>
