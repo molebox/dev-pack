@@ -11,6 +11,8 @@ import LogoButton from '../common/logo-button';
 import GitHub from './../svg/github';
 import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
+const service = 'github';
+
 const GitHubLogin = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
@@ -23,21 +25,30 @@ const GitHubLogin = () => {
         })
       : null;
 
-  const login = () =>
-    auth
-      .login('github')
-      .then(() => {
-        auth.isLoggedIn('github').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github handle, name and email to the sites context
-            dispatch({ type: 'hasGitHubAuth', payload: true });
-          } else {
-            console.log('Did not grant auth for Twitter');
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
+  const login = async () => {
+    try {
+      await auth.login(service);
+      const isLoggedIn = await auth.isLoggedIn(service);
+      isLoggedIn ? dispatch({ type: 'hasGitHubAuth', payload: true }) : console.log('Did not grant auth for GitHub');
+    } catch (e) {
+      console.error('Problem logging in', e);
+    }
+  };
+
+  React.useEffect(() => {
+    const helper = async () => {
+      try {
+        const isLoggedIn = await auth.isLoggedIn(service);
+        isLoggedIn
+          ? dispatch({ type: 'hasGitHubAuth', payload: true })
+          : console.log('Not logged into GitHub at time of component mount');
+      } catch (e) {
+        console.error('Problem checking GitHub login status');
+      }
+    };
+
+    helper();
+  }, []);
 
   return (
     <LogoButton

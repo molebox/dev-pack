@@ -11,6 +11,8 @@ import LogoButton from '../common/logo-button';
 import gsap from 'gsap';
 import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
+const service = 'twitter';
+
 const TwitterLogin = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
@@ -23,19 +25,30 @@ const TwitterLogin = () => {
         })
       : null;
 
-  const login = () =>
-    auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            dispatch({ type: 'hasTwitterAuth', payload: true });
-          } else {
-            console.log('Did not grant auth for Twitter');
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
+  const login = async () => {
+    try {
+      await auth.login(service);
+      const isLoggedIn = await auth.isLoggedIn(service);
+      isLoggedIn ? dispatch({ type: 'hasTwitterAuth', payload: true }) : console.log('Did not grant auth for Twitter');
+    } catch (e) {
+      console.error('Problem logging in', e);
+    }
+  };
+
+  React.useEffect(() => {
+    const helper = async () => {
+      try {
+        const isLoggedIn = await auth.isLoggedIn(service);
+        isLoggedIn
+          ? dispatch({ type: 'hasTwitterAuth', payload: true })
+          : console.log('Not logged into Twitter at time of component mount');
+      } catch (e) {
+        console.error('Problem checking Twitter login status');
+      }
+    };
+
+    helper();
+  }, []);
 
   return (
     <LogoButton

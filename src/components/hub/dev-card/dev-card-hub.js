@@ -40,6 +40,20 @@ import TestGetUserData from '../../auth/test-get-user-data';
 
 toast.configure();
 
+const loginAndCheck = async (auth, service) => {
+  await auth.login(service);
+  const isLoggedIn = await auth.isLoggedIn(service);
+  return isLoggedIn;
+};
+
+const userServiceData = ({ loggedInServiceData, service }) => {
+  let loggedInServices = loggedInServiceData?.me?.serviceMetadata?.loggedInServices || [];
+  return loggedInServices.find((serviceData) => {
+    console.log('ServiceData: ', serviceData, service);
+    return serviceData.service === service;
+  });
+};
+
 const DevCardHub = () => {
   const [github, { error: githubError, loading: githubUpdateLoading }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter, { loading: twitterUpdateLoading }] = useMutation(UPDATE_TWITTER_USER);
@@ -61,53 +75,43 @@ const DevCardHub = () => {
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
-  // React.useEffect(() => {
-  //   console.log({ loggedInServiceData });
-  //   if (
-  //     loggedInServiceData &&
-  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
-  //   ) {
-  //     auth
-  //       .login('twitter')
-  //       .then(() => {
-  //         auth.isLoggedIn('twitter').then((isLoggedIn) => {
-  //           if (isLoggedIn) {
-  //             toast.success('Successfully logged in to Twitter ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           } else {
-  //             toast.error('You did not grant auth for Twitter ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => console.error('Problem logging in', e));
-  //   }
-  //   if (
-  //     loggedInServiceData &&
-  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
-  //   ) {
-  //     auth
-  //       .login('github')
-  //       .then(() => {
-  //         auth.isLoggedIn('github').then((isLoggedIn) => {
-  //           if (isLoggedIn) {
-  //             toast.success('Successfully logged in to GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           } else {
-  //             toast.error('You did not grant auth for GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => console.error('Problem logging in', e));
-  //   }
-  // }, [loggedInServiceData]);
+  React.useEffect(() => {
+    console.log({ loggedInServiceData });
+    const toastPosition = toast.POSITION.BOTTOM_CENTER;
+    const toastSuccess = (message) => {
+      toast.success(message, {
+        position: toastPosition,
+      });
+    };
+
+    const toastError = (message) => {
+      toast.error(message, {
+        position: toastPosition,
+      });
+    };
+
+    const twitterUserData = userServiceData({ loggedInServiceData, service: 'TWITTER' });
+    const gitHubUserData = userServiceData({ loggedInServiceData, service: 'GITHUB' });
+
+    if (!twitterUserData) {
+      loginAndCheck(auth, 'twitter')
+        .then((isLoggedIn) => {
+          isLoggedIn
+            ? toastSuccess('Successfully logged in to Twitter ')
+            : toastError('You did not grant auth for Twitter ');
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+    if (!gitHubUserData) {
+      loginAndCheck(auth, 'github')
+        .then((isLoggedIn) => {
+          isLoggedIn
+            ? toastSuccess('Successfully logged in to GitHub ')
+            : toastError('You did not grant auth for GitHub ');
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+  }, [loggedInServiceData]);
 
   React.useEffect(() => {
     let date = new Date();
