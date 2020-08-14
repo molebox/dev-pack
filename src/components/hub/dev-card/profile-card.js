@@ -26,12 +26,13 @@ const ProfileCard = () => {
         gridArea: 'preview',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
+        justifyContent: 'start',
         width: '100%',
-        maxWidth: 'auto',
-        maxHeight: 700,
-        padding: 4,
+        // maxWidth: 600,
+        // maxHeight: 700,
+        p: 3,
         backgroundColor: 'background',
+        justifySelf: 'center',
       }}
       className="preview"
     >
@@ -43,7 +44,7 @@ const ProfileCard = () => {
           width: '100%',
           minHeight: 250,
           height: 'auto',
-          marginBottom: 20,
+          // marginBottom: 20,
           position: 'relative',
         }}
       >

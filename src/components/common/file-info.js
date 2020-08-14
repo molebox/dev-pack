@@ -23,7 +23,10 @@ const FileInfo = () => {
         flexDirection: 'column',
         justifyContent: 'start',
         alignItems: 'start',
-        m: 3,
+        ml: 3,
+        maxWidth: 600,
+        width: '100%',
+        p: 3,
       }}
     >
       <h2
@@ -31,10 +34,40 @@ const FileInfo = () => {
           fontFamily: 'heading',
           color: 'text',
           fontWeight: 400,
-          fontSize: [4],
+          fontSize: [2],
         }}
       >
-        Say cheese! <Emoji ariaLabel="A camera" symbol="📸" />
+        Pick your profile images <Emoji ariaLabel="A camera" symbol="📸" />
+      </h2>
+      <h2
+        sx={{
+          fontFamily: 'heading',
+          color: 'text',
+          fontWeight: 400,
+          fontSize: [2],
+        }}
+      >
+        Automatically saved in the cloud <Emoji ariaLabel="A floppy disk" symbol="💾" />
+      </h2>
+      <h2
+        sx={{
+          fontFamily: 'heading',
+          color: 'text',
+          fontWeight: 400,
+          fontSize: [2],
+        }}
+      >
+        Edit your content <Emoji ariaLabel="A hand writing" symbol="✍🏽" />
+      </h2>
+      <h2
+        sx={{
+          fontFamily: 'heading',
+          color: 'text',
+          fontWeight: 400,
+          fontSize: [2],
+        }}
+      >
+        Push to production <Emoji ariaLabel="A hand writing" symbol="🚚" />
       </h2>
       <Label>
         <LabelText>Manually set folder name (optional)</LabelText>

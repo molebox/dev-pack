@@ -31,15 +31,17 @@ const SavedCoverImages = () => {
       <div
         sx={{
           gridArea: 'savedCover',
-          gridColumn: 2,
-          textAlign: 'center',
-          minHeight: 240,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          height: 'auto',
+          border: 'solid 2px',
+          p: 3,
           justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          backgroundColor: 'secondary',
+          maxWidth: 600,
           width: '100%',
-          maxWidth: 400,
+          m: 3,
           justifySelf: 'center',
         }}
       >
@@ -51,15 +53,16 @@ const SavedCoverImages = () => {
       <div
         sx={{
           gridArea: 'savedCover',
-          gridColumn: 2,
-          textAlign: 'center',
-          minHeight: 240,
           display: 'flex',
+          height: 'auto',
+          border: 'solid 2px',
+          p: 3,
+          justifyContent: 'flex-end',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
+          backgroundColor: 'secondary',
+          maxWidth: 600,
           width: '100%',
-          maxWidth: 400,
+          m: 3,
           justifySelf: 'center',
         }}
       >
@@ -87,14 +90,16 @@ const SavedCoverImages = () => {
       <div
         sx={{
           gridArea: 'savedCover',
-          gridColumn: 2,
-          textAlign: 'center',
-          height: 'auto',
           display: 'flex',
+          height: 'auto',
+          border: 'solid 2px',
+          p: 3,
+          justifyContent: 'flex-end',
           flexDirection: 'column',
-          justifyContent: 'center',
+          backgroundColor: 'secondary',
+          maxWidth: 600,
           width: '100%',
-          maxWidth: 500,
+          m: 3,
           justifySelf: 'center',
         }}
       >
@@ -138,6 +143,7 @@ const SavedCoverImages = () => {
             fontSize: [0],
             mt: 2,
             fontWeight: 700,
+            textAlign: 'center',
           }}
         >
           Your last 3 saves are shown
@@ -150,16 +156,49 @@ const SavedCoverImages = () => {
     <div
       sx={{
         gridArea: 'savedCover',
-        gridColumn: 2,
         display: 'flex',
-        justifyContent: 'center',
+        height: 'auto',
+        border: 'solid 2px',
+        p: 3,
+        justifyContent: 'flex-end',
         flexDirection: 'column',
-        alignItems: 'center',
-        m: 6,
+        backgroundColor: 'secondary',
+        maxWidth: 600,
+        width: '100%',
+        m: 3,
         justifySelf: 'center',
-        height: '100%',
       }}
     >
+      <div
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          my: 4,
+        }}
+      >
+        <div
+          sx={{
+            border: 'solid 2px',
+            height: 80,
+            width: 150,
+          }}
+        ></div>
+        <div
+          sx={{
+            border: 'solid 2px',
+            height: 80,
+            width: 150,
+          }}
+        ></div>
+        <div
+          sx={{
+            border: 'solid 2px',
+            height: 80,
+            width: 150,
+          }}
+        ></div>
+      </div>
+
       <div
         sx={{
           height: 30,
@@ -174,6 +213,7 @@ const SavedCoverImages = () => {
           fontSize: [0],
           mt: 2,
           fontWeight: 700,
+          textAlign: 'center',
         }}
       >
         Your last 3 saves are shown

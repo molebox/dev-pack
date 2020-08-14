@@ -91,8 +91,9 @@ const CoverDropzone = () => {
         justifyContent: 'center',
         flexDirection: 'column',
         backgroundColor: 'secondary',
-        maxWidth: 800,
+        maxWidth: 600,
         width: '100%',
+        justifySelf: 'center',
         m: 3,
       }}
       {...getRootProps()}
@@ -147,16 +148,6 @@ const CoverDropzone = () => {
               }}
             >
               Recommended size is 1500 x 500
-            </em>
-            <em
-              sx={{
-                fontFamily: 'heading',
-                fontSize: [0],
-                my: 2,
-                fontWeight: 700,
-              }}
-            >
-              The GitHub API doesn't have a cover image
             </em>
           </div>
         </div>

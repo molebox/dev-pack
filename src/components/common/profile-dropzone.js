@@ -91,8 +91,9 @@ const ProfileDropzone = () => {
         justifyContent: 'center',
         flexDirection: 'column',
         backgroundColor: 'secondary',
-        maxWidth: 800,
+        maxWidth: 600,
         width: '100%',
+        justifySelf: 'center',
         m: 3,
       }}
       {...getRootProps()}

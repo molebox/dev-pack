@@ -138,22 +138,29 @@ const DevCardHub = () => {
   }, [needsLoginService]) */
 
   React.useEffect(() => {
-    auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            toast.success('Successfully logged in to Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          } else {
-            toast.error('You did not grant auth for Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
+    if (
+      loggedInServiceData &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
+      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
+    ) {
+      auth
+        .login('twitter')
+        .then(() => {
+          auth.isLoggedIn('twitter').then((isLoggedIn) => {
+            if (isLoggedIn) {
+              toast.success('Successfully logged in to Twitter ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            } else {
+              toast.error('You did not grant auth for Twitter ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          });
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
   }, []);
 
   React.useEffect(() => {
@@ -459,10 +466,12 @@ const DevCardHub = () => {
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             padding: 4,
-            backgroundColor: 'background',
+            backgroundColor: 'secondary',
             m: 3,
             border: 'solid 3px',
+            maxWidth: 600,
             width: '100%',
+            justifySelf: 'center',
           }}
           className="form"
         >
@@ -576,6 +585,7 @@ const DevCardHub = () => {
             p: 4,
             border: 'solid 2px',
             width: 'max-content',
+            backgroundColor: 'secondary',
           }}
           className="platforms"
         >
