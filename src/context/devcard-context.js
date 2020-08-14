@@ -1,7 +1,10 @@
 import React from 'react';
+import OneGraphAuth from 'onegraph-auth';
+import { APP_ID } from '../butler';
 
 export const DevCardStateContext = React.createContext(null);
 export const DevCardDispatchContext = React.createContext(null);
+export const DevCardAuthContext = React.createContext(null);
 
 const initialDevCardInfo = {
   name: '',
@@ -32,6 +35,17 @@ const initialDevCardInfo = {
   hasTwitterAuth: false,
 };
 
+// OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
+export const oneGraphAuth =
+  typeof window !== 'undefined'
+    ? new OneGraphAuth({
+        appId: APP_ID,
+      })
+    : {
+        authHeaders: () => {},
+        appId: APP_ID,
+      };
+
 const devCardInfoReducer = (state, action) => {
   const { type, payload } = action;
   return { ...state, [type]: payload };
@@ -42,7 +56,9 @@ const DevCardProvider = ({ children }) => {
 
   return (
     <DevCardDispatchContext.Provider value={dispatch}>
-      <DevCardStateContext.Provider value={state}>{children}</DevCardStateContext.Provider>
+      <DevCardAuthContext.Provider value={oneGraphAuth}>
+        <DevCardStateContext.Provider value={state}>{children}</DevCardStateContext.Provider>
+      </DevCardAuthContext.Provider>
     </DevCardDispatchContext.Provider>
   );
 };
