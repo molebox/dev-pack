@@ -32,6 +32,7 @@ const Hub = () => {
       !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
       loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
     ) {
+      console.log('hub - loggedInServiceData - GitHub', loggedInServiceData)
       auth
         .login('github')
         .then(() => {

@@ -27,9 +27,7 @@ const Login = () => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
-            console.log('Im in!!!');
-            // let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github handle, name and email to the sites context
+            console.log('Logged into GitHub, navigating to hub');
             navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');
