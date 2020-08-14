@@ -22,10 +22,7 @@ const LogoButton = ({ onClick, disabled, icon, text, comingSoon, className }) =>
         borderRadius: '5px',
         position: 'relative',
         cursor: disabled ? null : 'pointer',
-        ':hover': {
-          borderColor: disabled ? '' : 'text',
-          backgroundColor: 'background',
-        },
+
         ':after': {
           content: comingSoon ? "'coming soon'" : "''",
           top: 50,

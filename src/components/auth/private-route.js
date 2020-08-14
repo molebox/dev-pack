@@ -27,7 +27,7 @@ const PrivateRoute = ({ component: Component, location, ...rest }) => {
   //   return null;
   // }
 
-  if (!state.isLoggedIn && location.pathname !== `/app/login`) {
+  if (!state.isGitHubLoggedIn && location.pathname !== `/app/login`) {
     console.log('Not logged in, navigating to login page');
     // If we’re not logged in, redirect to the login page.
     navigate(`/app/login`);

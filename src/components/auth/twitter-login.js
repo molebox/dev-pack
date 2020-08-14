@@ -9,20 +9,11 @@ import { UserContext } from '../../context/user-context';
 import { APP_ID } from '../../butler';
 import LogoButton from '../common/logo-button';
 import gsap from 'gsap';
+import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
-const TwitterLogin = ({ needsLogin }) => {
-  const { currentUser, updateUser } = React.useContext(UserContext);
-
-  React.useEffect(() => {
-    if (needsLogin === 'twitter') {
-      gsap.to('.twitter', {
-        duration: 1,
-        x: 4,
-        ease: 'elastic.out',
-        repeat: -1,
-      });
-    }
-  }, [needsLogin]);
+const TwitterLogin = () => {
+  const dispatch = React.useContext(DevCardDispatchContext);
+  const state = React.useContext(DevCardStateContext);
 
   // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
   const auth =
@@ -40,11 +31,7 @@ const TwitterLogin = ({ needsLogin }) => {
           if (isLoggedIn) {
             let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
-            updateUser({
-              isTwitterLoggedIn: true,
-              handle: jwt.user.handle,
-              displayName: jwt.user.twitterName,
-            });
+            dispatch({ type: 'hasTwitterAuth', payload: true });
           } else {
             console.log('Did not grant auth for Twitter');
           }
@@ -55,10 +42,10 @@ const TwitterLogin = ({ needsLogin }) => {
   return (
     <LogoButton
       className="twitter"
-      text={!!currentUser.isTwitterLoggedIn ? 'Authorized!' : 'Authorize Twitter'}
+      text={state.hasTwitterAuth ? 'Authorized!' : 'Authorize Twitter'}
       icon={<Twitter width="25px" height="25px" />}
       onClick={login}
-      disabled={!!currentUser.isTwitterLoggedIn ? true : false}
+      disabled={state.hasTwitterAuth ? true : false}
     />
   );
 };

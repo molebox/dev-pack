@@ -34,6 +34,6 @@ const client = new ApolloClient({
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
-      <DevCardProvider>{element}</DevCardProvider>
+    <DevCardProvider>{element}</DevCardProvider>
   </ApolloProvider>
 );

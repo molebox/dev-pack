@@ -35,6 +35,7 @@ import CoverDropzone from '../../common/cover-dropzone';
 import { DevCardDispatchContext } from '../../../context/devcard-context';
 import { DevCardStateContext } from './../../../context/devcard-context';
 import Loading from '../../svg/loading';
+import AuthService from './auth-service';
 
 toast.configure();
 
@@ -117,22 +118,22 @@ const DevCardHub = () => {
   }, []);
 
   React.useEffect(() => {
-      auth
-        .login('twitter')
-        .then(() => {
-          auth.isLoggedIn('twitter').then((isLoggedIn) => {
-            if (isLoggedIn) {
-              toast.success('Successfully logged in to Twitter ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            } else {
-              toast.error('You did not grant auth for Twitter ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            }
-          });
-        })
-        .catch((e) => console.error('Problem logging in', e));
+    auth
+      .login('twitter')
+      .then(() => {
+        auth.isLoggedIn('twitter').then((isLoggedIn) => {
+          if (isLoggedIn) {
+            toast.success('Successfully logged in to Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          } else {
+            toast.error('You did not grant auth for Twitter ', {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
+        });
+      })
+      .catch((e) => console.error('Problem logging in', e));
   }, []);
 
   // React.useEffect(() => {
@@ -163,7 +164,7 @@ const DevCardHub = () => {
   // }, []);
 
   React.useEffect(() => {
-    console.log(userData, error, loading)
+    console.log(userData, error, loading);
     if (!error && !loading) {
       if (userData && userData.me) {
         dispatch({ type: 'name', payload: userData.me.twitter.name });
@@ -245,7 +246,6 @@ const DevCardHub = () => {
   };
 
   const updateTwitterUserCoverImage = (image) => {
-
     if (image !== '') {
       uploadTwitterMedia({
         variables: {
@@ -439,7 +439,7 @@ const DevCardHub = () => {
             'fileInfo preview'
             'profileDropzone savedProfile'
             'coverDropzone savedCover'
-            'form checkboxes'
+            'form authService'
             'form checkboxes'
             'push push'
           `,
@@ -455,6 +455,7 @@ const DevCardHub = () => {
         <SavedCoverImages />
         <ProfileDropzone />
         <CoverDropzone />
+        <AuthService />
         <div
           sx={{
             gridArea: 'form',

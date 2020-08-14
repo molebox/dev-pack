@@ -25,10 +25,10 @@ const Login = () => {
   const state = React.useContext(DevCardStateContext);
 
   React.useEffect(() => {
-    if (state.isLoggedIn) {
+    if (state.isGitHubLoggedIn) {
       navigate('/app/hub');
     }
-  }, [state.isLoggedIn])
+  }, [state.isGitHubLoggedIn]);
 
   const login = () =>
     auth
@@ -37,7 +37,8 @@ const Login = () => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
             console.log('Logged into GitHub, navigating to hub');
-            dispatch({ type: 'isLoggedIn', payload: true });
+            dispatch({ type: 'isGitHubLoggedIn', payload: true });
+            dispatch({ type: 'hasGitHubAuth', payload: true });
           } else {
             console.log('Did not grant auth for GitHub');
           }

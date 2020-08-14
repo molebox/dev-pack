@@ -20,16 +20,16 @@ const Logout = () => {
         })
       : null;
 
-      React.useEffect(() => {
-        if (!state.isLoggedIn) {
-          navigate('/');
-        }
-      }, [state.isLoggedIn])
+  React.useEffect(() => {
+    if (!state.isGitHubLoggedIn) {
+      navigate('/');
+    }
+  }, [state.isGitHubLoggedIn]);
 
   const logout = () =>
     auth.logout('github').then((response) => {
       if (response.result === 'success') {
-        dispatch({ type: 'isLoggedIn', payload: false });
+        dispatch({ type: 'isGitHubLoggedIn', payload: false });
         navigate('/');
         console.log('Logout succeeded');
       } else {

@@ -26,7 +26,10 @@ const initialDevCardInfo = {
   coverPreviewUrl: '',
   profileBase64Image: '',
   coverBase64Image: '',
-  isLoggedIn: false,
+  isGitHubLoggedIn: false,
+  isTwitterLoggedIn: false,
+  hasGitHubAuth: false,
+  hasTwitterAuth: false,
 };
 
 const devCardInfoReducer = (state, action) => {
