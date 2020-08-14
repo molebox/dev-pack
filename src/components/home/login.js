@@ -25,33 +25,6 @@ const Login = () => {
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
-  React.useEffect(() => {
-    if (state.isGitHubLoggedIn) {
-      auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            dispatch({ type: 'hasTwitterAuth', payload: true });
-          } else {
-            console.log('Did not grant auth for Twitter');
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
-      console.log(userData, error, loading);
-      if (!error && !loading) {
-        if (userData && userData.me) {
-          dispatch({ type: 'name', payload: userData.me.twitter.name });
-          dispatch({ type: 'email', payload: userData.me.github.email });
-          dispatch({ type: 'description', payload: userData.me.twitter.description });
-          dispatch({ type: 'location', payload: userData.me.twitter.location });
-          dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
-          navigate('/app/hub');
-        }
-      }
-    }
-  }, [state.isGitHubLoggedIn, userData, error, loading]);
 
   const login = () =>
     auth
@@ -65,6 +38,7 @@ const Login = () => {
             console.log('Logged into GitHub, navigating to hub');
             dispatch({ type: 'isGitHubLoggedIn', payload: true });
             dispatch({ type: 'hasGitHubAuth', payload: true });
+            navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');
           }
