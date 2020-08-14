@@ -18,39 +18,39 @@ const Hub = () => {
   }, []);
   const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
 
-  let auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
+  // let auth =
+  //   typeof window !== 'undefined'
+  //     ? new OneGraphAuth({
+  //         appId: APP_ID,
+  //       })
+  //     : null;
 
-  React.useEffect(() => {
-    if (
-      loggedInServiceData &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
-      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
-    ) {
-      console.log('hub - loggedInServiceData - GitHub', loggedInServiceData)
-      auth
-        .login('github')
-        .then(() => {
-          auth.isLoggedIn('github').then((isLoggedIn) => {
-            if (isLoggedIn) {
-              toast.success('Successfully logged in to GitHub ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            } else {
-              toast.error('You did not grant auth for GitHub ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            }
-          });
-        })
-        .catch((e) => console.error('Problem logging in', e));
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (
+  //     loggedInServiceData &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
+  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
+  //   ) {
+  //     console.log('hub - loggedInServiceData - GitHub', loggedInServiceData)
+  //     auth
+  //       .login('github')
+  //       .then(() => {
+  //         auth.isLoggedIn('github').then((isLoggedIn) => {
+  //           if (isLoggedIn) {
+  //             toast.success('Successfully logged in to GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           } else {
+  //             toast.error('You did not grant auth for GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           }
+  //         });
+  //       })
+  //       .catch((e) => console.error('Problem logging in', e));
+  //   }
+  // }, []);
 
   return (
     <Layout>

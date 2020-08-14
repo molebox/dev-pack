@@ -9,11 +9,11 @@ const initialDevCardInfo = {
   location: '',
   description: '',
   website: '',
-  checkboxTwitter: true,
-  checkboxGitHub: true,
-  pushContent: true,
-  pushProfileImage: true,
-  pushCoverImage: true,
+  checkboxTwitter: false,
+  checkboxGitHub: false,
+  pushContent: false,
+  pushProfileImage: false,
+  pushCoverImage: false,
   profileMediaId: '',
   coverMediaId: '',
   isFriday: false,
@@ -26,6 +26,7 @@ const initialDevCardInfo = {
   coverPreviewUrl: '',
   profileBase64Image: '',
   coverBase64Image: '',
+  isLoggedIn: false,
 };
 
 const devCardInfoReducer = (state, action) => {

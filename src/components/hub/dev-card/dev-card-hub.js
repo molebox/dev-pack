@@ -199,7 +199,6 @@ const DevCardHub = () => {
         dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
       }
     }
-
   }, [userData, error, loading]);
 
   React.useEffect(() => {
