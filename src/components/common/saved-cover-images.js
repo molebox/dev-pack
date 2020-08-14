@@ -181,6 +181,7 @@ const SavedCoverImages = () => {
             border: 'solid 2px',
             height: 80,
             width: 150,
+            backgroundColor: 'disabled',
           }}
         ></div>
         <div
@@ -188,6 +189,7 @@ const SavedCoverImages = () => {
             border: 'solid 2px',
             height: 80,
             width: 150,
+            backgroundColor: 'disabled',
           }}
         ></div>
         <div
@@ -195,6 +197,7 @@ const SavedCoverImages = () => {
             border: 'solid 2px',
             height: 80,
             width: 150,
+            backgroundColor: 'disabled',
           }}
         ></div>
       </div>

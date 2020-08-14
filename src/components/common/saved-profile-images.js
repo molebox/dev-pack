@@ -182,6 +182,7 @@ const SavedProfileImages = () => {
             border: 'solid 2px',
             height: 100,
             width: 100,
+            backgroundColor: 'disabled',
           }}
         ></div>
         <div
@@ -189,6 +190,7 @@ const SavedProfileImages = () => {
             border: 'solid 2px',
             height: 100,
             width: 100,
+            backgroundColor: 'disabled',
           }}
         ></div>
         <div
@@ -196,6 +198,7 @@ const SavedProfileImages = () => {
             border: 'solid 2px',
             height: 100,
             width: 100,
+            backgroundColor: 'disabled',
           }}
         ></div>
       </div>
@@ -213,7 +216,7 @@ const SavedProfileImages = () => {
           fontSize: [0],
           mt: 2,
           fontWeight: 700,
-          textAlign: 'center'
+          textAlign: 'center',
         }}
       >
         Your last 3 saves are shown

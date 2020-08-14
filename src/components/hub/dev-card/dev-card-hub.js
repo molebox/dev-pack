@@ -460,8 +460,15 @@ const DevCardHub = () => {
           gridTemplateAreas: [
             `
             'authHeader'
+            'fileInfo'
+            'profileDropzone'
+            'savedProfile'
+            'coverDropzone'
+            'savedCover'
+            'preview'
             'form'
-            'selections'
+            'checkboxes'
+            'push'
             `,
             `
             'authHeader authHeader'

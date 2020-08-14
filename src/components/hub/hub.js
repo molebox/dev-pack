@@ -5,10 +5,50 @@ import Layout from '../layout';
 import 'react-tabs/style/react-tabs.css';
 import DevCardHub from './dev-card/dev-card-hub';
 import gsap from 'gsap';
+import { APP_ID, LOGGED_IN_SERVICES } from '../../butler';
+import { OneGraphAuth } from 'onegraph-auth';
+import { useQuery } from '@apollo/client';
+import { toast } from 'react-toastify';
+
+toast.configure();
 
 const Hub = () => {
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
+  }, []);
+  const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
+
+  let auth =
+    typeof window !== 'undefined'
+      ? new OneGraphAuth({
+          appId: APP_ID,
+        })
+      : null;
+
+  React.useEffect(() => {
+    if (
+      loggedInServiceData &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
+      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
+    ) {
+      auth
+        .login('github')
+        .then(() => {
+          auth.isLoggedIn('github').then((isLoggedIn) => {
+            if (isLoggedIn) {
+              toast.success('Successfully logged in to GitHub ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            } else {
+              toast.error('You did not grant auth for GitHub ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          });
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
   }, []);
 
   return (
@@ -19,7 +59,6 @@ const Hub = () => {
           pt: 2,
         }}
       >
-        {/* <AuthHeader /> */}
         <DevCardHub />
       </div>
       {/* <section
