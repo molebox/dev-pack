@@ -35,7 +35,7 @@ import CoverDropzone from '../../common/cover-dropzone';
 import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../../context/devcard-context';
 import Loading from '../../svg/loading';
 import AuthService from './auth-service';
-import TestGetUserData from '../../auth/test-get-user-data';
+import Checkboxes from './checkboxes';
 
 toast.configure();
 
@@ -65,8 +65,6 @@ const DevCardHub = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
   const auth = React.useContext(DevCardAuthContext);
-
-  const needsLoginService = auth.findMissingAuthServices(error)[0];
 
   React.useEffect(() => {
     console.log({ loggedInServiceData });
@@ -115,54 +113,7 @@ const DevCardHub = () => {
     }
   }, []);
 
-  // React.useEffect(() => {
-  //   auth
-  //     .login('twitter')
-  //     .then(() => {
-  //       auth.isLoggedIn('twitter').then((isLoggedIn) => {
-  //         if (isLoggedIn) {
-  //           toast.success('Successfully logged in to Twitter ', {
-  //             position: toast.POSITION.BOTTOM_CENTER,
-  //           });
-  //         } else {
-  //           toast.error('You did not grant auth for Twitter ', {
-  //             position: toast.POSITION.BOTTOM_CENTER,
-  //           });
-  //         }
-  //       });
-  //     })
-  //     .catch((e) => console.error('Problem logging in', e));
-  // }, []);
-
-  // React.useEffect(() => {
-  //   if (
-  //     loggedInServiceData &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
-  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
-  //   ) {
-  //     console.log('loggedInServiceData - GitHub: ', loggedInServiceData)
-  //     auth
-  //       .login('github')
-  //       .then(() => {
-  //         auth.isLoggedIn('github').then((isLoggedIn) => {
-  //           if (isLoggedIn) {
-  //             toast.success('Successfully logged in to GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           } else {
-  //             toast.error('You did not grant auth for GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => console.error('Problem logging in', e));
-  //   }
-  // }, []);
-
   React.useEffect(() => {
-    console.log(userData, error, loading);
     if (!error && !loading) {
       if (userData && userData.me) {
         dispatch({ type: 'name', payload: userData.me.twitter.name });
@@ -380,23 +331,6 @@ const DevCardHub = () => {
     dispatch({ type: 'website', payload: e.target.value });
   };
 
-  const loadData = () => {
-    getUserDetails();
-    // if (!needsLoginService) {
-    //   console.log('Load data needsLoginService: ', needsLoginService);
-    //   getUserDetails();
-    // } else {
-    //   await auth.login(needsLoginService);
-    //   const loginSuccess = await auth.isLoggedIn(needsLoginService);
-    //   if (loginSuccess) {
-    //     console.log('Successfully logged into ' + needsLoginService);
-    //     getUserDetails();
-    //   } else {
-    //     console.log('You did not grant auth to ' + needsLoginService);
-    //   }
-    // }
-  };
-
   return (
     <section
       sx={{
@@ -409,11 +343,7 @@ const DevCardHub = () => {
       }}
       className="devCard"
     >
-      <AuthHeader
-        auth={auth}
-        userName={state.name}
-        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
-      />
+      <AuthHeader auth={auth} userName={state.name} />
       <div
         sx={{
           backgroundColor: 'background',
@@ -450,13 +380,17 @@ const DevCardHub = () => {
           p: 4,
         }}
       >
-        <FileInfo />
+        <FileInfo
+          loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
+        />
         <ProfileCard />
         <SavedProfileImages />
         <SavedCoverImages />
         <ProfileDropzone />
         <CoverDropzone />
-        <AuthService />
+        <AuthService
+          loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
+        />
         {/* <TestGetUserData/> */}
         <div
           sx={{
@@ -573,97 +507,7 @@ const DevCardHub = () => {
           </Label>
         </div>
 
-        <aside
-          sx={{
-            gridArea: 'checkboxes',
-            height: 'auto',
-            display: 'flex',
-            flexDirection: ['column'],
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            placeSelf: 'center',
-            p: 4,
-            border: 'solid 2px',
-            width: 'max-content',
-            backgroundColor: 'secondary',
-          }}
-          className="platforms"
-        >
-          <Label>
-            <LabelText>Select Items to update</LabelText>
-          </Label>
-
-          <div
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-evenly',
-              my: 3,
-              width: '100%',
-            }}
-          >
-            <Checkbox
-              type="Profile image"
-              checked={state.pushProfileImage}
-              disabled={state.checkboxGitHub}
-              onCheckboxChange={() => dispatch({ type: 'pushProfileImage', payload: !state.pushProfileImage })}
-            />
-            <Checkbox
-              type="Cover image"
-              checked={state.pushCoverImage}
-              disabled={state.checkboxGitHub}
-              onCheckboxChange={() => dispatch({ type: 'pushCoverImage', payload: !state.pushCoverImage })}
-            />
-            <Checkbox
-              type="Profile content"
-              checked={state.pushContent}
-              onCheckboxChange={() => dispatch({ type: 'pushContent', payload: !state.pushContent })}
-            />
-          </div>
-          <Label>
-            <LabelText>Select Platform(s) to update</LabelText>
-          </Label>
-
-          <div
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-evenly',
-              my: 3,
-              width: '100%',
-            }}
-          >
-            <Checkbox
-              type="GitHub"
-              checked={state.checkboxGitHub}
-              onCheckboxChange={() => dispatch({ type: 'checkboxGitHub', payload: !state.checkboxGitHub })}
-            />
-            <Checkbox
-              type="Twitter"
-              checked={state.checkboxTwitter}
-              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
-            />
-
-            <Checkbox
-              comingSoon
-              type="DEV"
-              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
-              disabled
-            />
-            <Checkbox
-              comingSoon
-              type="CodePen"
-              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
-              disabled
-            />
-            <Checkbox
-              comingSoon
-              type="LinkedIn"
-              onCheckboxChange={() => dispatch({ type: 'checkboxTwitter', payload: !state.checkboxTwitter })}
-              disabled
-            />
-          </div>
-        </aside>
+        <Checkboxes />
 
         <aside
           sx={{

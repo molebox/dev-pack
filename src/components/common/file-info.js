@@ -7,7 +7,7 @@ import Input from './../home/signup/input';
 import Emoji from './emoji';
 import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
-const FileInfo = () => {
+const FileInfo = ({ loadBtn }) => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
 
@@ -69,7 +69,15 @@ const FileInfo = () => {
       >
         Push to production <Emoji ariaLabel="A hand writing" symbol="🚚" />
       </h2>
-      <Label>
+      {/* <div
+        sx={{
+          display: 'flex',
+          my: 3,
+        }}
+      >
+        {loadBtn}
+      </div> */}
+      {/* <Label>
         <LabelText>Manually set folder name (optional)</LabelText>
         <Input
           type="text"
@@ -79,7 +87,7 @@ const FileInfo = () => {
           ariaLabel="Folder name"
           placeholder="Folder name..."
         />
-      </Label>
+      </Label> */}
       <Label>
         <LabelText>Images Info</LabelText>
         <div

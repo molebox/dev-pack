@@ -234,7 +234,7 @@ const steps = [
   },
 ];
 
-const AuthHeader = ({ auth, userName, loadBtn }) => {
+const AuthHeader = ({ auth, userName }) => {
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
   const closeTour = () => setIsTourOpen(false);
@@ -245,7 +245,7 @@ const AuthHeader = ({ auth, userName, loadBtn }) => {
         gridArea: 'authHeader',
         display: ['flex', 'grid'],
         flexDirection: ['column', null],
-        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px 200px'],
+        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px'],
         justifyContent: ['space-between', null, null],
         // maxWidth: 1440,
         // m: [3, null, null],
@@ -283,7 +283,7 @@ const AuthHeader = ({ auth, userName, loadBtn }) => {
         Welcome {userName ? userName : 'Stranger'}!
       </p>
       <div></div>
-      <div
+      {/* <div
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
@@ -295,7 +295,7 @@ const AuthHeader = ({ auth, userName, loadBtn }) => {
         }}
       >
         {loadBtn}
-      </div>
+      </div> */}
       <div
         sx={{
           display: 'flex',
