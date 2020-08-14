@@ -10,7 +10,7 @@ const Label = ({ children, forAttribute }) => (
       color: 'text',
       marginTop: 20,
     }}
-    for={forAttribute}
+    htmlFor={forAttribute}
   >
     {children}
   </label>

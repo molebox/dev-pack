@@ -2,7 +2,6 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Layout from '../layout';
-import { UserContext } from './../../context/user-context';
 import gsap from 'gsap';
 import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
@@ -11,7 +10,6 @@ import { APP_ID } from '../../butler';
 import Button from '../common/button';
 
 const Login = () => {
-  const { updateUser } = React.useContext(UserContext);
   let auth =
     typeof window !== 'undefined'
       ? new OneGraphAuth({
@@ -32,11 +30,6 @@ const Login = () => {
             console.log('Im in!!!');
             // let jwt = jwt_decode(auth._accessToken.accessToken);
             // Add the users github handle, name and email to the sites context
-            updateUser({
-              isGithubLoggedIn: true,
-              // displayName: jwt.user.githubName,
-              // email: jwt.user.email,
-            });
             navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');
