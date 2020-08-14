@@ -36,6 +36,7 @@ import { DevCardDispatchContext } from '../../../context/devcard-context';
 import { DevCardStateContext } from './../../../context/devcard-context';
 import Loading from '../../svg/loading';
 import AuthService from './auth-service';
+import TestGetUserData from '../../auth/test-get-user-data';
 
 toast.configure();
 
@@ -458,6 +459,7 @@ const DevCardHub = () => {
         <ProfileDropzone />
         <CoverDropzone />
         <AuthService />
+        <TestGetUserData/>
         <div
           sx={{
             gridArea: 'form',
