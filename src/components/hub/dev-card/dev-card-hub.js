@@ -190,13 +190,16 @@ const DevCardHub = () => {
   }, []);
 
   React.useEffect(() => {
-    if (userData && userData.me) {
-      userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
-      userData.me && dispatch({ type: 'email', payload: userData.me.github.email });
-      userData.me && dispatch({ type: 'description', payload: userData.me.twitter.description });
-      userData.me && dispatch({ type: 'location', payload: userData.me.twitter.location });
-      userData.me && dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+    if (!error && !loading) {
+      if (userData && userData.me) {
+        dispatch({ type: 'name', payload: userData.me.twitter.name });
+        dispatch({ type: 'email', payload: userData.me.github.email });
+        dispatch({ type: 'description', payload: userData.me.twitter.description });
+        dispatch({ type: 'location', payload: userData.me.twitter.location });
+        dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+      }
     }
+
   }, [userData, error, loading]);
 
   React.useEffect(() => {
@@ -420,7 +423,7 @@ const DevCardHub = () => {
 
   const loadData = async () => {
     if (!needsLoginService) {
-      console.log({ needsLoginService });
+      console.log('Load data needsLoginService: ', needsLoginService);
       getUserDetails();
     } else {
       await auth.login(needsLoginService);
@@ -638,11 +641,13 @@ const DevCardHub = () => {
             <Checkbox
               type="Profile image"
               checked={state.pushProfileImage}
+              disabled={state.checkboxGitHub}
               onCheckboxChange={() => dispatch({ type: 'pushProfileImage', payload: !state.pushProfileImage })}
             />
             <Checkbox
               type="Cover image"
               checked={state.pushCoverImage}
+              disabled={state.checkboxGitHub}
               onCheckboxChange={() => dispatch({ type: 'pushCoverImage', payload: !state.pushCoverImage })}
             />
             <Checkbox
