@@ -5,11 +5,16 @@ import Layout from '../layout';
 import gsap from 'gsap';
 import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
-import { APP_ID } from '../../butler';
+import { APP_ID, GET_PROFILE_INFO } from '../../butler';
 import Button from '../common/button';
 import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+import jwt_decode from 'jwt-decode';
+import { useLazyQuery } from '@apollo/client';
 
 const Login = () => {
+  const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  const dispatch = React.useContext(DevCardDispatchContext);
+  const state = React.useContext(DevCardStateContext);
   let auth =
     typeof window !== 'undefined'
       ? new OneGraphAuth({
@@ -20,15 +25,21 @@ const Login = () => {
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
-
-  const dispatch = React.useContext(DevCardDispatchContext);
-  const state = React.useContext(DevCardStateContext);
-
   React.useEffect(() => {
     if (state.isGitHubLoggedIn) {
-      navigate('/app/hub');
+      console.log(userData, error, loading);
+      if (!error && !loading) {
+        if (userData && userData.me) {
+          dispatch({ type: 'name', payload: userData.me.twitter.name });
+          dispatch({ type: 'email', payload: userData.me.github.email });
+          dispatch({ type: 'description', payload: userData.me.twitter.description });
+          dispatch({ type: 'location', payload: userData.me.twitter.location });
+          dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+          navigate('/app/hub');
+        }
+      }
     }
-  }, [state.isGitHubLoggedIn]);
+  }, [state.isGitHubLoggedIn, userData, error, loading]);
 
   const login = () =>
     auth
@@ -36,6 +47,9 @@ const Login = () => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
+            let jwt = jwt_decode(auth._accessToken.accessToken);
+            console.log(jwt);
+            getUserDetails();
             console.log('Logged into GitHub, navigating to hub');
             dispatch({ type: 'isGitHubLoggedIn', payload: true });
             dispatch({ type: 'hasGitHubAuth', payload: true });

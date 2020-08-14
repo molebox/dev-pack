@@ -251,7 +251,7 @@ const AuthHeader = ({ userName, loadBtn }) => {
         gridArea: 'authHeader',
         display: ['flex', 'grid'],
         flexDirection: ['column', null],
-        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px 200px'],
+        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px'],
         justifyContent: ['space-between', null, null],
         // maxWidth: 1440,
         // m: [3, null, null],
@@ -289,7 +289,7 @@ const AuthHeader = ({ userName, loadBtn }) => {
         Welcome {userName ? userName : 'Stranger'}!
       </p>
       <div></div>
-      <div
+      {/* <div
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
@@ -301,7 +301,7 @@ const AuthHeader = ({ userName, loadBtn }) => {
         }}
       >
         {loadBtn}
-      </div>
+      </div> */}
       <div
         sx={{
           display: 'flex',

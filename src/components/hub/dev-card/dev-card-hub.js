@@ -164,18 +164,18 @@ const DevCardHub = () => {
   //   }
   // }, []);
 
-  React.useEffect(() => {
-    console.log(userData, error, loading);
-    if (!error && !loading) {
-      if (userData && userData.me) {
-        dispatch({ type: 'name', payload: userData.me.twitter.name });
-        dispatch({ type: 'email', payload: userData.me.github.email });
-        dispatch({ type: 'description', payload: userData.me.twitter.description });
-        dispatch({ type: 'location', payload: userData.me.twitter.location });
-        dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
-      }
-    }
-  }, [userData, error, loading]);
+  // React.useEffect(() => {
+  //   console.log(userData, error, loading);
+  //   if (!error && !loading) {
+  //     if (userData && userData.me) {
+  //       dispatch({ type: 'name', payload: userData.me.twitter.name });
+  //       dispatch({ type: 'email', payload: userData.me.github.email });
+  //       dispatch({ type: 'description', payload: userData.me.twitter.description });
+  //       dispatch({ type: 'location', payload: userData.me.twitter.location });
+  //       dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
+  //     }
+  //   }
+  // }, [userData, error, loading]);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });

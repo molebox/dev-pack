@@ -118,7 +118,7 @@ export default ({ location }) => {
             margin: '0 auto',
           }}
         >
-          <InternalLink className="to-hub" to="/app/login" text="Step inside (ALPHA)" />
+          <InternalLink className="to-hub" to="/app/hub" text="Step inside (ALPHA)" />
         </div>
         <IntroSection />
       </div>
