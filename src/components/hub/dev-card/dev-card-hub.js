@@ -164,6 +164,32 @@ const DevCardHub = () => {
   }, []);
 
   React.useEffect(() => {
+    if (
+      loggedInServiceData &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
+      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
+    ) {
+      auth
+        .login('github')
+        .then(() => {
+          auth.isLoggedIn('github').then((isLoggedIn) => {
+            if (isLoggedIn) {
+              toast.success('Successfully logged in to GitHub ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            } else {
+              toast.error('You did not grant auth for GitHub ', {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
+            }
+          });
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+  }, []);
+
+  React.useEffect(() => {
     if (userData && userData.me) {
       userData.me && dispatch({ type: 'name', payload: userData.me.twitter.name });
       userData.me && dispatch({ type: 'email', payload: userData.me.github.email });

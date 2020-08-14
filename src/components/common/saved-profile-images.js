@@ -180,22 +180,22 @@ const SavedProfileImages = () => {
         <div
           sx={{
             border: 'solid 2px',
-            height: 80,
-            width: 150,
+            height: 100,
+            width: 100,
           }}
         ></div>
         <div
           sx={{
             border: 'solid 2px',
-            height: 80,
-            width: 150,
+            height: 100,
+            width: 100,
           }}
         ></div>
         <div
           sx={{
             border: 'solid 2px',
-            height: 80,
-            width: 150,
+            height: 100,
+            width: 100,
           }}
         ></div>
       </div>
@@ -213,6 +213,7 @@ const SavedProfileImages = () => {
           fontSize: [0],
           mt: 2,
           fontWeight: 700,
+          textAlign: 'center'
         }}
       >
         Your last 3 saves are shown
