@@ -459,7 +459,7 @@ const DevCardHub = () => {
         <ProfileDropzone />
         <CoverDropzone />
         <AuthService />
-        <TestGetUserData/>
+        {/* <TestGetUserData/> */}
         <div
           sx={{
             gridArea: 'form',
