@@ -26,7 +26,7 @@ const Login = () => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
   React.useEffect(() => {
-    if (state.isGitHubLoggedIn) {
+    if (state.isGitHubLoggedIn && state.isTwitterLoggedIn) {
       console.log(userData, error, loading);
       if (!error && !loading) {
         if (userData && userData.me) {
@@ -39,7 +39,7 @@ const Login = () => {
         }
       }
     }
-  }, [state.isGitHubLoggedIn, userData, error, loading]);
+  }, [state.isGitHubLoggedIn, state.isTwitterLoggedIn, userData, error, loading]);
 
   const login = () =>
     auth
@@ -53,6 +53,17 @@ const Login = () => {
             console.log('Logged into GitHub, navigating to hub');
             dispatch({ type: 'isGitHubLoggedIn', payload: true });
             dispatch({ type: 'hasGitHubAuth', payload: true });
+            auth
+            .login('twitter')
+            .then(() => {
+              auth.isLoggedIn('twitter').then((isLoggedIn) => {
+                if (isLoggedIn) {
+                  dispatch({ type: 'hasTwitterAuth', payload: true });
+                } else {
+                  console.log('Did not grant auth for Twitter');
+                }
+              });
+            })
           } else {
             console.log('Did not grant auth for GitHub');
           }
