@@ -112,7 +112,7 @@ const DevCardHub = () => {
     let today = getWeekDay(date);
 
     if (today === 'Friday') {
-      dispatch({ type: 'isFriday', isFriday: true });
+      dispatch({ type: 'isFriday', payload: true });
     }
   }, []);
 
