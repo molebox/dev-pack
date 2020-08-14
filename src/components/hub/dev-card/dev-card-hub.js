@@ -382,20 +382,21 @@ const DevCardHub = () => {
     dispatch({ type: 'website', payload: e.target.value });
   };
 
-  const loadData = async () => {
-    if (!needsLoginService) {
-      console.log('Load data needsLoginService: ', needsLoginService);
-      getUserDetails();
-    } else {
-      await auth.login(needsLoginService);
-      const loginSuccess = await auth.isLoggedIn(needsLoginService);
-      if (loginSuccess) {
-        console.log('Successfully logged into ' + needsLoginService);
-        getUserDetails();
-      } else {
-        console.log('You did not grant auth to ' + needsLoginService);
-      }
-    }
+  const loadData = () => {
+    getUserDetails();
+    // if (!needsLoginService) {
+    //   console.log('Load data needsLoginService: ', needsLoginService);
+    //   getUserDetails();
+    // } else {
+    //   await auth.login(needsLoginService);
+    //   const loginSuccess = await auth.isLoggedIn(needsLoginService);
+    //   if (loginSuccess) {
+    //     console.log('Successfully logged into ' + needsLoginService);
+    //     getUserDetails();
+    //   } else {
+    //     console.log('You did not grant auth to ' + needsLoginService);
+    //   }
+    // }
   };
 
   return (
@@ -412,7 +413,7 @@ const DevCardHub = () => {
     >
       <AuthHeader
         userName={state.name}
-        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={loadData} />}
+        loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
       />
       <div
         sx={{
@@ -437,9 +438,10 @@ const DevCardHub = () => {
             `
             'authHeader authHeader'
             'fileInfo preview'
+            'authService .'
             'profileDropzone savedProfile'
             'coverDropzone savedCover'
-            'form authService'
+            'form checkboxes'
             'form checkboxes'
             'push push'
           `,
