@@ -4,7 +4,6 @@ import { APP_ID } from './src/butler';
 import OneGraphAuth from 'onegraph-auth';
 import { setContext } from '@apollo/link-context';
 import DevCardProvider from './src/context/devcard-context';
-import UserProvider from './src/context/user-context';
 const fetch = require('isomorphic-fetch');
 
 const auth =
@@ -15,7 +14,7 @@ const auth =
     : null;
 
 const httpLink = createHttpLink({
-  uri: 'https://serve.onegraph.com/graphql?app_id=' + APP_ID,
+  uri: 'https://serve.onegraph.com/dynamic?app_id=' + APP_ID,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -35,8 +34,6 @@ const client = new ApolloClient({
 
 export const wrapRootElement = ({ element }) => (
   <ApolloProvider client={client}>
-    <UserProvider>
       <DevCardProvider>{element}</DevCardProvider>
-    </UserProvider>
   </ApolloProvider>
 );

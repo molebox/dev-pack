@@ -116,27 +116,6 @@ const DevCardHub = () => {
     }
   }, []);
 
-  /*   React.useEffect(() => {
-    const checkLogin = async () => {
-      if (!needsLoginService) {
-        console.log({ needsLoginService });
-        getUserDetails();
-      } else {
-        await auth.login(needsLoginService);
-        const loginSuccess = await auth.isLoggedIn(needsLoginService);
-        if (loginSuccess) {
-          console.log('Successfully logged into ' + needsLoginService);
-          getUserDetails();
-        } else {
-          console.log('You did not grant auth to ' + needsLoginService);
-        }
-      }
-    }
-
-    checkLogin();
-
-  }, [needsLoginService]) */
-
   React.useEffect(() => {
       auth
         .login('twitter')
@@ -156,34 +135,35 @@ const DevCardHub = () => {
         .catch((e) => console.error('Problem logging in', e));
   }, []);
 
-  React.useEffect(() => {
-    if (
-      loggedInServiceData &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
-      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
-    ) {
-      console.log('loggedInServiceData - GitHub: ', loggedInServiceData)
-      auth
-        .login('github')
-        .then(() => {
-          auth.isLoggedIn('github').then((isLoggedIn) => {
-            if (isLoggedIn) {
-              toast.success('Successfully logged in to GitHub ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            } else {
-              toast.error('You did not grant auth for GitHub ', {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-            }
-          });
-        })
-        .catch((e) => console.error('Problem logging in', e));
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (
+  //     loggedInServiceData &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
+  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
+  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
+  //   ) {
+  //     console.log('loggedInServiceData - GitHub: ', loggedInServiceData)
+  //     auth
+  //       .login('github')
+  //       .then(() => {
+  //         auth.isLoggedIn('github').then((isLoggedIn) => {
+  //           if (isLoggedIn) {
+  //             toast.success('Successfully logged in to GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           } else {
+  //             toast.error('You did not grant auth for GitHub ', {
+  //               position: toast.POSITION.BOTTOM_CENTER,
+  //             });
+  //           }
+  //         });
+  //       })
+  //       .catch((e) => console.error('Problem logging in', e));
+  //   }
+  // }, []);
 
   React.useEffect(() => {
+    console.log(userData, error, loading)
     if (!error && !loading) {
       if (userData && userData.me) {
         dispatch({ type: 'name', payload: userData.me.twitter.name });
@@ -203,7 +183,6 @@ const DevCardHub = () => {
     if (githubError) {
       console.log({ githubError });
     }
-    console.log({ state });
 
     return github({
       variables: {
@@ -220,10 +199,7 @@ const DevCardHub = () => {
   };
 
   const updateTwitterUserProfileImage = (image) => {
-    console.log({ image });
     if (image !== '') {
-      console.log('the base64 string: ', image.split(',')[1]);
-
       uploadTwitterMedia({
         variables: {
           imageData: image.split(',')[1],
@@ -243,7 +219,6 @@ const DevCardHub = () => {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
-      console.log('THE MEDIA ID: ', state.profileMediaId);
 
       if (state.profileMediaId !== '') {
         updateTwitterProfileImage({
@@ -252,7 +227,6 @@ const DevCardHub = () => {
           },
         })
           .then((res) => {
-            console.log('media upload: ', res);
             if (!res.data) {
               toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
             } else {
@@ -262,7 +236,6 @@ const DevCardHub = () => {
             }
           })
           .catch((error) => {
-            console.log(error.message);
             toast.error(`This went wrong uploading the initial profile media: ${error.message}`, {
               position: toast.POSITION.BOTTOM_CENTER,
             });
@@ -272,10 +245,8 @@ const DevCardHub = () => {
   };
 
   const updateTwitterUserCoverImage = (image) => {
-    console.log({ image });
-    if (image !== '') {
-      console.log('the base64 string: ', image.split(',')[1]);
 
+    if (image !== '') {
       uploadTwitterMedia({
         variables: {
           imageData: image.split(',')[1],
@@ -295,7 +266,6 @@ const DevCardHub = () => {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         });
-      console.log('THE COVER MEDIA ID: ', state.coverMediaId);
 
       if (state.coverMediaId !== '') {
         updateTwitterCoverImage({
@@ -304,7 +274,6 @@ const DevCardHub = () => {
           },
         })
           .then((res) => {
-            console.log('media upload: ', res);
             if (!res.data) {
               toast.error(`Nope, this shit is not working`, { position: toast.POSITION.BOTTOM_CENTER });
             } else {
@@ -314,7 +283,6 @@ const DevCardHub = () => {
             }
           })
           .catch((error) => {
-            console.log(error.message);
             toast.error(`This went wrong uploading the initial cover media: ${error.message}`, {
               position: toast.POSITION.BOTTOM_CENTER,
             });
