@@ -29,8 +29,6 @@ const TwitterLogin = () => {
       .then(() => {
         auth.isLoggedIn('twitter').then((isLoggedIn) => {
           if (isLoggedIn) {
-            let jwt = jwt_decode(auth._accessToken.accessToken);
-            // Add the users github handle, name and email to the sites context
             dispatch({ type: 'hasTwitterAuth', payload: true });
           } else {
             console.log('Did not grant auth for Twitter');

@@ -117,24 +117,24 @@ const DevCardHub = () => {
     }
   }, []);
 
-  React.useEffect(() => {
-    auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            toast.success('Successfully logged in to Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          } else {
-            toast.error('You did not grant auth for Twitter ', {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
-  }, []);
+  // React.useEffect(() => {
+  //   auth
+  //     .login('twitter')
+  //     .then(() => {
+  //       auth.isLoggedIn('twitter').then((isLoggedIn) => {
+  //         if (isLoggedIn) {
+  //           toast.success('Successfully logged in to Twitter ', {
+  //             position: toast.POSITION.BOTTOM_CENTER,
+  //           });
+  //         } else {
+  //           toast.error('You did not grant auth for Twitter ', {
+  //             position: toast.POSITION.BOTTOM_CENTER,
+  //           });
+  //         }
+  //       });
+  //     })
+  //     .catch((e) => console.error('Problem logging in', e));
+  // }, []);
 
   // React.useEffect(() => {
   //   if (
