@@ -32,8 +32,7 @@ import SavedProfileImages from '../../common/saved-profile-images';
 import SavedCoverImages from '../../common/saved-cover-images';
 import ProfileDropzone from '../../common/profile-dropzone';
 import CoverDropzone from '../../common/cover-dropzone';
-import { DevCardDispatchContext } from '../../../context/devcard-context';
-import { DevCardStateContext } from './../../../context/devcard-context';
+import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../../context/devcard-context';
 import Loading from '../../svg/loading';
 import AuthService from './auth-service';
 import TestGetUserData from '../../auth/test-get-user-data';
@@ -65,13 +64,7 @@ const DevCardHub = () => {
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
-
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
+  const auth = React.useContext(DevCardAuthContext);
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
@@ -417,6 +410,7 @@ const DevCardHub = () => {
       className="devCard"
     >
       <AuthHeader
+        auth={auth}
         userName={state.name}
         loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
       />

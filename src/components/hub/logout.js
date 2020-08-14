@@ -6,19 +6,12 @@ import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
 import { APP_ID } from '../../butler';
 import Button from './../common/button';
-import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
 const Logout = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
-
-  // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
+  const auth = React.useContext(DevCardAuthContext);
 
   React.useEffect(() => {
     if (!state.isGitHubLoggedIn) {
