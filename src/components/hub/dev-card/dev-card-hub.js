@@ -32,13 +32,26 @@ import SavedProfileImages from '../../common/saved-profile-images';
 import SavedCoverImages from '../../common/saved-cover-images';
 import ProfileDropzone from '../../common/profile-dropzone';
 import CoverDropzone from '../../common/cover-dropzone';
-import { DevCardDispatchContext } from '../../../context/devcard-context';
-import { DevCardStateContext } from './../../../context/devcard-context';
+import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../../context/devcard-context';
 import Loading from '../../svg/loading';
 import AuthService from './auth-service';
 import TestGetUserData from '../../auth/test-get-user-data';
 
 toast.configure();
+
+const loginAndCheck = async (auth, service) => {
+  await auth.login(service);
+  const isLoggedIn = await auth.isLoggedIn(service);
+  return isLoggedIn;
+};
+
+const userServiceData = ({ loggedInServiceData, service }) => {
+  let loggedInServices = loggedInServiceData?.me?.serviceMetadata?.loggedInServices || [];
+  return loggedInServices.find((serviceData) => {
+    console.log('ServiceData: ', serviceData, service);
+    return serviceData.service === service;
+  });
+};
 
 const DevCardHub = () => {
   const [github, { error: githubError, loading: githubUpdateLoading }] = useMutation(UPDATE_GITHUB_USER);
@@ -51,63 +64,47 @@ const DevCardHub = () => {
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
-
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
+  const auth = React.useContext(DevCardAuthContext);
 
   const needsLoginService = auth.findMissingAuthServices(error)[0];
 
-  // React.useEffect(() => {
-  //   console.log({ loggedInServiceData });
-  //   if (
-  //     loggedInServiceData &&
-  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
-  //   ) {
-  //     auth
-  //       .login('twitter')
-  //       .then(() => {
-  //         auth.isLoggedIn('twitter').then((isLoggedIn) => {
-  //           if (isLoggedIn) {
-  //             toast.success('Successfully logged in to Twitter ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           } else {
-  //             toast.error('You did not grant auth for Twitter ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => console.error('Problem logging in', e));
-  //   }
-  //   if (
-  //     loggedInServiceData &&
-  //     !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-  //     loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
-  //   ) {
-  //     auth
-  //       .login('github')
-  //       .then(() => {
-  //         auth.isLoggedIn('github').then((isLoggedIn) => {
-  //           if (isLoggedIn) {
-  //             toast.success('Successfully logged in to GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           } else {
-  //             toast.error('You did not grant auth for GitHub ', {
-  //               position: toast.POSITION.BOTTOM_CENTER,
-  //             });
-  //           }
-  //         });
-  //       })
-  //       .catch((e) => console.error('Problem logging in', e));
-  //   }
-  // }, [loggedInServiceData]);
+  React.useEffect(() => {
+    console.log({ loggedInServiceData });
+    const toastPosition = toast.POSITION.BOTTOM_CENTER;
+    const toastSuccess = (message) => {
+      toast.success(message, {
+        position: toastPosition,
+      });
+    };
+
+    const toastError = (message) => {
+      toast.error(message, {
+        position: toastPosition,
+      });
+    };
+
+    const twitterUserData = userServiceData({ loggedInServiceData, service: 'TWITTER' });
+    const gitHubUserData = userServiceData({ loggedInServiceData, service: 'GITHUB' });
+
+    if (!twitterUserData) {
+      loginAndCheck(auth, 'twitter')
+        .then((isLoggedIn) => {
+          isLoggedIn
+            ? toastSuccess('Successfully logged in to Twitter ')
+            : toastError('You did not grant auth for Twitter ');
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+    if (!gitHubUserData) {
+      loginAndCheck(auth, 'github')
+        .then((isLoggedIn) => {
+          isLoggedIn
+            ? toastSuccess('Successfully logged in to GitHub ')
+            : toastError('You did not grant auth for GitHub ');
+        })
+        .catch((e) => console.error('Problem logging in', e));
+    }
+  }, [loggedInServiceData]);
 
   React.useEffect(() => {
     let date = new Date();
@@ -413,6 +410,7 @@ const DevCardHub = () => {
       className="devCard"
     >
       <AuthHeader
+        auth={auth}
         userName={state.name}
         loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
       />

@@ -234,16 +234,10 @@ const steps = [
   },
 ];
 
-const AuthHeader = ({ userName, loadBtn }) => {
+const AuthHeader = ({ auth, userName, loadBtn }) => {
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const openTour = () => setIsTourOpen(true);
   const closeTour = () => setIsTourOpen(false);
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
 
   return (
     <section

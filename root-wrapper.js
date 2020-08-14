@@ -3,25 +3,18 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@ap
 import { APP_ID } from './src/butler';
 import OneGraphAuth from 'onegraph-auth';
 import { setContext } from '@apollo/link-context';
-import DevCardProvider from './src/context/devcard-context';
+import DevCardProvider, { oneGraphAuth } from './src/context/devcard-context';
 const fetch = require('isomorphic-fetch');
 
-const auth =
-  typeof window !== 'undefined'
-    ? new OneGraphAuth({
-        appId: APP_ID,
-      })
-    : null;
-
 const httpLink = createHttpLink({
-  uri: 'https://serve.onegraph.com/dynamic?app_id=' + APP_ID,
+  uri: 'https://serve.onegraph.com/graphql?app_id=' + oneGraphAuth.appId,
 });
 
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      ...auth.authHeaders(),
+      ...oneGraphAuth.authHeaders(),
     },
   };
 });

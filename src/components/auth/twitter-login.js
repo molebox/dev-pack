@@ -3,39 +3,43 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import Twitter from '../svg/twitter';
 
-import OneGraphAuth from 'onegraph-auth';
 import jwt_decode from 'jwt-decode';
 import { UserContext } from '../../context/user-context';
-import { APP_ID } from '../../butler';
 import LogoButton from '../common/logo-button';
 import gsap from 'gsap';
-import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+
+const service = 'twitter';
 
 const TwitterLogin = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
+  const auth = React.useContext(DevCardAuthContext);
 
-  // OneGraphAuth uses the window object to display the popup, we need to check it exists due to SSR.
-  const auth =
-    typeof window !== 'undefined'
-      ? new OneGraphAuth({
-          appId: APP_ID,
-        })
-      : null;
+  const login = async () => {
+    try {
+      await auth.login(service);
+      const isLoggedIn = await auth.isLoggedIn(service);
+      isLoggedIn ? dispatch({ type: 'hasTwitterAuth', payload: true }) : console.log('Did not grant auth for Twitter');
+    } catch (e) {
+      console.error('Problem logging in', e);
+    }
+  };
 
-  const login = () =>
-    auth
-      .login('twitter')
-      .then(() => {
-        auth.isLoggedIn('twitter').then((isLoggedIn) => {
-          if (isLoggedIn) {
-            dispatch({ type: 'hasTwitterAuth', payload: true });
-          } else {
-            console.log('Did not grant auth for Twitter');
-          }
-        });
-      })
-      .catch((e) => console.error('Problem logging in', e));
+  React.useEffect(() => {
+    const helper = async () => {
+      try {
+        const isLoggedIn = await auth.isLoggedIn(service);
+        isLoggedIn
+          ? dispatch({ type: 'hasTwitterAuth', payload: true })
+          : console.log('Not logged into Twitter at time of component mount');
+      } catch (e) {
+        console.error('Problem checking Twitter login status');
+      }
+    };
+
+    helper();
+  }, []);
 
   return (
     <LogoButton
