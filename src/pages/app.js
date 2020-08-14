@@ -9,7 +9,7 @@ const App = () => {
   const state = React.useContext(DevCardStateContext);
   return (
     <Router>
-      <PrivateRoute path="app/hub" component={Hub} isLoggedIn={state.isLoggedIn} />
+      <PrivateRoute path="app/hub" component={Hub}/>
       <Login path="/app/login" />
     </Router>
   );

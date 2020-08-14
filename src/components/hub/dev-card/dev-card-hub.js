@@ -138,12 +138,6 @@ const DevCardHub = () => {
   }, [needsLoginService]) */
 
   React.useEffect(() => {
-    if (
-      loggedInServiceData &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices.length &&
-      !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
-      loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'TWITTER'
-    ) {
       auth
         .login('twitter')
         .then(() => {
@@ -160,7 +154,6 @@ const DevCardHub = () => {
           });
         })
         .catch((e) => console.error('Problem logging in', e));
-    }
   }, []);
 
   React.useEffect(() => {
@@ -170,6 +163,7 @@ const DevCardHub = () => {
       !loggedInServiceData.me.serviceMetadata.loggedInServices[0].isLoggedIn &&
       loggedInServiceData.me.serviceMetadata.loggedInServices[0].service === 'GITHUB'
     ) {
+      console.log('loggedInServiceData - GitHub: ', loggedInServiceData)
       auth
         .login('github')
         .then(() => {

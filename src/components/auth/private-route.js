@@ -4,11 +4,14 @@ import { toast } from 'react-toastify';
 import { LOGGED_IN_SERVICES } from '../../butler';
 
 import { useQuery } from '@apollo/client';
+import { DevCardStateContext } from './../../context/devcard-context';
 
 toast.configure();
 
-const PrivateRoute = ({ component: Component, location, isLoggedIn, ...rest }) => {
+const PrivateRoute = ({ component: Component, location, ...rest }) => {
   const { loading, error, data } = useQuery(LOGGED_IN_SERVICES);
+
+  const state = React.useContext(DevCardStateContext);
 
   // check if the user is logged in. If they are already then navigate them to the hub
   // if (
@@ -24,7 +27,7 @@ const PrivateRoute = ({ component: Component, location, isLoggedIn, ...rest }) =
   //   return null;
   // }
 
-  if (!isLoggedIn && location.pathname !== `/app/login`) {
+  if (!state.isLoggedIn && location.pathname !== `/app/login`) {
     console.log('Not logged in, navigating to login page');
     // If we’re not logged in, redirect to the login page.
     navigate(`/app/login`);

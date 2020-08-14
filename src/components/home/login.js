@@ -5,10 +5,9 @@ import Layout from '../layout';
 import gsap from 'gsap';
 import { navigate } from 'gatsby';
 import OneGraphAuth from 'onegraph-auth';
-import jwt_decode from 'jwt-decode';
 import { APP_ID } from '../../butler';
 import Button from '../common/button';
-import { DevCardDispatchContext } from '../../context/devcard-context';
+import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
 const Login = () => {
   let auth =
@@ -23,6 +22,13 @@ const Login = () => {
   }, []);
 
   const dispatch = React.useContext(DevCardDispatchContext);
+  const state = React.useContext(DevCardStateContext);
+
+  React.useEffect(() => {
+    if (state.isLoggedIn) {
+      navigate('/app/hub');
+    }
+  }, [state.isLoggedIn])
 
   const login = () =>
     auth
@@ -32,7 +38,6 @@ const Login = () => {
           if (isLoggedIn) {
             console.log('Logged into GitHub, navigating to hub');
             dispatch({ type: 'isLoggedIn', payload: true });
-            navigate('/app/hub');
           } else {
             console.log('Did not grant auth for GitHub');
           }
