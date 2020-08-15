@@ -22,6 +22,8 @@ const IntroSection = () => {
           m: 6,
           textAlign: 'center',
           pt: 6,
+          maxWidth: 1440,
+          margin: '0 auto',
         }}
       >
         <h3
@@ -59,6 +61,8 @@ const IntroSection = () => {
           justifyContent: 'space-evenly',
           width: '100%',
           my: 6,
+          maxWidth: 1440,
+          margin: '0 auto',
         }}
       >
         <IntroCard>
@@ -95,6 +99,8 @@ const IntroSection = () => {
           mt: '5em',
           mx: 3,
           textAlign: 'center',
+          maxWidth: 1440,
+          margin: '3em auto',
         }}
       >
         <h5
