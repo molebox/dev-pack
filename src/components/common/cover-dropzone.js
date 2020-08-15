@@ -156,19 +156,12 @@ const CoverDropzone = () => {
         {isError ? (
           <div
             sx={{
-              gridArea: 'coverDropzone',
               display: 'flex',
-              height: 'auto',
-              border: 'solid 2px',
-              p: 3,
-              justifyContent: 'center',
               flexDirection: 'column',
-              backgroundColor: 'secondary',
-              maxWidth: 800,
-              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            <Error width="90px" height="90px" />
             <p
               sx={{
                 fontFamily: 'heading',

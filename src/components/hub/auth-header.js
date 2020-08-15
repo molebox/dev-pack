@@ -64,6 +64,140 @@ const steps = [
     navDotAriaLabel: 'Go to dev card form',
   },
   {
+    selector: '.authService',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+            mb: 2,
+          }}
+        >
+          When you first login you will be authenticated with GitHub and Twitter, if one of these auth services hasn't
+          authenticated you, check here and auth again.
+        </p>
+      </TourBox>
+    ),
+    position: 'center',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+      width: '400px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
+    selector: '.loadDataBtn',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+            mb: 2,
+          }}
+        >
+          Load your data once you are authorized with the platforms.
+        </p>
+      </TourBox>
+    ),
+    position: 'center',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+      width: '400px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
+    selector: '.imageUpload',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          You can drag and drop or select a local file to be used as your profile or cover image.
+        </p>
+      </TourBox>
+    ),
+    position: 'left',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
+    selector: '.loadImages',
+    content: () => (
+      <TourBox>
+        <p
+          sx={{
+            fontFamily: 'heading',
+          }}
+        >
+          If you have previously uploaded an image it has been saved to the cloud for you, from here you can load your
+          last 3 saved images.
+        </p>
+      </TourBox>
+    ),
+    position: 'left',
+    // you could do something like:
+    // position: [160, 250],
+    action: (node) => {
+      // by using this, focus trap is temporary disabled
+      node.focus();
+      console.log('yup, the target element is also focused!');
+    },
+    style: {
+      backgroundColor: '#fffffe',
+      border: 'solid 3px',
+    },
+    // Disable interaction for this specific step.
+    // Could be enabled passing `true`
+    // when `disableInteraction` prop is present in Tour
+    stepInteraction: false,
+    // Text read to screen reader software for this step's navigation dot
+    navDotAriaLabel: 'Go to dev card form',
+  },
+  {
     selector: '.preview',
     content: () => (
       <TourBox>
@@ -128,38 +262,6 @@ const steps = [
     stepInteraction: false,
     // Text read to screen reader software for this step's navigation dot
     navDotAriaLabel: 'Go to push button',
-  },
-  {
-    selector: '.imageUpload',
-    content: () => (
-      <TourBox>
-        <p
-          sx={{
-            fontFamily: 'heading',
-          }}
-        >
-          You can drag and drop or select a local file to be used as your profile or cover image.
-        </p>
-      </TourBox>
-    ),
-    position: 'left',
-    // you could do something like:
-    // position: [160, 250],
-    action: (node) => {
-      // by using this, focus trap is temporary disabled
-      node.focus();
-      console.log('yup, the target element is also focused!');
-    },
-    style: {
-      backgroundColor: '#fffffe',
-      border: 'solid 3px',
-    },
-    // Disable interaction for this specific step.
-    // Could be enabled passing `true`
-    // when `disableInteraction` prop is present in Tour
-    stepInteraction: false,
-    // Text read to screen reader software for this step's navigation dot
-    navDotAriaLabel: 'Go to dev card form',
   },
   {
     selector: '.platforms',
@@ -256,6 +358,7 @@ const AuthHeader = ({ auth, userName }) => {
         backgroundColor: 'background',
         mb: 4,
       }}
+      className="authService"
     >
       <Tour
         steps={steps}

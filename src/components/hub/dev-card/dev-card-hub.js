@@ -388,6 +388,7 @@ const DevCardHub = () => {
           }}
         >
           <LoadDataButton
+            className="loadDataBtn"
             loading={githubUpdateLoading || twitterUpdateLoading}
             // disabled={checkboxGithub || checkboxTwitter ? false : true}
             onClick={() => getUserDetails()}
@@ -398,14 +399,6 @@ const DevCardHub = () => {
         <ProfileCard />
         <SavedProfileImages />
         <SavedCoverImages />
-        {/* <section sx={{
-          gridArea: 'dropzones',
-          display: 'flex',
-          m: 5,
-        }}>
-        <ProfileDropzone /> 
-        <CoverDropzone />
-        </section> */}
         <ProfileDropzone />
         <CoverDropzone />
         <div

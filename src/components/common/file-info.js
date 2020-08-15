@@ -22,7 +22,7 @@ const FileInfo = ({ loadBtn }) => {
         gridArea: 'fileInfo',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'start',
+        justifyContent: 'center',
         alignItems: 'start',
         ml: 3,
         maxWidth: 600,

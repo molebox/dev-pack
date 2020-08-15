@@ -29,12 +29,10 @@ const ProfileCard = () => {
         flexDirection: 'column',
         justifyContent: 'start',
         width: '100%',
-        maxWidth: 800,
-        // maxHeight: 900,
         p: 3,
         backgroundColor: 'background',
         justifySelf: 'center',
-        mr: 3,
+        mr: 6,
         mb: 6,
       }}
       className="preview"

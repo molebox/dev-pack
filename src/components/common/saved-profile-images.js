@@ -39,7 +39,7 @@ const SavedProfileImages = () => {
           alignItems: 'center',
           flexDirection: 'column',
           backgroundColor: 'secondary',
-          maxWidth: 500,
+          maxWidth: 600,
           width: '100%',
           m: 3,
           justifySelf: 'center',
@@ -61,7 +61,7 @@ const SavedProfileImages = () => {
           alignItems: 'center',
           flexDirection: 'column',
           backgroundColor: 'secondary',
-          maxWidth: 500,
+          maxWidth: 600,
           width: '100%',
           m: 3,
           justifySelf: 'center',
@@ -98,7 +98,7 @@ const SavedProfileImages = () => {
           justifyContent: 'center',
           flexDirection: 'column',
           backgroundColor: 'secondary',
-          maxWidth: 500,
+          maxWidth: 600,
           width: '100%',
           m: 3,
           justifySelf: 'center',
@@ -169,6 +169,7 @@ const SavedProfileImages = () => {
         m: 3,
         justifySelf: 'center',
       }}
+      className="loadImages"
     >
       <div
         sx={{
