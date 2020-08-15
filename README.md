@@ -1,31 +1,23 @@
 ## dev-pack
 
-The idea behind this project is to have a way to keep your online presence consistent across all social medias. 
+Keep your personal branding consistent across multiple platforms.
+Manage your social presence, media and domains from one hub.
 
-For example: 
-- name/handle
-- blurb - max 160 characters
-- social accounts
-    - Twitter
-    - dev.to
-    - Github
-    - LinkedIn
-    - CodePen
-    - StackOverflow
-- domains
-- media storage such as profile pictures
-- resume
+Upload profile and cover images to selected platforms, edit your profile information and manage your domains.
 
-Those are the basics as of now which i will be working on. They are subject to change both in additions and subtractions.
+### No DB!
 
-All information will be accessible via a graphql endpoint or as simple copy paste or download. 
+There are no databases, when you login you do so with your GitHub credentials, additional authentication is requested on a platform by platform basis. On first login your profile details are taken from your combined Twitter and GitHub profiles. This is exclusive of images.
 
-Login will be done via Github.
+### Cloud stored images
 
-Proposed stack
+When you upload an image, be that profile or cover, they are saved to cloudinary. The next time you login you can load your 3 previously saved image.
+
+Login and platform API is powered by [onegraph](https://www.onegraph.com/)
+
+Stack
  - Gatsby
  - Theme-ui
- - FaunaDB
- - Firebase
+ - OneGraph
+ - Cloudinary
  - GSAP
- - .........
