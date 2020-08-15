@@ -92,6 +92,7 @@ const CoverDropzone = () => {
         flexDirection: 'column',
         backgroundColor: 'secondary',
         maxWidth: 600,
+        maxHeight: 250,
         width: '100%',
         justifySelf: 'center',
         m: 3,
@@ -127,7 +128,7 @@ const CoverDropzone = () => {
                 fontFamily: 'heading',
               }}
             >
-              Upload your cover image
+              Upload your <strong>COVER</strong> image
             </p>
             <em
               sx={{
@@ -139,7 +140,7 @@ const CoverDropzone = () => {
             >
               (Only *.jpeg, *.jpg or *.png images will be accepted)
             </em>
-            <em
+            {/* <em
               sx={{
                 fontFamily: 'heading',
                 fontSize: [0],
@@ -148,7 +149,7 @@ const CoverDropzone = () => {
               }}
             >
               Recommended size is 1500 x 500
-            </em>
+            </em> */}
           </div>
         </div>
 

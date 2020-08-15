@@ -10,7 +10,9 @@ import { GET_PROFILE_INFO, APP_ID } from '../../butler';
 import OneGraphAuth from 'onegraph-auth';
 import { toast } from 'react-toastify';
 import { DevCardDispatchContext } from '../../context/devcard-context';
-
+import AuthService from './dev-card/auth-service';
+import GitHubLogin from '../auth/github-login';
+import TwitterLogin from '../auth/twitter-login';
 toast.configure();
 
 const Tour = Loadable({
@@ -245,7 +247,7 @@ const AuthHeader = ({ auth, userName }) => {
         gridArea: 'authHeader',
         display: ['flex', 'grid'],
         flexDirection: ['column', null],
-        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 200px 200px'],
+        gridTemplateColumns: ['1fr', 'minmax(300px, 400px) 1fr 400px 200px 200px'],
         justifyContent: ['space-between', null, null],
         // maxWidth: 1440,
         // m: [3, null, null],
@@ -283,19 +285,20 @@ const AuthHeader = ({ auth, userName }) => {
         Welcome {userName ? userName : 'Stranger'}!
       </p>
       <div></div>
-      {/* <div
+      <div
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          justifySelf: 'flex-end',
-          width: 200,
+          justifyContent: 'space-evenly',
+          justifySelf: 'center',
+          width: '100%',
           height: 'min-content',
           alignSelf: 'center',
-          m: 3,
         }}
       >
-        {loadBtn}
-      </div> */}
+        <GitHubLogin />
+        <TwitterLogin />
+      </div>
+
       <div
         sx={{
           display: 'flex',

@@ -2,6 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { DevCardStateContext } from '../../../context/devcard-context';
+import Emoji from './../../common/emoji';
 
 const ProfileCard = () => {
   const state = React.useContext(DevCardStateContext);
@@ -28,14 +29,28 @@ const ProfileCard = () => {
         flexDirection: 'column',
         justifyContent: 'start',
         width: '100%',
-        // maxWidth: 600,
-        // maxHeight: 700,
+        maxWidth: 800,
+        // maxHeight: 900,
         p: 3,
         backgroundColor: 'background',
         justifySelf: 'center',
+        mr: 3,
+        mb: 6,
       }}
       className="preview"
     >
+      <h2
+        sx={{
+          fontFamily: 'heading',
+          color: 'text',
+          fontWeight: 400,
+          fontSize: [2],
+          textAlign: 'center',
+          mb: 2,
+        }}
+      >
+        Mock profile <Emoji ariaLabel="A camera" symbol="🖼️" />
+      </h2>
       <div
         sx={{
           display: 'flex',

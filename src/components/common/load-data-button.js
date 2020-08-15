@@ -48,7 +48,7 @@ export const buttonBorder = css`
   transition: all 0.25s ease-out;
 `;
 
-export const PushButton = ({ text, onClick, type, disabled, className, loading }) => (
+export const LoadDataButton = ({ text, onClick, type, disabled, className, loading }) => (
   <button
     disabled={disabled}
     type={type}
@@ -65,6 +65,7 @@ export const PushButton = ({ text, onClick, type, disabled, className, loading }
       cursor: pointer;
       outline: none;
       width: 100%;
+      // transform: rotate(-1.5deg);
 
       & .bottom {
         position: absolute;
@@ -168,4 +169,4 @@ export const PushButton = ({ text, onClick, type, disabled, className, loading }
   </button>
 );
 
-export default PushButton;
+export default LoadDataButton;

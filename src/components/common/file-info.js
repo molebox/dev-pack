@@ -6,14 +6,15 @@ import LabelText from './label-text';
 import Input from './../home/signup/input';
 import Emoji from './emoji';
 import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+import AuthService from './../hub/dev-card/auth-service';
 
 const FileInfo = ({ loadBtn }) => {
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
 
-  const handleOnNameChange = (e) => {
-    dispatch({ type: 'cloudinaryFolderName', payload: e.target.value });
-  };
+  // const handleOnNameChange = (e) => {
+  //   dispatch({ type: 'cloudinaryFolderName', payload: e.target.value });
+  // };
 
   return (
     <aside

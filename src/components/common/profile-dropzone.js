@@ -92,6 +92,7 @@ const ProfileDropzone = () => {
         flexDirection: 'column',
         backgroundColor: 'secondary',
         maxWidth: 600,
+        maxHeight: 250,
         width: '100%',
         justifySelf: 'center',
         m: 3,
@@ -127,7 +128,7 @@ const ProfileDropzone = () => {
                 fontFamily: 'heading',
               }}
             >
-              Upload your profile image
+              Upload your <strong>PROFILE</strong> image
             </p>
             <em
               sx={{
@@ -139,7 +140,7 @@ const ProfileDropzone = () => {
             >
               (Only *.jpeg, *.jpg or *.png images will be accepted)
             </em>
-            <em
+            {/* <em
               sx={{
                 fontFamily: 'heading',
                 fontSize: [0],
@@ -148,7 +149,7 @@ const ProfileDropzone = () => {
               }}
             >
               The GitHub API doesn't allow you to update your profile picture
-            </em>
+            </em> */}
           </div>
         </div>
 

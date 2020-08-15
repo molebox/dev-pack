@@ -23,6 +23,7 @@ const Checkboxes = () => {
         border: 'solid 2px',
         width: 'max-content',
         backgroundColor: 'secondary',
+        my: 5,
       }}
       className="platforms"
     >
@@ -33,7 +34,7 @@ const Checkboxes = () => {
       <div
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          // flexDirection: 'column',
           justifyContent: 'space-evenly',
           my: 3,
           width: '100%',
@@ -64,7 +65,7 @@ const Checkboxes = () => {
       <div
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          // flexDirection: 'column',
           justifyContent: 'space-evenly',
           my: 3,
           width: '100%',

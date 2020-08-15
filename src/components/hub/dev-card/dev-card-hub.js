@@ -36,6 +36,7 @@ import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from 
 import Loading from '../../svg/loading';
 import AuthService from './auth-service';
 import Checkboxes from './checkboxes';
+import { LoadDataButton } from './../../common/load-data-button';
 
 toast.configure();
 
@@ -331,6 +332,8 @@ const DevCardHub = () => {
     dispatch({ type: 'website', payload: e.target.value });
   };
 
+  const loadBtn = () => (loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />);
+
   return (
     <section
       sx={{
@@ -366,32 +369,45 @@ const DevCardHub = () => {
             `,
             `
             'authHeader authHeader'
+            'loadBtn loadBtn'
             'fileInfo preview'
-            'authService .'
-            'profileDropzone savedProfile'
-            'coverDropzone savedCover'
-            'form checkboxes'
-            'form checkboxes'
+            'profileDropzone coverDropzone'
+            'form savedProfile'
+            'form savedCover'
             'push push'
           `,
           ],
-          gridAutoColumns: ['1fr', '1fr 1fr'],
+          gridAutoColumns: ['1fr', '1fr 1fr 1fr'],
           gridAutoRows: 'auto',
           p: 4,
         }}
       >
-        <FileInfo
-          loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
-        />
+        <div
+          sx={{
+            gridArea: 'loadBtn',
+          }}
+        >
+          <LoadDataButton
+            loading={githubUpdateLoading || twitterUpdateLoading}
+            // disabled={checkboxGithub || checkboxTwitter ? false : true}
+            onClick={() => getUserDetails()}
+            text="Load profile data"
+          />
+        </div>
+        <FileInfo />
         <ProfileCard />
         <SavedProfileImages />
         <SavedCoverImages />
+        {/* <section sx={{
+          gridArea: 'dropzones',
+          display: 'flex',
+          m: 5,
+        }}>
+        <ProfileDropzone /> 
+        <CoverDropzone />
+        </section> */}
         <ProfileDropzone />
         <CoverDropzone />
-        <AuthService
-          loadBtn={loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />}
-        />
-        {/* <TestGetUserData/> */}
         <div
           sx={{
             gridArea: 'form',
@@ -507,9 +523,9 @@ const DevCardHub = () => {
           </Label>
         </div>
 
-        <Checkboxes />
+        {/* <Checkboxes /> */}
 
-        <aside
+        {/* <aside
           sx={{
             gridArea: 'push',
             display: 'flex',
@@ -518,6 +534,28 @@ const DevCardHub = () => {
             m: 3,
           }}
         >
+          <Checkboxes />
+          <PushButton
+            className="push"
+            loading={githubUpdateLoading || twitterUpdateLoading}
+            // disabled={checkboxGithub || checkboxTwitter ? false : true}
+            onClick={updateInfo}
+            text={`${state.isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
+          />
+        </aside> */}
+        <aside
+          sx={{
+            gridArea: 'push',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            m: 3,
+            backgroundColor: 'background',
+            p: 3,
+          }}
+        >
+          <Checkboxes />
           <PushButton
             className="push"
             loading={githubUpdateLoading || twitterUpdateLoading}

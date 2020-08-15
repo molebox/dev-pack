@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-function Camera({ width, height }) {
+function Camera({ width, height, color, onHover }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,12 +11,16 @@ function Camera({ width, height }) {
       viewBox="0 0 512 640"
       width={width}
       height={height}
-      fill="#2b2c34"
+      fill={color ? color : '#2b2c34'}
       aria-labelledby="cameraTitle"
       role="img"
       sx={{
         ':hover': {
-          fill: 'primary',
+          fill: onHover ? onHover : 'background',
+          cursor: 'pointer',
+        },
+        ':focus': {
+          border: 'solid 1px',
         },
       }}
     >
