@@ -385,12 +385,13 @@ const DevCardHub = () => {
         <div
           sx={{
             gridArea: 'loadBtn',
+            height: 50,
           }}
         >
           <LoadDataButton
             className="loadDataBtn"
             loading={githubUpdateLoading || twitterUpdateLoading}
-            // disabled={checkboxGithub || checkboxTwitter ? false : true}
+            // disabled={!userData ? true : false}
             onClick={() => getUserDetails()}
             text="Load profile data"
           />

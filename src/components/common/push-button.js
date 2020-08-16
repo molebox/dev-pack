@@ -72,7 +72,7 @@ export const PushButton = ({ text, onClick, type, disabled, className, loading }
         top: 3px;
         width: 100%;
         height: 100%;
-        background-color: #fffffe;
+        background-color: #e03e3e;
         display: block;
         -webkit-transition: all 0.2s ease-out;
         -moz-transition: all 0.2s ease-out;
