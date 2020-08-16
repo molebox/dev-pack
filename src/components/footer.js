@@ -29,9 +29,9 @@ const Footer = () => {
         width: '100%',
       }}
     >
-      {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path fill="#2b2c34" fillOpacity="1" d="M0,160L1440,128L1440,320L0,320Z"></path>
-      </svg> */}
+      </svg>
       <section
         sx={{
           backgroundColor: 'text',
@@ -43,7 +43,7 @@ const Footer = () => {
           alignItems: 'center',
           width: '100%',
           height: 200,
-          clipPath: 'polygon(0 10%, 100% 0, 100% 100%, 0% 100%)',
+          // clipPath: 'polygon(0 10%, 100% 0, 100% 100%, 0% 100%)',
         }}
       >
         <div
