@@ -1,5 +1,7 @@
 ## dev-pack
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c7ba12f-8c53-4b91-8aed-5eb3cf98f43c/deploy-status)](https://app.netlify.com/sites/blissful-pare-832acf/deploys)
+
 Keep your personal branding consistent across multiple platforms.
 Manage your social presence, media and domains from one hub.
 
