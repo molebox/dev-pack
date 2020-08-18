@@ -3,12 +3,10 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import Label from '../../home/signup/label';
 import LabelText from '../../common/label-text';
-import Input from '../../home/signup/input';
 import Emoji from '../../common/emoji';
-import { DevCardDispatchContext } from '../../../context/devcard-context';
 import { DevCardStateContext } from './../../../context/devcard-context';
 
-const FileInfo = ({ loadBtn }) => {
+const FileInfo = () => {
   const state = React.useContext(DevCardStateContext);
   return (
     <aside

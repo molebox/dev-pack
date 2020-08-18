@@ -13,12 +13,8 @@ const ProfileDropzone = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
 
   React.useEffect(() => {
-    console.log('username: ', state.name);
-  }, []);
-
-  React.useEffect(() => {
     if (data && data.url) dispatch({ type: 'profilePreviewUrl', payload: data.url });
-  }, [data]);
+  }, [data, dispatch]);
 
   const onDrop = (acceptedFiles) => {
     // Turn the blob into base64 to feed into the upload
@@ -34,7 +30,6 @@ const ProfileDropzone = () => {
 
     blobToBase64(acceptedFiles[0]).then((res) => {
       const name = state.cloudinaryFolderName ? state.cloudinaryFolderName : state.name;
-      console.log({ name });
       dispatch({ type: 'profileBase64Image', payload: res });
       dispatch({ type: 'acceptedProfileFiles', payload: acceptedFiles[0] });
       return upload({
@@ -56,7 +51,7 @@ const ProfileDropzone = () => {
     });
   };
 
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/jpeg, image/jpg, image/png, image/PNG',
   });

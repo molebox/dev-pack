@@ -35,7 +35,7 @@ const GitHubLogin = () => {
     };
 
     helper();
-  }, []);
+  });
 
   return (
     <LogoButton

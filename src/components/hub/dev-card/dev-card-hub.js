@@ -5,7 +5,6 @@ import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
-import Button from '../../common/button';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
 import gsap from 'gsap';
@@ -31,7 +30,6 @@ import SavedCoverImages from './images/saved-cover-images';
 import ProfileDropzone from './images/profile-dropzone';
 import CoverDropzone from './images/cover-dropzone';
 import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../../context/devcard-context';
-import Loading from '../../svg/loading';
 import Checkboxes from './social-checkboxes/checkboxes';
 import { LoadDataButton } from './load-data-button';
 
@@ -65,7 +63,6 @@ const DevCardHub = () => {
   const auth = React.useContext(DevCardAuthContext);
 
   React.useEffect(() => {
-    console.log({ loggedInServiceData });
     const toastPosition = toast.POSITION.BOTTOM_CENTER;
     const toastSuccess = (message) => {
       toast.success(message, {
@@ -100,7 +97,7 @@ const DevCardHub = () => {
         })
         .catch((e) => console.error('Problem logging in', e));
     }
-  }, [loggedInServiceData]);
+  }, [loggedInServiceData, auth]);
 
   React.useEffect(() => {
     let date = new Date();
@@ -109,7 +106,7 @@ const DevCardHub = () => {
     if (today === 'Friday') {
       dispatch({ type: 'isFriday', payload: true });
     }
-  }, []);
+  });
 
   React.useEffect(() => {
     if (!error && !loading) {
@@ -121,17 +118,13 @@ const DevCardHub = () => {
         dispatch({ type: 'website', payload: userData.me.github.websiteUrl.slice(12) });
       }
     }
-  }, [userData, error, loading]);
+  }, [userData, error, loading, dispatch]);
 
   React.useEffect(() => {
     gsap.to('body', { visibility: 'visible' });
   }, []);
 
   const updateGitHub = () => {
-    if (githubError) {
-      console.log({ githubError });
-    }
-
     return github({
       variables: {
         name: state.name !== '' ? state.name : null,
@@ -262,9 +255,7 @@ const DevCardHub = () => {
     const needsLoginService = auth.findMissingAuthServices(
       errorTwitterMedia || errorTwitterProfileImage || errorTwitterCoverImage || githubError
     )[0];
-    console.log('update info needLoginService: ', needsLoginService);
     if (state.checkboxGitHub && state.pushContent) {
-      console.log('github checked');
       if (!needsLoginService) {
         updateGitHub();
       } else {
@@ -290,7 +281,6 @@ const DevCardHub = () => {
       }
     } else {
       if (needsLoginService !== undefined) {
-        console.log({ needsLoginService });
         auth.login(needsLoginService);
         const loginSuccess = auth.isLoggedIn(needsLoginService);
         if (loginSuccess) {
@@ -328,8 +318,6 @@ const DevCardHub = () => {
   const handleOnWebsiteChange = (e) => {
     dispatch({ type: 'website', payload: e.target.value });
   };
-
-  const loadBtn = () => (loading ? <Loading /> : <Button text="Load Profile Data" onClick={() => getUserDetails()} />);
 
   return (
     <section
@@ -514,26 +502,6 @@ const DevCardHub = () => {
           </Label>
         </div>
 
-        {/* <Checkboxes /> */}
-
-        {/* <aside
-          sx={{
-            gridArea: 'push',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            m: 3,
-          }}
-        >
-          <Checkboxes />
-          <PushButton
-            className="push"
-            loading={githubUpdateLoading || twitterUpdateLoading}
-            // disabled={checkboxGithub || checkboxTwitter ? false : true}
-            onClick={updateInfo}
-            text={`${state.isFriday ? 'Want to push on a friday?' : 'Push to production'}`}
-          />
-        </aside> */}
         <aside
           sx={{
             gridArea: 'push',

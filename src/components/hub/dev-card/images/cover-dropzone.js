@@ -14,7 +14,7 @@ const CoverDropzone = () => {
 
   React.useEffect(() => {
     if (data && data.url) dispatch({ type: 'coverPreviewUrl', payload: data.url });
-  }, [data]);
+  }, [data, dispatch]);
 
   const onDrop = (acceptedFiles) => {
     // Turn the blob into base64 to feed into the upload
@@ -30,7 +30,6 @@ const CoverDropzone = () => {
 
     blobToBase64(acceptedFiles[0]).then((res) => {
       const name = state.cloudinaryFolderName ? state.cloudinaryFolderName : state.name;
-      console.log({ name });
       dispatch({ type: 'coverBase64Image', payload: res });
       dispatch({ type: 'acceptedCoverFiles', payload: acceptedFiles[0] });
       return upload({
@@ -52,7 +51,7 @@ const CoverDropzone = () => {
     });
   };
 
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/jpeg, image/jpg, image/png, image/PNG',
   });

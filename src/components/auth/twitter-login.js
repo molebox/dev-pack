@@ -35,7 +35,7 @@ const TwitterLogin = () => {
     };
 
     helper();
-  }, []);
+  });
 
   return (
     <LogoButton

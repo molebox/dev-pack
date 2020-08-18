@@ -1,7 +1,5 @@
 import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
-import { APP_ID } from './src/butler';
-import OneGraphAuth from 'onegraph-auth';
 import { setContext } from '@apollo/link-context';
 import DevCardProvider, { oneGraphAuth } from './src/context/devcard-context';
 const fetch = require('isomorphic-fetch');

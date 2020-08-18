@@ -26,12 +26,10 @@ const SignupForm = () => {
   }, []);
 
   const handleOnNameChange = (e) => {
-    console.log(e.target.value);
     setName(e.target.value);
   };
 
   const handleOnEmailChange = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
 
@@ -66,7 +64,6 @@ const SignupForm = () => {
           setResponse('Huh, looks like your emails not valid!');
           clearForm();
         } else {
-          console.log(msg);
           setResponse('Thank you for subscribing!');
           clearForm();
         }
@@ -116,6 +113,7 @@ const SignupForm = () => {
           value={name}
           ariaLabel="Name input"
           placeholder="What do we call you?"
+          id="name"
         />
 
         <Input
@@ -125,6 +123,7 @@ const SignupForm = () => {
           value={email}
           ariaLabel="Email input"
           placeholder="Your fav email"
+          id="email"
         />
         <div
           sx={{

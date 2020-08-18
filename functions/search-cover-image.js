@@ -6,7 +6,6 @@ cloudinary.config({
 });
 exports.handler = async (event) => {
   const body = JSON.parse(event.body);
-  console.log({ body });
   const res = await cloudinary.search
     .expression(body.expression.expression)
     .max_results(3)

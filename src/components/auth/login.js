@@ -6,7 +6,6 @@ import gsap from 'gsap';
 import { navigate } from 'gatsby';
 import { GET_PROFILE_INFO } from '../../butler';
 import Button from '../common/button';
-import jwt_decode from 'jwt-decode';
 import { useLazyQuery } from '@apollo/client';
 import { DevCardDispatchContext, DevCardAuthContext } from '../../context/devcard-context';
 
@@ -25,8 +24,6 @@ const Login = () => {
       .then(() => {
         auth.isLoggedIn('github').then((isLoggedIn) => {
           if (isLoggedIn) {
-            let jwt = jwt_decode(auth._accessToken.accessToken);
-            console.log(jwt);
             getUserDetails();
             console.log('Logged into GitHub, navigating to hub');
             dispatch({ type: 'isGitHubLoggedIn', payload: true });

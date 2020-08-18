@@ -54,6 +54,7 @@
     "windups": "^1.0.2"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "^16.13.0",
     "prettier": "^2.0.5"
   },
   "proxy": {

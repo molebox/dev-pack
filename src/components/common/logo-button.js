@@ -6,7 +6,6 @@ const LogoButton = ({ onClick, disabled, icon, text, comingSoon, className }) =>
     <button
       className={className}
       sx={{
-        display: 'inline-block',
         height: 50,
         width: '100%',
         maxWidth: 150,

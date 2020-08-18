@@ -14,16 +14,11 @@ const SavedCoverImages = () => {
   });
   const state = React.useContext(DevCardStateContext);
 
-  const getFolder = () => {
-    if (state.cloudinaryFolderName !== '') {
-      return `${state.cloudinaryFolderName.replace(/\s/g, '')}-cover`;
-    }
-    return `${state.name.replace(/\s/g, '')}-cover`;
-  };
+  let name = `${state.name.replace(/\s/g, '')}-cover`;
 
   const customConfigSearch = React.useCallback(
-    () => search({ expression: `resource_type:image AND folder=${getFolder()}`, config: {} }),
-    [search, getFolder()]
+    () => search({ expression: `resource_type:image AND folder=${name}`, config: {} }),
+    [search, name]
   );
 
   if (isLoading)
@@ -85,7 +80,7 @@ const SavedCoverImages = () => {
       </div>
     );
 
-  if (getFolder() !== '' && isSuccess) {
+  if (state.name.replace(/\s/g, '') !== '' && isSuccess) {
     return (
       <div
         sx={{
@@ -112,7 +107,7 @@ const SavedCoverImages = () => {
         >
           {data &&
             data.resources
-              .filter((image) => image.folder === getFolder())
+              // .filter((image) => image.folder === `${state.name.replace(/\s/g, '')}-cover`)
               // .slice(0, 3)
               .map((image) => {
                 return (
