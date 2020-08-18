@@ -14,6 +14,10 @@ const ProfileDropzone = () => {
   const dispatch = React.useContext(DevCardDispatchContext);
 
   React.useEffect(() => {
+    console.log('username: ', state.name);
+  }, []);
+
+  React.useEffect(() => {
     if (data && data.url) dispatch({ type: 'profilePreviewUrl', payload: data.url });
   }, [data]);
 
@@ -90,17 +94,18 @@ const ProfileDropzone = () => {
         p: 3,
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'secondary',
+        backgroundColor: `${state.name === '' ? 'disabled' : 'secondary'}`,
         maxWidth: 600,
         maxHeight: 250,
         width: '100%',
         justifySelf: 'center',
         m: 3,
+        cursor: `${state.name === '' ? 'default' : 'pointer'}`,
       }}
       {...getRootProps()}
       className="imageUpload"
     >
-      <input {...getInputProps()} />
+      <input disabled={state.name === '' ? true : false} {...getInputProps()} />
       <>
         <div
           sx={{
