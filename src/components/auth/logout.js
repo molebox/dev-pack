@@ -1,12 +1,9 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-
 import { navigate } from 'gatsby';
-import OneGraphAuth from 'onegraph-auth';
-import { APP_ID } from '../../butler';
-import Button from './../common/button';
-import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
+import Button from '../common/button';
+import { DevCardDispatchContext, DevCardStateContext, DevCardAuthContext } from '../../context/devcard-context';
 
 const Logout = () => {
   const dispatch = React.useContext(DevCardDispatchContext);

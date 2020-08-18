@@ -1,21 +1,15 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-import Label from './../home/signup/label';
-import LabelText from './label-text';
-import Input from './../home/signup/input';
-import Emoji from './emoji';
-import { DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
-import AuthService from './../hub/dev-card/auth-service';
+import Label from '../../home/signup/label';
+import LabelText from '../../common/label-text';
+import Input from '../../home/signup/input';
+import Emoji from '../../common/emoji';
+import { DevCardDispatchContext } from '../../../context/devcard-context';
+import { DevCardStateContext } from './../../../context/devcard-context';
 
 const FileInfo = ({ loadBtn }) => {
-  const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
-
-  // const handleOnNameChange = (e) => {
-  //   dispatch({ type: 'cloudinaryFolderName', payload: e.target.value });
-  // };
-
   return (
     <aside
       sx={{
@@ -70,14 +64,6 @@ const FileInfo = ({ loadBtn }) => {
       >
         Push to production <Emoji ariaLabel="A hand writing" symbol="🚚" />
       </h2>
-      {/* <div
-        sx={{
-          display: 'flex',
-          my: 3,
-        }}
-      >
-        {loadBtn}
-      </div> */}
       {/* <Label>
         <LabelText>Manually set folder name (optional)</LabelText>
         <Input

@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { jsx, css } from 'theme-ui';
+import { jsx } from 'theme-ui';
 import React from 'react';
-import Logout from './logout';
+import Logout from '../auth/logout';
 import { Button } from './../common/button';
 import { toast } from 'react-toastify';
 import GitHubLogin from '../auth/github-login';
