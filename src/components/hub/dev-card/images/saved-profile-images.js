@@ -14,11 +14,11 @@ const SavedProfileImages = () => {
   });
   const state = React.useContext(DevCardStateContext);
 
-  let name = `${state.name.replace(/\s/g, '')}-profile`;
+  let folder = `${state.name.replace(/\s/g, '')}-profile`;
 
   const customConfigSearch = React.useCallback(
-    () => search({ expression: `resource_type:image AND folder=${name}`, config: {} }),
-    [search, name]
+    () => search({ expression: `resource_type:image AND folder=${folder}`, config: {} }),
+    [search, folder]
   );
 
   if (isLoading)
