@@ -4,17 +4,15 @@ import React from 'react';
 import Layout from '../layout';
 import gsap from 'gsap';
 import { navigate } from 'gatsby';
-import OneGraphAuth from 'onegraph-auth';
 import { GET_PROFILE_INFO } from '../../butler';
 import Button from '../common/button';
-import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 import jwt_decode from 'jwt-decode';
 import { useLazyQuery } from '@apollo/client';
+import { DevCardDispatchContext, DevCardAuthContext } from '../../context/devcard-context';
 
 const Login = () => {
-  const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
+  const [getUserDetails] = useLazyQuery(GET_PROFILE_INFO);
   const dispatch = React.useContext(DevCardDispatchContext);
-  const state = React.useContext(DevCardStateContext);
   const auth = React.useContext(DevCardAuthContext);
 
   React.useEffect(() => {

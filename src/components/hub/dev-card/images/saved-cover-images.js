@@ -1,24 +1,24 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 import React from 'react';
-import Button from './button';
-import LazyImage from '../hub/dev-card/image';
-import Error from '../svg/error';
-import Loading from '../svg/loading';
+import Button from '../../../common/button';
+import LazyImage from './image';
+import Error from '../../../svg/error';
+import Loading from '../../../svg/loading';
 import { useSearch } from 'use-cloudinary';
-import { DevCardStateContext } from '../../context/devcard-context';
+import { DevCardStateContext } from '../../../../context/devcard-context';
 
-const SavedProfileImages = () => {
+const SavedCoverImages = () => {
   const { search, data, isLoading, isSuccess, isError, error } = useSearch({
-    endpoint: '/.netlify/functions/search-profile-image',
+    endpoint: '/.netlify/functions/search-cover-image',
   });
   const state = React.useContext(DevCardStateContext);
 
   const getFolder = () => {
     if (state.cloudinaryFolderName !== '') {
-      return `${state.cloudinaryFolderName.replace(/\s/g, '')}-profile`;
+      return `${state.cloudinaryFolderName.replace(/\s/g, '')}-cover`;
     }
-    return `${state.name.replace(/\s/g, '')}-profile`;
+    return `${state.name.replace(/\s/g, '')}-cover`;
   };
 
   const customConfigSearch = React.useCallback(
@@ -30,7 +30,7 @@ const SavedProfileImages = () => {
     return (
       <div
         sx={{
-          gridArea: 'savedProfile',
+          gridArea: 'savedCover',
           display: 'flex',
           height: 'auto',
           border: 'solid 2px',
@@ -52,13 +52,12 @@ const SavedProfileImages = () => {
     return (
       <div
         sx={{
-          gridArea: 'savedProfile',
+          gridArea: 'savedCover',
           display: 'flex',
           height: 'auto',
           border: 'solid 2px',
           p: 3,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: 'flex-end',
           flexDirection: 'column',
           backgroundColor: 'secondary',
           maxWidth: 600,
@@ -90,12 +89,12 @@ const SavedProfileImages = () => {
     return (
       <div
         sx={{
-          gridArea: 'savedProfile',
+          gridArea: 'savedCover',
           display: 'flex',
           height: 'auto',
           border: 'solid 2px',
           p: 3,
-          justifyContent: 'center',
+          justifyContent: 'flex-end',
           flexDirection: 'column',
           backgroundColor: 'secondary',
           maxWidth: 600,
@@ -113,16 +112,16 @@ const SavedProfileImages = () => {
         >
           {data &&
             data.resources
-              // .filter((image) => image.folder === getFolder())
+              .filter((image) => image.folder === getFolder())
               // .slice(0, 3)
               .map((image) => {
                 return (
                   <LazyImage
-                    isProfile={true}
+                    isProfile={false}
                     key={image.etag}
                     publicId={image.public_id}
-                    width={100}
-                    height={100}
+                    width={150}
+                    height={80}
                     transforms={{ height: 0.2, border: '2px_solid_black' }}
                     cloudName="devpack-dev"
                     secure_url={image.secure_url}
@@ -135,7 +134,7 @@ const SavedProfileImages = () => {
             height: 30,
           }}
         >
-          <Button text="Load Saved Profile Images" onClick={() => customConfigSearch()} />
+          <Button text="Load Saved Cover Images" onClick={() => customConfigSearch()} />
         </div>
 
         <em
@@ -156,7 +155,7 @@ const SavedProfileImages = () => {
   return (
     <div
       sx={{
-        gridArea: 'savedProfile',
+        gridArea: 'savedCover',
         display: 'flex',
         height: 'auto',
         border: 'solid 2px',
@@ -164,12 +163,11 @@ const SavedProfileImages = () => {
         justifyContent: 'flex-end',
         flexDirection: 'column',
         backgroundColor: 'secondary',
-        maxWidth: 500,
+        maxWidth: 600,
         width: '100%',
         m: 3,
         justifySelf: 'center',
       }}
-      className="loadImages"
     >
       <div
         sx={{
@@ -181,34 +179,35 @@ const SavedProfileImages = () => {
         <div
           sx={{
             border: 'solid 2px',
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 150,
             backgroundColor: 'disabled',
           }}
         ></div>
         <div
           sx={{
             border: 'solid 2px',
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 150,
             backgroundColor: 'disabled',
           }}
         ></div>
         <div
           sx={{
             border: 'solid 2px',
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 150,
             backgroundColor: 'disabled',
           }}
         ></div>
       </div>
+
       <div
         sx={{
           height: 30,
         }}
       >
-        <Button text="Load Profile Images" onClick={() => customConfigSearch()} />
+        <Button text="Load Cover Images" onClick={() => customConfigSearch()} />
       </div>
 
       <em
@@ -226,4 +225,4 @@ const SavedProfileImages = () => {
   );
 };
 
-export default SavedProfileImages;
+export default SavedCoverImages;

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from 'theme-ui';
-import Loading from '../svg/loading';
+import Loading from '../../svg/loading';
 
 export const buttonBorderLeft = css`
   //   left: 2px;

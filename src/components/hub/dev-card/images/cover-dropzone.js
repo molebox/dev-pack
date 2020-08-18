@@ -3,22 +3,17 @@ import { jsx } from 'theme-ui';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useUpload } from 'use-cloudinary';
-import Loading from './../svg/loading';
-import Error from './../svg/error';
-import { DevCardStateContext, DevCardDispatchContext } from './../../context/devcard-context';
-import Cloud from '../svg/cloud';
+import Loading from '../../../svg/loading';
+import Cloud from '../../../svg/cloud';
+import { DevCardStateContext, DevCardDispatchContext } from '../../../../context/devcard-context';
 
-const ProfileDropzone = () => {
+const CoverDropzone = () => {
   const { upload, data, isLoading, isError, error } = useUpload({ endpoint: '/.netlify/functions/upload' });
   const state = React.useContext(DevCardStateContext);
   const dispatch = React.useContext(DevCardDispatchContext);
 
   React.useEffect(() => {
-    console.log('username: ', state.name);
-  }, []);
-
-  React.useEffect(() => {
-    if (data && data.url) dispatch({ type: 'profilePreviewUrl', payload: data.url });
+    if (data && data.url) dispatch({ type: 'coverPreviewUrl', payload: data.url });
   }, [data]);
 
   const onDrop = (acceptedFiles) => {
@@ -36,19 +31,19 @@ const ProfileDropzone = () => {
     blobToBase64(acceptedFiles[0]).then((res) => {
       const name = state.cloudinaryFolderName ? state.cloudinaryFolderName : state.name;
       console.log({ name });
-      dispatch({ type: 'profileBase64Image', payload: res });
-      dispatch({ type: 'acceptedProfileFiles', payload: acceptedFiles[0] });
+      dispatch({ type: 'coverBase64Image', payload: res });
+      dispatch({ type: 'acceptedCoverFiles', payload: acceptedFiles[0] });
       return upload({
         // We pass the whole base64 string including the data:image tag
         file: res,
         uploadOptions: {
           // Get rid of the spaces in the name and attach the file path, giving the user its own folder with their name and their image inside
-          public_id: `${name.replace(/\s/g, '')}-profile/${acceptedFiles[0].path}`,
+          public_id: `${name.replace(/\s/g, '')}-cover/${acceptedFiles[0].path}`,
           tags: [],
           eager: [
             {
-              width: 400,
-              height: 400,
+              width: 1500,
+              height: 500,
               crop: 'fill',
             },
           ],
@@ -66,7 +61,7 @@ const ProfileDropzone = () => {
     return (
       <div
         sx={{
-          gridArea: 'profileDropzone',
+          gridArea: 'coverDropzone',
           display: 'flex',
           height: 'auto',
           minHeight: 240,
@@ -87,7 +82,7 @@ const ProfileDropzone = () => {
   return (
     <div
       sx={{
-        gridArea: 'profileDropzone',
+        gridArea: 'coverDropzone',
         display: 'flex',
         height: 'auto',
         border: 'solid 2px',
@@ -133,7 +128,7 @@ const ProfileDropzone = () => {
                 fontFamily: 'heading',
               }}
             >
-              Upload your <strong>PROFILE</strong> image
+              Upload your <strong>COVER</strong> image
             </p>
             <em
               sx={{
@@ -153,7 +148,7 @@ const ProfileDropzone = () => {
                 fontWeight: 700,
               }}
             >
-              The GitHub API doesn't allow you to update your profile picture
+              Recommended size is 1500 x 500
             </em> */}
           </div>
         </div>
@@ -181,4 +176,4 @@ const ProfileDropzone = () => {
   );
 };
 
-export default ProfileDropzone;
+export default CoverDropzone;

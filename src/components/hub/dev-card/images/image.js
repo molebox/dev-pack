@@ -2,8 +2,8 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import { useImage } from 'use-cloudinary';
-import { DevCardDispatchContext } from '../../../context/devcard-context';
-import { getSelectedImage } from '../../../butler';
+import { DevCardDispatchContext } from '../../../../context/devcard-context';
+import { getSelectedImage } from '../../../../butler';
 
 // Image w/ Lazy-load + placeholder
 function LazyImage({ publicId, transformations, width, height, cloudName, secure_url, isProfile }) {

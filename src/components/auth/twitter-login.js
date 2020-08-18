@@ -2,11 +2,7 @@
 import { jsx } from 'theme-ui';
 import React from 'react';
 import Twitter from '../svg/twitter';
-
-import jwt_decode from 'jwt-decode';
-import { UserContext } from '../../context/user-context';
 import LogoButton from '../common/logo-button';
-import gsap from 'gsap';
 import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../context/devcard-context';
 
 const service = 'twitter';

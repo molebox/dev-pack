@@ -1,5 +1,4 @@
 /** @jsx jsx */
-import React from 'react';
 import GitHubLogin from './../../auth/github-login';
 import TwitterLogin from '../../auth/twitter-login';
 import { jsx } from 'theme-ui';
@@ -17,16 +16,6 @@ const AuthService = () => {
         my: 4,
       }}
     >
-      {/* <div
-        sx={{
-          mb: 5,
-          height: 30,
-          maxWidth: 400,
-          width: '100%'
-        }}
-      >
-        {loadBtn}
-      </div> */}
       <div
         sx={{
           display: 'flex',

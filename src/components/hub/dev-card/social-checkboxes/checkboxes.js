@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
-import Checkbox from '../../home/social-checkboxes/checkbox';
-import Label from '../../home/signup/label';
-import LabelText from '../../common/label-text';
+import Checkbox from './checkbox';
+import Label from '../../../home/signup/label';
+import LabelText from '../../../common/label-text';
 import React from 'react';
-import { DevCardStateContext, DevCardDispatchContext } from './../../../context/devcard-context';
+import { DevCardStateContext, DevCardDispatchContext } from '../../../../context/devcard-context';
 
 const Checkboxes = () => {
   const state = React.useContext(DevCardStateContext);

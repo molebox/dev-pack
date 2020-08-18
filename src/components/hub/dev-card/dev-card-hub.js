@@ -4,7 +4,6 @@ import React from 'react';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
-import Checkbox from './../../home/social-checkboxes/checkbox';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
 import Button from '../../common/button';
 import Emoji from '../../common/emoji';
@@ -12,9 +11,8 @@ import LabelText from './../../common/label-text';
 import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import OneGraphAuth from 'onegraph-auth';
+
 import {
-  APP_ID,
   UPDATE_GITHUB_USER,
   UPDATE_TWITTER_USER,
   GET_PROFILE_INFO,
@@ -26,17 +24,16 @@ import {
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
 import AuthHeader from './../auth-header';
-import FileInfo from '../../common/file-info';
+import FileInfo from './file-info';
 import ProfileCard from './profile-card';
-import SavedProfileImages from '../../common/saved-profile-images';
-import SavedCoverImages from '../../common/saved-cover-images';
-import ProfileDropzone from '../../common/profile-dropzone';
-import CoverDropzone from '../../common/cover-dropzone';
+import SavedProfileImages from './images/saved-profile-images';
+import SavedCoverImages from './images/saved-cover-images';
+import ProfileDropzone from './images/profile-dropzone';
+import CoverDropzone from './images/cover-dropzone';
 import { DevCardAuthContext, DevCardDispatchContext, DevCardStateContext } from '../../../context/devcard-context';
 import Loading from '../../svg/loading';
-import AuthService from './auth-service';
-import Checkboxes from './checkboxes';
-import { LoadDataButton } from './../../common/load-data-button';
+import Checkboxes from './social-checkboxes/checkboxes';
+import { LoadDataButton } from './load-data-button';
 
 toast.configure();
 
