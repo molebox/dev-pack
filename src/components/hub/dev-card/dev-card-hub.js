@@ -4,7 +4,7 @@ import React from 'react';
 import Input from '../../home/signup/input';
 import TextArea from '../../common/textarea';
 import Label from '../../home/signup/label';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import Emoji from '../../common/emoji';
 import LabelText from './../../common/label-text';
 import gsap from 'gsap';
@@ -19,10 +19,8 @@ import {
   UPLOAD_TWITTER_MEDIA,
   getWeekDay,
   UPDATE_TWITTER_COVER_IMAGE,
-  LOGGED_IN_SERVICES,
 } from '../../../butler';
 import { PushButton } from './../../common/push-button';
-import AuthHeader from './../auth-header';
 import FileInfo from './file-info';
 import ProfileCard from './profile-card';
 import SavedProfileImages from './images/saved-profile-images';
@@ -35,20 +33,6 @@ import { LoadDataButton } from './load-data-button';
 
 toast.configure();
 
-const loginAndCheck = async (auth, service) => {
-  await auth.login(service);
-  const isLoggedIn = await auth.isLoggedIn(service);
-  return isLoggedIn;
-};
-
-const userServiceData = ({ loggedInServiceData, service }) => {
-  let loggedInServices = loggedInServiceData?.me?.serviceMetadata?.loggedInServices || [];
-  return loggedInServices.find((serviceData) => {
-    console.log('ServiceData: ', serviceData, service);
-    return serviceData.service === service;
-  });
-};
-
 const DevCardHub = () => {
   const [github, { error: githubError, loading: githubUpdateLoading }] = useMutation(UPDATE_GITHUB_USER);
   const [twitter, { loading: twitterUpdateLoading }] = useMutation(UPDATE_TWITTER_USER);
@@ -56,48 +40,10 @@ const DevCardHub = () => {
   const [updateTwitterProfileImage, { errorTwitterProfileImage }] = useMutation(UPDATE_TWITTER_PROFILE_IMAGE);
   const [updateTwitterCoverImage, { errorTwitterCoverImage }] = useMutation(UPDATE_TWITTER_COVER_IMAGE);
   const [getUserDetails, { loading, error, data: userData }] = useLazyQuery(GET_PROFILE_INFO);
-  const { data: loggedInServiceData } = useQuery(LOGGED_IN_SERVICES);
 
   const dispatch = React.useContext(DevCardDispatchContext);
   const state = React.useContext(DevCardStateContext);
   const auth = React.useContext(DevCardAuthContext);
-
-  React.useEffect(() => {
-    const toastPosition = toast.POSITION.BOTTOM_CENTER;
-    const toastSuccess = (message) => {
-      toast.success(message, {
-        position: toastPosition,
-      });
-    };
-
-    const toastError = (message) => {
-      toast.error(message, {
-        position: toastPosition,
-      });
-    };
-
-    const twitterUserData = userServiceData({ loggedInServiceData, service: 'TWITTER' });
-    const gitHubUserData = userServiceData({ loggedInServiceData, service: 'GITHUB' });
-
-    if (!twitterUserData) {
-      loginAndCheck(auth, 'twitter')
-        .then((isLoggedIn) => {
-          isLoggedIn
-            ? toastSuccess('Successfully logged in to Twitter ')
-            : toastError('You did not grant auth for Twitter ');
-        })
-        .catch((e) => console.error('Problem logging in', e));
-    }
-    if (!gitHubUserData) {
-      loginAndCheck(auth, 'github')
-        .then((isLoggedIn) => {
-          isLoggedIn
-            ? toastSuccess('Successfully logged in to GitHub ')
-            : toastError('You did not grant auth for GitHub ');
-        })
-        .catch((e) => console.error('Problem logging in', e));
-    }
-  }, [loggedInServiceData, auth]);
 
   React.useEffect(() => {
     let date = new Date();
@@ -323,7 +269,7 @@ const DevCardHub = () => {
     <section
       sx={{
         maxWidth: 1440,
-        marginBottom: 1,
+        mb: 1,
         backgroundColor: 'accent',
         margin: '0 auto',
         p: 2,
@@ -331,7 +277,7 @@ const DevCardHub = () => {
       }}
       className="devCard"
     >
-      <AuthHeader auth={auth} userName={state.name} />
+      {/* <AuthHeader userName={state.name} /> */}
       <div
         sx={{
           backgroundColor: 'background',
@@ -341,8 +287,8 @@ const DevCardHub = () => {
           gap: 4,
           gridTemplateAreas: [
             `
-            'authHeader'
             'fileInfo'
+            'loadBtn'
             'profileDropzone'
             'savedProfile'
             'coverDropzone'
@@ -353,9 +299,8 @@ const DevCardHub = () => {
             'push'
             `,
             `
-            'authHeader authHeader'
-            'loadBtn loadBtn'
             'fileInfo preview'
+            'loadBtn loadBtn'
             'profileDropzone coverDropzone'
             'form savedProfile'
             'form savedCover'
@@ -371,6 +316,7 @@ const DevCardHub = () => {
           sx={{
             gridArea: 'loadBtn',
             height: 50,
+            mx: 5,
           }}
         >
           <LoadDataButton
@@ -509,7 +455,7 @@ const DevCardHub = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            m: 3,
+            mx: 5,
             backgroundColor: 'background',
             p: 3,
           }}
@@ -527,7 +473,5 @@ const DevCardHub = () => {
     </section>
   );
 };
-
-// DevCardHub.tabsRole = 'TabPanel';
 
 export default DevCardHub;

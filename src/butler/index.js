@@ -12,6 +12,20 @@ export const FunkyText = styled.span`
   -webkit-text-fill-color: transparent;
   `;
 
+export const loginAndCheck = async (auth, service) => {
+  await auth.login(service);
+  const isLoggedIn = await auth.isLoggedIn(service);
+  return isLoggedIn;
+};
+
+export const userServiceData = ({ loggedInServiceData, service }) => {
+  let loggedInServices = loggedInServiceData?.me?.serviceMetadata?.loggedInServices || [];
+  return loggedInServices.find((serviceData) => {
+    console.log('ServiceData: ', serviceData, service);
+    return serviceData.service === service;
+  });
+};
+
 /**
  * Function takes in a Date object and returns the day of the week in a text format.
  */
