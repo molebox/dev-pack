@@ -14,11 +14,11 @@ const SavedCoverImages = () => {
   });
   const state = React.useContext(DevCardStateContext);
 
-  let name = `${state.name.replace(/\s/g, '')}-cover`;
+  let folder = `${state.name.replace(/\s/g, '')}-cover`;
 
   const customConfigSearch = React.useCallback(
-    () => search({ expression: `resource_type:image AND folder=${name}`, config: {} }),
-    [search, name]
+    () => search({ expression: `resource_type:image AND folder=${folder}`, config: {} }),
+    [search, folder]
   );
 
   if (isLoading)
@@ -52,7 +52,8 @@ const SavedCoverImages = () => {
           height: 'auto',
           border: 'solid 2px',
           p: 3,
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
+          alignItems: 'center',
           flexDirection: 'column',
           backgroundColor: 'secondary',
           maxWidth: 600,
