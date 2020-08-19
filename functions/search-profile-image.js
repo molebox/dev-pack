@@ -10,7 +10,7 @@ exports.handler = async (event) => {
     .expression(body.expression.expression)
     .max_results(3)
     .execute()
-    .then((result) => console.log(result));
+    .then((result) => result);
   return {
     statusCode: 200,
     body: JSON.stringify(res),
