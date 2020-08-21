@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui';
 
-const DomainsHub = () => {
+const ActivityHub = () => {
   return (
     <div
       sx={{
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
         minHeight: 700,
         maxWidth: 1440,
@@ -29,12 +29,12 @@ const DomainsHub = () => {
           color: 'text',
         }}
       >
-        Search, buy and sell domains. Powered by namecheap
+        Overview of your activities. Your GitHub contributions chart, what sites you have deployed through Netlify etc..
       </p>
     </div>
   );
 };
 
-DomainsHub.tabsRole = 'TabPanel';
+ActivityHub.tabsRole = 'TabPanel';
 
-export default DomainsHub;
+export default ActivityHub;
