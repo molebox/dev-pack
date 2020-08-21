@@ -5,6 +5,8 @@ import addToMailchimp from 'gatsby-plugin-mailchimp';
 import gsap from 'gsap';
 import Input from './input';
 import Button from '../../common/button';
+import Label from './label';
+import LabelText from './../../common/label-text';
 
 const SignupForm = () => {
   const [response, setResponse] = React.useState(null);
@@ -75,10 +77,10 @@ const SignupForm = () => {
     <div
       sx={{
         my: 4,
-        padding: 2,
+        padding: [2, 4],
         boxShadow: 0,
         border: 'solid 3px',
-        maxWidth: 600,
+        maxWidth: 700,
       }}
       className="signup-form"
     >
@@ -101,33 +103,43 @@ const SignupForm = () => {
           flexDirection: ['column', 'column', 'row'],
           justifyContent: 'space-evenly',
           alignItems: 'center',
-          maxWidth: 500,
-          minHeight: [120, 70],
+          minHeight: [120, 100],
         }}
         onSubmit={handleSubmit}
       >
-        <Input
-          type="text"
-          name="name"
-          handleChange={handleOnNameChange}
-          value={name}
-          ariaLabel="Name input"
-          placeholder="What do we call you?"
-          id="name"
-        />
+        <Label forAttribute="name">
+          <LabelText>Your name</LabelText>
+          <Input
+            type="text"
+            name="name"
+            handleChange={handleOnNameChange}
+            value={name}
+            ariaLabel="Name input"
+            placeholder="What do we call you?"
+            id="name"
+          />
+        </Label>
 
-        <Input
-          type="email"
-          name="email"
-          handleChange={handleOnEmailChange}
-          value={email}
-          ariaLabel="Email input"
-          placeholder="Your fav email"
-          id="email"
-        />
+        <Label forAttribute="email">
+          <LabelText>Your email</LabelText>
+          <Input
+            type="email"
+            name="email"
+            handleChange={handleOnEmailChange}
+            value={email}
+            ariaLabel="Email input"
+            placeholder="Your fav email"
+            id="email"
+          />
+        </Label>
+
         <div
           sx={{
             width: 'auto',
+            height: 30,
+            alignSelf: [null, 'flex-end'],
+            mb: 3,
+            mt: [5, null],
           }}
         >
           <Button type="submit" text="Signup" />
@@ -139,6 +151,7 @@ const SignupForm = () => {
           fontWeight: 400,
           textAlign: 'center',
           padding: 2,
+          mt: 3,
         }}
       >
         Follow on Twitter{' '}
@@ -161,6 +174,7 @@ const SignupForm = () => {
           sx={{
             width: '100%',
             textAlign: 'center',
+            mt: 2,
           }}
         >
           <p

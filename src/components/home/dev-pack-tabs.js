@@ -7,6 +7,7 @@ import DevCardHub from './../hub/dev-card/dev-card-hub';
 import DomainsHub from '../hub/domain/domains-hub';
 import { DevCardStateContext } from './../../context/devcard-context';
 import AuthHeader from './../hub/auth-header';
+import ActivityHub from './../hub/activity/activity-hub';
 
 const DevPackTabs = () => {
   const state = React.useContext(DevCardStateContext);
@@ -59,6 +60,16 @@ const DevPackTabs = () => {
                 Domains
               </p>
             </Tab>
+            <Tab className="react-tabs__tab">
+              <p
+                sx={{
+                  fontFamily: 'heading',
+                  fontSize: 2,
+                }}
+              >
+                Activity
+              </p>
+            </Tab>
           </TabList>
 
           <TabPanel className="react-tabs__tab-panel">
@@ -66,6 +77,9 @@ const DevPackTabs = () => {
           </TabPanel>
           <TabPanel className="react-tabs__tab-panel">
             <DomainsHub />
+          </TabPanel>
+          <TabPanel className="react-tabs__tab-panel">
+            <ActivityHub />
           </TabPanel>
         </Tabs>
       </div>
