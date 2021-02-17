@@ -49,7 +49,6 @@
     "reactour": "^1.18.0",
     "styled-components": "^4.0.0",
     "theme-ui": "^0.3.1",
-    "twitter-lite": "^0.14.0",
     "use-cloudinary": "^3.1.6",
     "windups": "^1.0.2"
   },
