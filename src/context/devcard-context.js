@@ -30,6 +30,7 @@ const initialDevCardInfo = {
   profileBase64Image: '',
   coverBase64Image: '',
   isGitHubLoggedIn: false,
+  //state shows as false even when logged in.
   isTwitterLoggedIn: false,
   hasGitHubAuth: false,
   hasTwitterAuth: false,
